@@ -42,6 +42,8 @@ urlpatterns = [
     path('payment/', views.PaymentListCreate.as_view(), name='payment-list-create'),
     path('payment/<int:pk>/', views.PaymentDetail.as_view(), name='payment-detail'),
    # Urls simplejwt token
-    #path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Para obtener token de acceso y refresco
-    #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Para refrescar el token de acceso
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Para obtener token de acceso y refresco
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Para refrescar el token de acceso
+    path('users/', views.UserListCreate.as_view(), name='user-list-create'),  
+    path('users/<int:pk>/', views.UserDetail.as_view(), name='user-detail'), 
 ]

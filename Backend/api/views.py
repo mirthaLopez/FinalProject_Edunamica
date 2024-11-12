@@ -1,19 +1,59 @@
-from django.shortcuts import render
 from rest_framework import generics
 from .models import (Partners, Courses_Category, Courses, People_Interested, Provinces, Cantons, Districts, 
                      Neighborhoods, Addresses, Genre, Student_Status, Identifications, Form, Administrator, Student, Course_Status, Enrollment, Payment_Methods, Payment)
 
 from .serializers import (
-    PartnersSerializer, Courses_CategorySerializer, CoursesSerializer, People_InterestedSerializer, 
+    UserRegisterSerializer, PartnersSerializer, Courses_CategorySerializer, CoursesSerializer, People_InterestedSerializer, 
     ProvincesSerializer, CantonsSerializer, DistrictsSerializer, NeighborhoodsSerializer, 
     AddressesSerializer, GenreSerializer, Student_StatusSerializer, IdentificationsSerializer, 
     FormSerializer, AdministratorSerializer, StudentSerializer, Course_StatusSerializer, 
     EnrollmentSerializer, Payment_MethodsSerializer, PaymentSerializer
 )
 
+from rest_framework.response import Response
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated, BasePermission
+from django.contrib.auth.models import User
+
+
+class IsAdmin(BasePermission):
+    # Permiso para verificar si el usuario pertenece al grupo "Admin"
+    def has_permission(self, request, view):
+        return request.user and request.user.groups.filter(name="Admin").exists()
+   
+class IsStudent(BasePermission):
+    # Permiso para verificar si el usuario pertenece al grupo "Student"
+    def has_permission(self, request, view):
+        return request.user and request.user.groups.filter(name="Student").exists()
+
+
+class UserListCreate(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    # Permisos para acceder a la vista: autenticado y ser Admin o Student
+    #permission_classes = [IsAuthenticated, IsAdmin | IsStudent]
+   
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    # Permisos para acceder a la vista: autenticado y ser Admin
+    #permission_classes = [IsAuthenticated, IsAdmin] 
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({'message': 'Categoría de menú eliminada correctamente.'}, status=status.HTTP_204_NO_CONTENT)
+
+""""
+permission_classes = [IsAuthenticated, IsAdmin]
+permission_classes = [IsAuthenticated, IsAdmin | IsStudent]
+"""
+
+
 class PartnersListCreate(generics.ListCreateAPIView):
     queryset = Partners.objects.all()
     serializer_class = PartnersSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
     
 class PartnersDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Partners.objects.all()

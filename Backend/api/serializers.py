@@ -1,7 +1,63 @@
 from rest_framework import serializers
 from .models import (Partners, Courses_Category, Courses, People_Interested, Provinces, Cantons, Districts, 
                      Neighborhoods, Addresses, Genre, Student_Status, Identifications, Form, Administrator, Student, Course_Status, Enrollment, Payment_Methods, Payment)
+from django.contrib.auth.models import User, Group
 
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    # Campo 'role' se define como solo escritura
+    role = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        # Campos que se incluirán en la serialización
+        fields = ('username', 'password', 'email', 'first_name', 'last_name', 'role')
+       
+    def validate_password(self, value):
+        # Validación para asegurar que la contraseña tenga al menos 6 caracteres
+        if len(value) < 6:
+            raise serializers.ValidationError("La contraseña debe tener al menos 6 caracteres.")
+        return value
+
+
+    def create(self, validated_data):
+        # Extraer el rol del usuario del conjunto de datos validados
+        role = validated_data.pop('role')
+        # Crear una instancia de User con los datos validados
+        user = User(**validated_data)
+        # Establecer la contraseña encriptada
+        user.set_password(validated_data['password'])
+        # Guardar el usuario en la base de datos
+        user.save()
+
+
+        # Asignar el rol al grupo correspondiente si existe
+        if role:
+            try:
+                group = Group.objects.get(name=role)
+                user.groups.add(group)
+            except Group.DoesNotExist:
+                raise serializers.ValidationError(f"El role '{role}' no existe")
+
+
+        return user
+   
+    def update(self, instance, validated_data):
+        # Actualizar los campos del usuario con los datos proporcionados
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+
+
+        # Si se proporciona una nueva contraseña, establecerla y guardar el usuario
+        if 'password' in validated_data:
+            instance.set_password(validated_data['password'])
+            instance.save()  
+   
+        return instance
+
+##############################################################################################  
 
 class PartnersSerializer(serializers.ModelSerializer):
     class Meta:
