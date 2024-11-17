@@ -38,7 +38,7 @@ function EmailForm() {
       .then(
         (response) => {
           console.log('Correo enviado con éxito!', response);
-          alert(El código de verificación se ha enviado a ${user_email});
+          alert(`El código de verificación se ha enviado a ${user_email}`);
           setIsCodeSent(true); // Indicar que el código ha sido enviado
         },
         (error) => {

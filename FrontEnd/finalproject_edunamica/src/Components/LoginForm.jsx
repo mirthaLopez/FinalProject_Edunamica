@@ -30,7 +30,7 @@ function FormLogin() {
         timer: 1500
       });
       setTimeout(() => {
-        navigate('/Curso'); // Redirige a la página de cursos
+        navigate('/Registro'); // Redirige a la página de cursos
       }, 2000);
     } else {
       // Si la autenticación falla, mostramos un mensaje de error

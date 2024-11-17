@@ -1,5 +1,4 @@
 
-
 async function PostCourse(course_image_url, course_name, course_description, course_price, course_schedule, begins, ends, course_duration, course_category_fk) {
  //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
   let imagenUrl='';    
@@ -48,6 +47,7 @@ async function PostCourse(course_image_url, course_name, course_description, cou
         });
 
         if (!response.ok) {
+          
             throw new Error('Error al guardar el curso. Token inválido o expirado');
         }
 
