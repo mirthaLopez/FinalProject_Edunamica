@@ -1,6 +1,6 @@
-async function GetUsers() { 
+async function GetRegisterForm() { 
     try {
-        const response = await fetch("http://localhost:8000/api/users_student/");
+        const response = await fetch("http://localhost:8000/api/form/");
         const data = await response.json();
         if (response.status === 200) { 
             
@@ -14,4 +14,4 @@ async function GetUsers() {
     }
 }
 
-export default GetUsers
+export default GetRegisterForm

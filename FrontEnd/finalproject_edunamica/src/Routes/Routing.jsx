@@ -4,7 +4,11 @@ import Login from "../Pages/Login";
 import Contacto from "../Pages/Contacto";
 import Inicio from "../Pages/Inicio";
 import Curso from "../Pages/Curso";
-import Registro from "../Pages/Registro"
+import Registro from "../Pages/Registro";
+import Solicitudes from "../Pages/Solicitudes";
+import Administradores from "../Pages/Administradores";
+import Pago from "../Pages/Pago";
+
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 //import ScrollToTop from "../Components/ScrollToTop";
@@ -19,6 +23,9 @@ const Routing = () => {
                 <Route path="/Contacto" element={<Contacto />} /> 
                 <Route path="/Curso" element={<Curso />} /> 
                 <Route path="/Registro" element={<Registro />} /> 
+                <Route path="/Solicitudes" element={<Solicitudes />} /> 
+                <Route path="/Administradores" element={<Administradores />} /> 
+                <Route path="/Pago" element={<Pago />} /> 
             </Routes>
         </Router>
     );

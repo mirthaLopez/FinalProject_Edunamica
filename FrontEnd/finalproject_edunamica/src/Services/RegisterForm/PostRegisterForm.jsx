@@ -1,5 +1,4 @@
 
-
 async function PostRegisterForm(identification_number,
   name,
   first_last_name,
