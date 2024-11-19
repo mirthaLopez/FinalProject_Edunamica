@@ -1,3 +1,24 @@
+import AWS from 'aws-sdk';
+// Configura AWS S3 npm install aws-sdk
+const S3_BUCKET = import.meta.env.VITE_S3_BUCKET; 
+const REGION = import.meta.env.VITE_REGION; 
+const s3 = new AWS.S3({
+  accessKeyId: import.meta.env.VITE_ACCESS_KEY_ID,
+  secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
+  region: REGION,
+});
+
+export const uploadImageToS3 = async (file) => {
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: file.name, 
+      Body: file,
+      ContentType: file.type,
+      // ACL: 'public-read', // Se eliminó esta línea para evitar el error de ACL
+    };
+  
+    return s3.upload(params).promise();
+  };
 
 async function PostRegisterForm(identification_number,
   name,
@@ -13,7 +34,6 @@ async function PostRegisterForm(identification_number,
   course_fk,
   student_status_fk, 
   neighborhood_fk) {
- console.log( identification_image_url);
  
   //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
   let imagenUrl='';    
@@ -26,13 +46,6 @@ async function PostRegisterForm(identification_number,
           throw new Error('No se pudo subir la imagen a S3');
         }
       }
-    /////////////////////////////Obtiene el token de acceso desde local storage///////////////
-    const token = localStorage.getItem('access_token');    
-    if (!token) {
-        console.error("No token found");
-        return; 
-    }
-    const validation_token = "Bearer " + token;
       
     identification_image_url = imagenUrl /// Asigna el valor de la url de la imagen     
    
@@ -58,7 +71,6 @@ async function PostRegisterForm(identification_number,
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization': validation_token,
             },
             body: JSON.stringify(formData),
         });
@@ -66,11 +78,11 @@ async function PostRegisterForm(identification_number,
         if (!response.ok) {
           console.log(response);
 
-            throw new Error('Error al guardar el curso. Token inválido o expirado');
+            throw new Error('Error al guardar el registro. Token inválido o expirado');
         }
 
         const newForm = await response.json();
-            console.log("Curso guardado:", newForm);
+            console.log("Registro guardado:", newForm);
         return newForm;
     
         } catch (error) {

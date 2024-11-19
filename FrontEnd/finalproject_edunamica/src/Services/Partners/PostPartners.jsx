@@ -20,14 +20,12 @@ export const uploadImageToS3 = async (file) => {
     return s3.upload(params).promise();
   };
 
-async function PostCourse(course_image_url, course_name, course_description, course_price, course_schedule, begins, ends, course_duration, course_category_fk) {
+async function PostPartners(partner_logo_url, partner_name) {
  //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
-  let imagenUrl=''; 
-  
-     
-    if (course_image_url) {
+  let imagenUrl='';    
+    if (partner_logo_url) {
         try {
-          const result = await uploadImageToS3(course_image_url);
+          const result = await uploadImageToS3(partner_logo_url);
           imagenUrl = result.Location; // Obtén la URL de la imagen subida
           console.log(imagenUrl); 
         } catch (error) {
@@ -45,38 +43,31 @@ async function PostCourse(course_image_url, course_name, course_description, cou
     }
     const validation_token = "Bearer " + token;
       
-    course_image_url = imagenUrl /// Asigna el valor de la url de la imagen 
+    partner_logo_url = imagenUrl /// Asigna el valor de la url de la imagen 
 
-    const courseData = {
-        course_image_url,
-        course_name,
-        course_description,
-        course_price,
-        course_schedule,
-        begins,
-        ends,
-        course_duration,
-        course_category_fk
+    const data = {
+        partner_name,
+        partner_logo_url,
     };
     
     try {
-        const response = await fetch('http://localhost:8000/api/courses/', {
+        const response = await fetch('http://localhost:8000/api/partners/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization': validation_token,
             },
-            body: JSON.stringify(courseData),
+            body: JSON.stringify(data),
         });
 
         if (!response.ok) {
           
-            throw new Error('Error al guardar el curso. Token inválido o expirado');
+            throw new Error('Error al guardar la alianza. Token inválido o expirado');
         }
 
-        const newCourse = await response.json();
-            console.log("Curso guardado:", newCourse);
-        return newCourse;
+        const newPartner = await response.json();
+            console.log("Alianza guardada:", newPartner);
+        return newPartner;
     
         } catch (error) {
             console.error('Error en la solicitud', error);
@@ -84,4 +75,4 @@ async function PostCourse(course_image_url, course_name, course_description, cou
     }
 }
 
-export default PostCourse
+export default PostPartners

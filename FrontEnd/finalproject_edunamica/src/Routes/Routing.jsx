@@ -8,6 +8,8 @@ import Registro from "../Pages/Registro";
 import Solicitudes from "../Pages/Solicitudes";
 import Administradores from "../Pages/Administradores";
 import Pago from "../Pages/Pago";
+import Matricula from "../Pages/Matricula";
+import Alianzas from "../Pages/Alianzas";
 
 
 //import ProtectedRoutes from "./ProtectedRoutes";
@@ -26,6 +28,8 @@ const Routing = () => {
                 <Route path="/Solicitudes" element={<Solicitudes />} /> 
                 <Route path="/Administradores" element={<Administradores />} /> 
                 <Route path="/Pago" element={<Pago />} /> 
+                <Route path="/Matricula" element={<Matricula />} /> 
+                <Route path="/Alianzas" element={<Alianzas />} /> 
             </Routes>
         </Router>
     );

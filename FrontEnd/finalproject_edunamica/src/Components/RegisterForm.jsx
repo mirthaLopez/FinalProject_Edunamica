@@ -84,17 +84,10 @@ const RegisterForm = () => {
   const handleFetchCedulaData = async () => {
     console.log(identificationFk, identificationNumber) 
     
-    if (identificationFk == 1 && identificationNumber) {
-      console.log("estoy dentro de la validacion");
-      
+    if (identificationFk == 1 && identificationNumber) {      
       try {
-        console.log("ya casi");
-        
         const response = await fetch(`https://api.hacienda.go.cr/fe/ae?identificacion=${identificationNumber}`);
         const data = await response.json();
-
-        console.log(data);
-
         if (data) {
           const NombreCompleto = data.nombre;
           const nombres = NombreCompleto.split(' ');

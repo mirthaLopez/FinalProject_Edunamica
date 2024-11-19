@@ -1,6 +1,6 @@
-async function GetCourses() { 
+async function GetPaymentMethod() { 
     try {
-        const response = await fetch("http://localhost:8000/api/courses/", {
+        const response = await fetch("http://localhost:8000/api/payment_methods/", {
             method: 'GET', 
             headers: {
                 'Content-Type': 'application/json', 
@@ -24,4 +24,4 @@ async function GetCourses() {
     }
 }
 
-export default GetCourses;
+export default GetPaymentMethod;

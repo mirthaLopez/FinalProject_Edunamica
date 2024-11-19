@@ -1,3 +1,24 @@
+import AWS from 'aws-sdk';
+// Configura AWS S3 npm install aws-sdk
+const S3_BUCKET = import.meta.env.VITE_S3_BUCKET; 
+const REGION = import.meta.env.VITE_REGION; 
+const s3 = new AWS.S3({
+  accessKeyId: import.meta.env.VITE_ACCESS_KEY_ID,
+  secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
+  region: REGION,
+});
+
+export const uploadImageToS3 = async (file) => {
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: file.name, 
+      Body: file,
+      ContentType: file.type,
+      // ACL: 'public-read', // Se eliminó esta línea para evitar el error de ACL
+    };
+  
+    return s3.upload(params).promise();
+  };
 
 async function PostPayment( payment_date, payment_amount, payment_receipt_url,
     payment_receipt_number,payment_method_fk) {
@@ -14,7 +35,7 @@ async function PostPayment( payment_date, payment_amount, payment_receipt_url,
         }
       }
       
-      payment_receipt_url = imagenUrl /// Asigna el valor de la url de la imagen 
+    payment_receipt_url = imagenUrl /// Asigna el valor de la url de la imagen 
 
     const paymentData = {
         payment_date, /// Este no deberia ser necesario, se asigna automaticamente
@@ -25,11 +46,10 @@ async function PostPayment( payment_date, payment_amount, payment_receipt_url,
     };
     
     try {
-        const response = await fetch('http://localhost:8000/api/courses/', {
+        const response = await fetch('http://localhost:8000/api/payment/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization': validation_token,
             },
             body: JSON.stringify(paymentData),
         });
