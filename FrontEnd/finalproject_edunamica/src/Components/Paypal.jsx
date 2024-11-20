@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import GetCourses from '../Services/Courses/GetCourses';
 import GetPaymentMethod from '../Services/Payments/GetPaymentMethods';
-import PostPayment from '../Services/Payments/PostPayments';
+import PostPayment from '../Services/Payments/PostPayments';*/
 
 const Paypal = () => {
-  const [valores, setValores] = useState({ compra: null, venta: null });
+  /*const [valores, setValores] = useState({ compra: null, venta: null });
   const [courses, setCourses] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [paymentImg, setPaymentImg] = useState(null);
@@ -14,10 +14,10 @@ const Paypal = () => {
   const [receiptNumber, setReceiptNumber] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
 
-  const courseFkId=1; 
+  const courseFkId=1; */
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
       const coursesData = await GetCourses();
       setCourses(coursesData);
@@ -25,15 +25,15 @@ const Paypal = () => {
       setPaymentMethods(paymentMethodData);
     };
     fetchData();
-  }, []);
+  }, []);*/
 
   ///////Encuentra el curso relacionado a la matricula ///////
-  const chosen_course= courses.find(c => c.id == courseFkId);
+  /*const chosen_course= courses.find(c => c.id == courseFkId);
   console.log(chosen_course);
   
-  const price = chosen_course?.course_price || "No disponible";
+  const price = chosen_course?.course_price || "No disponible";*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Función para consultar el endpoint
     const obtenerValores = async () => {
       try {
@@ -75,9 +75,9 @@ const Paypal = () => {
         },
       ],
     });
-  };
+  };¨*/
 
-  const onApprove = async (data, actions) => {
+  /*const onApprove = async (data, actions) => {
     try {
       const details = await actions.order.capture(); // Esperamos la captura del pago
       alert("Pago Completado " + details.payer.name.given_name);
@@ -95,9 +95,9 @@ const Paypal = () => {
 
   const onCancel = () => {
     alert("Pago Cancelado");
-  };
+  };*/
 
-  const handlePaymentImg = (e) => {
+  /*const handlePaymentImg = (e) => {
     const file = e.target.files[0];
     if (file) {
       setPaymentImg(file);
@@ -106,10 +106,10 @@ const Paypal = () => {
 
   const handleChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
-  };
+  };*/
 
 
-    const PaymentButton = async () => {
+    /*const PaymentButton = async () => {
       console.log("Boton pagar");
       try {
 
@@ -137,7 +137,7 @@ const Paypal = () => {
       
 
         
-    }
+    }*/
 
   
   return (

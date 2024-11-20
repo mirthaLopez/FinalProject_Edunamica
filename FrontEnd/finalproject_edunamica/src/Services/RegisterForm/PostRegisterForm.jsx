@@ -33,7 +33,8 @@ async function PostRegisterForm(identification_number,
   genre_fk,
   course_fk,
   student_status_fk, 
-  neighborhood_fk) {
+  neighborhood_fk, 
+  payment_fk) {
  
   //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
   let imagenUrl='';    
@@ -63,7 +64,8 @@ async function PostRegisterForm(identification_number,
       genre_fk,
       course_fk,
       student_status_fk, 
-      neighborhood_fk
+      neighborhood_fk, 
+      payment_fk
   };  
     
     try {

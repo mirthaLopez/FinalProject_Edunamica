@@ -1,7 +1,7 @@
-async function PostAuthAdminUser(name, email, password) {
+async function PostAuthAdminUser(username, email, password) {
     
     const userData={
-        username:name,
+        username,
         email,
         password
     }

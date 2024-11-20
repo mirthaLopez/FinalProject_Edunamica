@@ -17,7 +17,7 @@ async function PostEnrollment(enrollment_start_date, enrollment_end_date, availa
         const validation_token = "Bearer " + token;
 
        try {
-           const response = await fetch('http://localhost:8000/api/enrollment/', {
+           const response = await fetch('http://localhost:8000/api/enrollment/create/', {
                method: 'POST',
                headers:{
                    'Content-Type': 'application/json',

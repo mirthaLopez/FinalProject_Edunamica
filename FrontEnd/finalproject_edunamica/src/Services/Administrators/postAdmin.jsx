@@ -1,4 +1,4 @@
-async function PostAdmin(admin_name, admin_first_last_name, admin_second_last_name,admin_phone_number,admin_email, authUserId) {
+async function PostAdmin(admin_name, admin_first_last_name, admin_second_last_name,admin_phone_number,admin_email, admin_auth_user_fk) {
     // Crear un objeto con los datos a enviar
     const adminData = {
         admin_name,
@@ -6,7 +6,7 @@ async function PostAdmin(admin_name, admin_first_last_name, admin_second_last_na
         admin_second_last_name,
         admin_phone_number,
         admin_email,
-        admin_auth_user_fk: authUserId
+        admin_auth_user_fk,
     };
 
     // Validación de campos requeridos

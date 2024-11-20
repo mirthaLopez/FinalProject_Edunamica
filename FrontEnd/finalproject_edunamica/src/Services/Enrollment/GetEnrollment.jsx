@@ -1,6 +1,6 @@
 async function GetEnrollment() { 
     try {
-        const response = await fetch("http://localhost:8000/api/enrollment/", {
+        const response = await fetch("http://localhost:8000/api/enrollments/", {
             method: 'GET', 
             headers: {
                 'Content-Type': 'application/json', 
@@ -9,8 +9,7 @@ async function GetEnrollment() {
 
         const data = await response.json();
         console.log(data);
-        
-
+    
         if (response.status === 200) { 
             return data; 
         } else {

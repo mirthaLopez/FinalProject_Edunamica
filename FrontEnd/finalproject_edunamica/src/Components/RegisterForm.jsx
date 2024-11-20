@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+/*import React, { useState, useEffect, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';
 import GetIdTypes from '../Services/RegisterForm/GetIdTypes';
@@ -8,10 +8,10 @@ import GetActiveCourses from '../Services/RegisterForm/GetActiveCourses';
 import GetProvinces from '../Services/Addresses/GetProvinces';
 import GetCantons from '../Services/Addresses/GetCantons';
 import GetDistricts from '../Services/Addresses/GetDistricts';
-import GetNeighborhoods from '../Services/Addresses/GetNeighborhoods';
+import GetNeighborhoods from '../Services/Addresses/GetNeighborhoods';*/
 
 const RegisterForm = () => {
-  const [identificationNumber, setIdentificationNumber] = useState('');
+  /*const [identificationNumber, setIdentificationNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [secondLastName, setSecondLastName] = useState('');
@@ -42,16 +42,16 @@ const RegisterForm = () => {
   const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado
   const [userCode, setUserCode] = useState('');    // Código que el usuario ingresa para validar
   const [isCodeSent, setIsCodeSent] = useState(false); // Estado para saber si el código ha sido enviado
-  const form = useRef();
+  const form = useRef();*/
 
-  // Función para generar un código aleatorio
+  /* Función para generar un código aleatorio
   const generateRandomCode = () => {
     const code = Math.floor(100000 + Math.random() * 900000); // Genera un código de 6 dígitos
     setVerificationCode(code);
     return code;
-  };
+  };*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
       const identificationsData = await GetIdTypes();
       setIdentifications(identificationsData);
@@ -69,9 +69,9 @@ const RegisterForm = () => {
       setNeighborhoods(neighborhoodsData);
     };
     fetchData();
-  }, []);
+  }, []); */
 
-  const handleIdentificationChange = (e) => {
+  /*const handleIdentificationChange = (e) => {
     setIdentificationFk(e.target.value);
     // Limpiamos los datos anteriores cuando se cambia el tipo de identificación
     setFirstName('');
@@ -106,12 +106,12 @@ const RegisterForm = () => {
         console.error('Error al obtener los datos de la API:', error);
         setDisplayName('Error al obtener los datos.');
       }
-    } else {
-      alert('Por favor, ingrese un número de cédula válido.');
-    }
-  };
+      } else {
+        alert('Por favor, ingrese un número de cédula válido.');
+      }
+  }; */
 
-  const sendEmail = async (e) => {
+  /*const sendEmail = async (e) => {
     e.preventDefault();
     const code = generateRandomCode(); // Genera el código de validación
 
@@ -160,14 +160,14 @@ const RegisterForm = () => {
     } else {
       alert('El código ingresado es incorrecto');
     }
-  };
+  };*/
 
-  const cargaImagen = (e) => {
+  /*const cargaImagen = (e) => {
     const file = e.target.files[0];
     if (file) {
       setIdImageUrl(file);
     }
-  };
+  };*/
 
   return (
     <div>
@@ -184,18 +184,11 @@ const RegisterForm = () => {
 
         <div>
           <label>Identification Number:</label>
-          <input 
-            type="text" 
-            value={identificationNumber} 
-            onChange={(e) => setIdentificationNumber(e.target.value)} 
-            required 
-          />
+          <input type="text" value={identificationNumber} onChange={(e) => setIdentificationNumber(e.target.value)} required />
         </div>
 
         {/* Botón para consultar los datos de la cédula */}
-        <button type="button" onClick={handleFetchCedulaData}>
-          Obtener Datos de la Cédula
-        </button>
+        <button type="button" onClick={handleFetchCedulaData}> Obtener Datos de la Cédula</button>
 
         <div>
           <label>First Name:</label>
@@ -305,10 +298,7 @@ const RegisterForm = () => {
           <input type="file" onChange={cargaImagen} accept="image/*" required />
         </div>
 
-        <div>
-          <label>Full Name:</label>
-          <p>{displayName}</p>
-        </div>
+
 
         <div>
           <input type="submit" value="ENVIAR" />
