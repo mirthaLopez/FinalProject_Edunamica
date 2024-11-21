@@ -1,0 +1,166 @@
+/* Estilo general del footer */
+.footer {
+  background-color: #444444;
+  color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Contenedor de secciones del footer */
+.footer-sections {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Permite que las columnas se ajusten en pantallas pequeñas */
+  margin-bottom: 20px;
+  text-align: center; /* Centra todo el contenido dentro de las columnas */
+}
+
+/* Columnas del footer */
+.footer-column {
+  flex: 1; /* Todas las columnas ocupan el mismo espacio */
+  margin: 10px;
+  min-width: 200px; /* Asegura que cada columna tenga un tamaño mínimo */
+  text-align: center; /* Centra el contenido dentro de cada columna */
+}
+
+/* Centrar los títulos h3 */
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Lista de enlaces */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column li {
+  margin-bottom: 8px;
+}
+
+.large-text {
+  font-size: 14px; /* Ajusta el tamaño a tu preferencia */
+  line-height: 2;
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #ccc;
+}
+
+/* Parte inferior del footer con grid */
+.footer-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+  align-items: center; /* Alineación vertical */
+  justify-items: center; /* Centra el contenido dentro de cada celda */
+  text-align: center;
+  font-size: 12px;
+  padding-top: 15px;
+  margin-top: 20px; /* Espacio adicional entre el contenido del footer y la parte inferior */
+  gap: 20px; /* Espacio entre las columnas */
+}
+
+/* Íconos sociales */
+.social-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* 3 columnas iguales */
+  gap: 15px; /* Espacio entre los íconos */
+  justify-items: center; /* Centra los íconos dentro de cada celda */
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.social-icons a img {
+  width: 40px; /* Tamaño ajustado de los íconos */
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ccc;
+}
+
+.social-icons a:hover img {
+  transform: scale(1.1); /* Efecto de ampliación al pasar el ratón */
+}
+
+/* Estilos para el logo */
+.footer-bottom img {
+  width: 300px; /* Ajusta el tamaño del logo */
+  height: auto;  /* Mantiene la proporción del logo */
+  margin-top: 10px;
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .footer-sections {
+    flex-direction: column; /* Las columnas se apilan en dispositivos más pequeños */
+    align-items: center;
+  }
+
+  .footer-column {
+    text-align: center; /* Centra el contenido de cada columna */
+    margin-bottom: 20px;
+  }
+
+  .footer-column ul {
+    padding: 0;
+  }
+
+  .footer-bottom {
+    grid-template-columns: 1fr; /* Apila los elementos en una sola columna en pantallas más pequeñas */
+    font-size: 14px; /* Aumenta ligeramente el texto en pantallas pequeñas */
+  }
+
+  /* Ajustar íconos sociales en pantallas más pequeñas */
+  .social-icons {
+    grid-template-columns: repeat(3, 1fr); /* 2 columnas en pantallas pequeñas */
+  }
+
+  .footer-bottom img {
+    width: 100px; /* Reducción del tamaño del logo en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 15px;
+  }
+
+  .footer-column h3 {
+    font-size: 14px; /* Reduce el tamaño del encabezado en pantallas pequeñas */
+  }
+
+  .footer-column a {
+    font-size: 12px; /* Reduce el tamaño del texto de los enlaces */
+  }
+
+  /* Ajustar íconos sociales en pantallas más pequeñas */
+  .social-icons {
+    grid-template-columns: 1fr; /* Una sola columna en pantallas muy pequeñas */
+  }
+
+  .social-icons a {
+    font-size: 18px; /* Ajusta el tamaño de los íconos sociales */
+    margin: 0 5px;
+  }
+
+  .footer-bottom img {
+    width: 80px; /* Logo aún más pequeño en pantallas muy pequeñas */
+  }
+}

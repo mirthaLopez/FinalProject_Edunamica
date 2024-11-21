@@ -17,8 +17,10 @@
     "@mui/material": "^6.1.7",
     "@paypal/react-paypal-js": "^8.7.0",
     "aws-sdk": "^2.1692.0",
+    "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
     "sweetalert2": "^11.14.5"

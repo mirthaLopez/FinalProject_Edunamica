@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+
+.carousel-item img {
+    height: 400px; 
+    object-fit: cover; 
+    width: 100%;
+}  
+
+.carousel-caption {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(0, -50%);
+    text-align: center;
+    color: white; 
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    width: fit-content; 
+}
+
+.textoCarrousel {
+    font-family: 'Prata', serif;
+    font-size: 20px;
+}
+.tituloCarrousel {
+    font-size: 30px;
+    font-family: 'Prata', serif;
+}
+
+.about-edunamica {
+    background-color: #f1f1f1; /* Gris claro */
+    max-height: 200px; /* Altura máxima de 200px */
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    position: relative; /* Necesario para la posición absoluta de las imágenes */
+    padding: 10px;
+}
+
+.image-container {
+    position: relative; /* Posiciona las imágenes fuera del flujo normal del documento */
+}
+
+.image-container img {
+    width: 120px; /* Tamaño reducido de las imágenes */
+    height: 120px; /* Tamaño reducido de las imágenes */
+}
+
+.top-right {
+    top: 10px; /* Coloca la imagen amarilla en la esquina superior derecha */
+    right: 100px;
+}
+
+.bottom-left {
+    top: 10px; /* Coloca la imagen amarilla en la esquina superior derecha */
+    left: 10px;
+}
+
+.text-container {
+    text-align: left; /* Alineación de texto a la izquierda para mayor legibilidad */
+    max-width: 60%; /* Limita el ancho del texto */
+    font-size: 20px; /* Tamaño de la fuente */
+    line-height: 1.6; /* Mejora la legibilidad con mayor espacio entre líneas */
+    color: #333333; /* Color de texto oscuro para mayor contraste y legibilidad */
+    font-family: 'Arial', sans-serif; /* Fuente profesional y limpia */
+    font-weight: 400; /* Peso normal para el texto */
+    padding-left: 20px; /* Alineación interna a la izquierda */
+}
+
+
+
+@media (max-width: 600px) {
+    .tituloCarrousel {
+        font-size: 20px;
+    }
+    
+    .textoCarrousel {
+        font-size: 12px;
+    }
+
+    .carousel-caption {
+        padding: 10px;
+        width: fit-content; 
+    }
+    .top-right {
+        top: 10px; /* Coloca la imagen amarilla en la esquina superior derecha */
+        right: 10px;
+    }
+
+    .about-edunamica {
+        max-height: fit-content; /* Altura máxima de 200px */
+    }
+    .image-container img {
+        width: 80px; /* Tamaño reducido de las imágenes */
+        height: 80px; /* Tamaño reducido de las imágenes */
+    }
+}

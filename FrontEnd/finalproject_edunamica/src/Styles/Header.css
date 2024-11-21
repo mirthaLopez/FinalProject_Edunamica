@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+
+.custom-navbar {
+    background-color: #2c5c92; /* Azul profundo */
+}
+
+.custom-navbar .navbar-collapse {
+    background-color: #2c5c92;
+    width: 100%;
+}
+
+.custom-navbar .navbar-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 200px;
+    padding-left: 200px;
+}
+
+.custom-navlink {
+    font-family: 'Prata', serif;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease; /* Transición suave para el hover */
+    color: white !important;
+    font-size: 15px;
+    padding: 8px 15px; /* Un poco de padding para que sea más clickeable */
+}
+
+.custom-navlink:hover {
+    color: #2c5c92; /* Azul del logo */
+    transform: translateY(-2px); /* Efecto de "despegue" hacia arriba */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.custom-navlink::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    left: 50%; /* Empieza en el centro */
+    background: white; /* Subrayado blanco */
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.custom-navlink:hover::after {
+    width: 100%; /* El subrayado se expande a lo largo del enlace */
+    left: 0; /* Se mueve hacia la izquierda */
+}
+
+.custom-navlink.active {
+    color: #2c5c92; /* Azul del logo */
+    font-weight: bold;
+}
+
+.custom-navlink.active::after {
+    width: 100%;
+    left: 0;
+    background: white; /* Subrayado blanco */
+}
+
+/* Estilos para los botones de inicio de sesión y registro */
+.navbar-buttons {
+    display: flex;
+    gap: 0; /* Sin espacio entre los botones */
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.navbar-btn {
+    font-family: 'Prata', serif;
+    font-size: 12px; /* Botones más pequeños */
+    padding: 8px 20px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    width: auto;
+}
+
+.login-btn {
+    min-width: fit-content;
+    background-color: #eb392c; /* Rojo que solicitaste */
+    color: white;
+    border-right: none; /* No border-right para hacerlos unidos */
+}
+
+.register-btn {
+    background-color: white;
+    color: #eb392c; /* Rojo que solicitaste */
+    border-left: none; /* No border-left para hacerlos unidos */
+}
+
+.navbar-btn:hover {
+    transform: scale(1.05); /* Efecto de hover de pequeño aumento */
+}
+
+.login-btn:hover {
+    background-color: white;
+    color: #eb392c;
+}
+
+.register-btn:hover {
+    background-color: #eb392c;
+    color: white;
+}
+
+/* Ajustes en el colapso del navbar */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        padding: 10px 0;
+    }
+    
+    .navbar-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        margin-left: 30px;
+        margin-right: 30px;
+        width: auto; /* No ocupar el 100% del ancho */
+    }
+    
+    .navbar-btn {
+        font-size: 12px; /* Botones más pequeños */
+        padding: 6px 15px;
+        width: auto; /* Evitar que los botones ocupen todo el ancho */
+    }
+}
+
+
+
+
+
