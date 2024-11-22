@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 /* Estilo general del footer */
 .footer {
   background-color: #444444;
@@ -5,6 +7,9 @@
   padding: 20px;
   font-family: Arial, sans-serif;
   box-sizing: border-box;
+  bottom: 0;             /* Fija el footer en la parte inferior */
+  left: 0;
+  width: 100%;           /* Asegura que el footer ocupe todo el ancho */
 }
 
 /* Contenedor de secciones del footer */
@@ -28,8 +33,8 @@
 .footer-column h3 {
   font-size: 18px;
   margin-bottom: 10px;
-  font-weight: bold;
   text-align: center;
+  font-family: "Bebas Neue", sans-serif;
 }
 
 /* Lista de enlaces */
@@ -40,6 +45,7 @@
 
 .footer-column li {
   margin-bottom: 8px;
+  font-family: "Bebas Neue", sans-serif;
 }
 
 .large-text {
@@ -69,6 +75,7 @@
   padding-top: 15px;
   margin-top: 20px; /* Espacio adicional entre el contenido del footer y la parte inferior */
   gap: 20px; /* Espacio entre las columnas */
+  font-family: "Bebas Neue", sans-serif;
 }
 
 /* Íconos sociales */
@@ -125,6 +132,7 @@
   .footer-bottom {
     grid-template-columns: 1fr; /* Apila los elementos en una sola columna en pantallas más pequeñas */
     font-size: 14px; /* Aumenta ligeramente el texto en pantallas pequeñas */
+    font-family: "Bebas Neue", sans-serif;
   }
 
   /* Ajustar íconos sociales en pantallas más pequeñas */
@@ -144,10 +152,12 @@
 
   .footer-column h3 {
     font-size: 14px; /* Reduce el tamaño del encabezado en pantallas pequeñas */
+    font-family: "Bebas Neue", sans-serif;
   }
 
   .footer-column a {
     font-size: 12px; /* Reduce el tamaño del texto de los enlaces */
+    font-family: "Bebas Neue", sans-serif;
   }
 
   /* Ajustar íconos sociales en pantallas más pequeñas */

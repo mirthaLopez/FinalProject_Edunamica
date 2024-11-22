@@ -14,27 +14,24 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-sections">
           <div className="footer-column">
-            <h3>Security & Brand</h3>
+            <h3>Información General</h3>
             <ul>
-              <li><Link to="/report-copyright"><p className="large-text">Report Copyright Infringement</p></Link></li>
-              <li><Link to="/report-security"><p className="large-text">Report Security Issue</p></Link></li>
-              <li><Link to="/trademark-notice"><p className="large-text">Trademark Notice</p></Link></li>
+              <li><Link to="https://edunamica.cr/"><p className="large-text">Página principal</p></Link></li>
+              <li><Link to="https://edunamica.cr/nosara"><p className="large-text">Edunámica Sede Nosara</p></Link></li>
             </ul>
           </div>
           <div className="footer-column">
-            <h3>Website</h3>
+            <h3>Informes evaluativos</h3>
             <ul>
-              <li><Link to="/accessibility"><p className="large-text">Accessibility</p></Link></li>
-              <li><Link to="/digital-accessibility"><p className="large-text">Digital Accessibility</p></Link></li>
-              <li><Link to="/privacy"><p className="large-text">Privacy Statement</p></Link></li>
+              <li><Link to="https://edunamica.cr/informes-de-evaluacion"><p className="large-text">Informes evaluativos</p></Link></li>
+              <li><Link to="https://edunamica.cr/informes"><p className="large-text">Informes</p></Link></li>
             </ul>
           </div>
           <div className="footer-column">
-          <h3>Get In Touch</h3>
+          <h3>Sección nformativa</h3>
           <ul>
-              <li><Link to="/contact"><p className="large-text">Contact Harvard</p></Link></li>
-              <li><Link to="/maps"><p className="large-text">Maps & Directions</p></Link></li>
-              <li><Link to="/jobs"><p className="large-text">Jobs</p></Link></li>
+              <li><Link to="https://edunamica.cr/galeria"><p className="large-text">Galería</p></Link></li>
+              <li><Link to="https://edunamica.cr/edunews"><p className="large-text">EduNews</p></Link></li>
             </ul>
           </div>
         </div>

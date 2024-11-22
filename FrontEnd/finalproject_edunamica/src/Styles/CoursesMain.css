@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.available-courses-title {
+    font-family: "Bebas Neue", sans-serif;
+}
+
+/* Contenedor para las cards de los cursos */
+.courses-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* Tres columnas iguales */
+    gap: 20px;  /* Espaciado entre las cards */
+    margin-top: 20px;
+    padding: 0 20px;  /* Espaciado a los lados para que no peguen a los bordes */
+}
+
+/* Estilo de cada card */
+.course-card-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;  /* Aseguramos que las cards se estiren igual */
+}
+
+.course-card-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Imagen del curso */
+.course-image {
+    width: 100%;
+    height: 150px;  /* Aumentamos un poco la altura para que la imagen no se vea tan pequeña */
+    object-fit: cover;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+/* Información del curso */
+.course-details {
+    padding: 15px;
+}
+
+.course-name {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.course-description-text {
+    font-size: 0.95rem;
+    color: #777;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: bolder;
+}
+
+/* Información adicional del curso */
+.course-meta-info {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.course-price-tag,
+.course-schedule-time,
+.course-duration-time,
+.course-date-range {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bolder;
+}
+
+/* Contenedor del botón */
+.enroll-button-container {
+    padding: 10px 15px;
+    background-color: #ff6f61;
+    text-align: center;
+}
+
+.enroll-button {
+    background-color: #fff;
+    color: #ff6f61;
+    border: 2px solid #ff6f61;
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.enroll-button:hover {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+/* Estilos del campo de búsqueda y el ícono */
+.header-container {
+    display: flex;
+    justify-content: flex-end;  /* Alinea el contenido al lado derecho */
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin: 20px 20px 0 0;  /* Márgenes para separar el input de los bordes */
+}
+
+.header-container input[type="search"] {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 8px;
+    width: 180px;
+    transition: width 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-container input[type="search"]:focus {
+    width: 250px; /* Se expande cuando se enfoca */
+}
+
+.search-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #777;
+}
+
+/* Media Queries Responsivas */
+
+/* Para pantallas grandes (mayores a 1024px), mantenemos 3 columnas */
+@media (min-width: 1024px) {
+    .courses-list {
+        grid-template-columns: repeat(3, 1fr);  /* Tres columnas fijas */
+    }
+}
+
+/* Para pantallas medianas (tabletas, 768px a 1024px) */
+@media (max-width: 1024px) {
+    .courses-list {
+        grid-template-columns: repeat(2, 1fr);  /* Dos columnas en pantallas medianas */
+    }
+}
+
+/* Para pantallas pequeñas (móviles, hasta 768px) */
+@media (max-width: 768px) {
+    .courses-list {
+        grid-template-columns: 1fr;  /* Una columna en pantallas pequeñas */
+        padding: 0 15px;  /* Ajustamos el margen a los lados */
+    }
+
+    .course-image {
+        height: 120px;  /* Ajustamos la altura de la imagen en pantallas pequeñas */
+    }
+
+    .course-details {
+        padding: 12px;  /* Ajuste del padding */
+    }
+
+    .course-name {
+        font-size: 1.3rem;
+    }
+
+    .course-description-text {
+        font-size: 0.9rem;
+    }
+
+    .course-meta-info {
+        font-size: 0.8rem;
+    }
+
+    .enroll-button {
+        padding: 7px 14px;
+        font-size: 0.9rem;
+    }
+
+    .header-container {
+        margin: 20px 10px 0 10px;
+    }
+
+    .header-container input[type="search"] {
+        width: 150px;
+    }
+}
+
+/* Para pantallas muy pequeñas (móviles en modo retrato, hasta 480px) */
+@media (max-width: 480px) {
+    .courses-list {
+        grid-template-columns: 1fr;  /* Una sola columna en pantallas más pequeñas */
+        padding: 0 10px;  /* Asegurarse de que haya espacio en pantallas muy pequeñas */
+    }
+
+    .course-image {
+        height: 100px;  /* Reducir la altura de la imagen aún más en pantallas muy pequeñas */
+    }
+
+    .course-name {
+        font-size: 1.2rem;
+    }
+
+    .course-description-text {
+        font-size: 0.85rem;
+    }
+
+    .course-meta-info {
+        font-size: 0.75rem;
+    }
+
+    .enroll-button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .header-container {
+        margin: 15px 5px 0 5px;
+    }
+
+    .header-container input[type="search"] {
+        width: 130px;
+    }
+}

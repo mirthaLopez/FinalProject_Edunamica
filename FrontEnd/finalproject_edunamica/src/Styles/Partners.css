@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Contenedor general que envuelve todos los partners */
+.partners-container {
+    display: grid; /* Usamos grid para organizar las imágenes en filas y columnas */
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+    gap: 20px; /* Espacio entre las imágenes */
+    padding: 20px; /* Espaciado alrededor del contenedor */
+  }
+  
+  /* Estilo individual para cada contenedor de partner */
+  .partner-item {
+    display: flex; /* Para alinear la imagen dentro del contenedor */
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px;
+    height: 150px; /* Fija la altura del contenedor */
+  }
+  
+  /* Estilo de la imagen dentro del contenedor */
+  .partner-item img {
+    width: 100px; /* Tamaño fijo para la imagen */
+    height: 100px; /* Tamaño fijo para la imagen */
+    object-fit: contain; /* Mantiene la proporción de la imagen */
+  }
+
+  .title {
+    font-size: 36px; /* Tamaño grande del texto */
+    font-family: "Bebas Neue", sans-serif;
+    color: #2c5c92; /* Azul del logo */
+    text-align: center; /* Centrado del texto */
+    font-weight: bold; /* Negrita */
+    position: relative; /* Para poder usar un subrayado customizado */
+  }
+  
+  .title::after {
+    content: ''; /* Para crear el subrayado */
+    display: block;
+    width: 800px; /* Ancho del subrayado */
+    height: 3px; /* Altura de la raya */
+    background-color: #2c5c92; /* Mismo color que el texto */
+    margin: 10px auto 0; /* Espaciado */
+  }
+  
+  
+  /* Responsividad: cuando el tamaño de la pantalla es menor que 768px */
+  @media (max-width: 768px) {
+    .partners-container {
+      grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas más pequeñas */
+    }
+  }
+  
+  /* Responsividad: cuando el tamaño de la pantalla es menor que 480px */
+  @media (max-width: 480px) {
+    .partners-container {
+      grid-template-columns: 1fr; /* Una sola columna en pantallas muy pequeñas */
+    }
+  }
+  
+  

@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.formWithMapContainer {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: flex-start; /* Alinea los elementos verticalmente en la parte superior */
+    gap: 20px; /* Espacio entre el formulario y el mapa */
+    padding: 20px; /* Margen interno para mejor visualización */
+  }
+  
+  .formContainer, 
+  .mapContainer {
+    flex: 1 1 400px; /* Toma el mismo espacio mínimo y permite ajustarse */
+    max-width: 500px; /* Ancho máximo */
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+  }
+  
+  .formContainer {
+    background-color: #f9f9f9; /* Fondo claro para el formulario */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mapContainer {
+    display: flex;
+    justify-content: center; /* Centra el mapa horizontalmente */
+    align-items: center; /* Centra el mapa verticalmente */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formTitle {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #033d94;
+    text-align: center;
+    font-family: "Bebas Neue", sans-serif;
+  }
+  
+  .formLabel {
+    margin: 10px 0 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .inputName, 
+  .inputEmail, 
+  .inputMessage {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+  
+
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Media Queries para diseño responsivo */
+  @media (max-width: 768px) {
+    .formWithMapContainer {
+      flex-direction: column; /* Apila el formulario y el mapa */
+      align-items: center;
+    }
+  
+    .formContainer, 
+    .mapContainer {
+      max-width: 100%; /* Ocupa todo el ancho disponible */
+    }
+  }
+  

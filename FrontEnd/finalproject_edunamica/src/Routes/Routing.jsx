@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "../Pages/Login";
 import Contacto from "../Pages/Contacto";
 import Inicio from "../Pages/Inicio";
-import Curso from "../Pages/Curso";
+import Curso from "../Pages/CrearCurso";
 import Registro from "../Pages/Registro";
 import Solicitudes from "../Pages/Solicitudes";
 import Administradores from "../Pages/Administradores";
 import Pago from "../Pages/Pago";
 import Matricula from "../Pages/Matricula";
 import Alianzas from "../Pages/Alianzas";
+import VerCurso from "../Pages/VerCurso"
 
 
 //import ProtectedRoutes from "./ProtectedRoutes";
@@ -30,6 +31,7 @@ const Routing = () => {
                 <Route path="/Pago" element={<Pago />} /> 
                 <Route path="/Matricula" element={<Matricula />} /> 
                 <Route path="/Alianzas" element={<Alianzas />} /> 
+                <Route path="/Cursos" element={<VerCurso />} /> 
             </Routes>
         </Router>
     );

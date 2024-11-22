@@ -51,7 +51,7 @@ async function PostPartners(partner_logo_url, partner_name) {
     };
     
     try {
-        const response = await fetch('http://localhost:8000/api/partners/', {
+        const response = await fetch('http://localhost:8000/api/partners/create/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',

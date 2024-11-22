@@ -41,7 +41,6 @@ function Register() {
     const [identificationFk, setIdentificationFk] = useState('');
     const [genreFk, setGenreFk] = useState('');
     const [courseFk, setCourseFk] = useState('');
-    const [displayName, setDisplayName] = useState('');
     const [idImageUrl, setIdImageUrl] = useState(null);
     const [provinceFk, setProvinceFk] = useState('');
     const [cantonFk, setCantonFk] = useState('');
@@ -62,10 +61,7 @@ function Register() {
     const [districts, setDistricts] = useState([]);
     const [neighborhoods, setNeighborhoods] = useState([]);
     const [enrollment, setEnrollment] = useState([]);
-
-    console.log(enrollment);
     
-
   
     // Verificación con Email Js
     const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado

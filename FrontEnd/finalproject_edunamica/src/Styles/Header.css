@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 
 .custom-navbar {
     background-color: #2c5c92; /* Azul profundo */
@@ -19,7 +21,7 @@
 }
 
 .custom-navlink {
-    font-family: 'Prata', serif;
+    font-family: "Bebas Neue", sans-serif;
     position: relative;
     transition: color 0.3s ease, transform 0.3s ease; /* Transición suave para el hover */
     color: white !important;
@@ -50,10 +52,7 @@
     left: 0; /* Se mueve hacia la izquierda */
 }
 
-.custom-navlink.active {
-    color: #2c5c92; /* Azul del logo */
-    font-weight: bold;
-}
+
 
 .custom-navlink.active::after {
     width: 100%;
@@ -70,8 +69,8 @@
 }
 
 .navbar-btn {
-    font-family: 'Prata', serif;
-    font-size: 12px; /* Botones más pequeños */
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 16px; /* Botones más pequeños */
     padding: 8px 20px;
     border: 2px solid transparent;
     border-radius: 4px;

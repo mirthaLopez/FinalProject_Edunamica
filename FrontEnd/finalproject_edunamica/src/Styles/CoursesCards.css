@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); 
+
+/* Contenedor general */
+.courses-wrapper {
+    padding: 20px;
+    background-color: #f1f1f1; /* Gris claro */
+}
+
+/* Título llamativo */
+.courses-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #444444;
+    margin-bottom: 30px;
+}
+
+/* Cursos Container */
+.courses-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilo de la card */
+.course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Información del curso */
+.course-info {
+    padding: 20px;
+    flex-grow: 1; /* Permite que la información ocupe todo el espacio disponible */
+}
+
+.course-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c5c92;
+    margin-bottom: 10px;
+}
+
+.course-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.course-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.course-meta span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.course-price {
+    font-weight: bold;
+    color: #f8940c;
+}
+
+.course-schedule,
+.course-duration,
+.course-dates {
+    font-style: italic;
+}
+
+/* Contenedor del botón "Matrícula" */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+/* Estilo del botón "Matrícula" */
+.btn-matricula {
+    background-color: #f8940c;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-matricula:hover {
+    transform: scale(1.03);
+    background-color: #e6840a;
+}
+
+/* Animación más sutil para el botón */
+.btn-matricula {
+    position: relative;
+    animation: bounce 1.5s ease infinite;
+}
+
+.title-container {
+    margin-top: 40px;
+    display: flex;          /* Usamos flexbox para alinear los elementos en línea */
+    align-items: center;    /* Alinea verticalmente el contenido (imagen y título) */
+    gap: 10px; 
+    font-family: "Bebas Neue", sans-serif;
+    /* Espacio entre la imagen y el título */
+}
+
+.arrow-icon {
+    width: 50px;            /* Ajusta el tamaño de la imagen */
+    height: auto;           /* Mantiene la proporción de la imagen */
+}
+
+.courses-title {
+    font-size: 40px;        /* Tamaño de la fuente para el título */
+    margin: 0;              /* Elimina el margen predeterminado del h2 */
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px); /* Sutil */
+    }
+}
+
+/* Estilo del contenedor del botón "Ver todos los cursos" */
+.btn-view-all-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Estilo del botón "Ver todos los cursos" */
+.btn-view-all {
+    background-color: #eb392c;  /* Color del botón */
+    color: white;                /* Color del texto */
+    font-weight: bold;           /* Negrita */
+    font-size: 1.1rem;           /* Tamaño de fuente */
+    padding: 12px 25px;          /* Espaciado interno */
+    border: none;                /* Sin bordes */
+    border-radius: 30px;         /* Bordes redondeados */
+    cursor: pointer;             /* Puntero al pasar sobre el botón */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animación suave */
+}
+
+/* Efecto hover */
+.btn-view-all:hover {
+    background-color: #d32f2f;  /* Color más oscuro cuando se pasa el mouse */
+    transform: scale(1.05);      /* Aumenta ligeramente el tamaño */
+}
+
+  

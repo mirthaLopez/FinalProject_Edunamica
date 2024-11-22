@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import '../Styles/Carrousel.css';
-import fotoCarrousel2 from '../Img/Edunamica_coworking.jpeg';
-import fotoCarrousel1 from '../Img/FrontDesk.jpeg';
+import fotoCarrousel2 from '../Img/foto2.png';
+import fotoCarrousel1 from '../Img/image.png';
 import yellowCircle from '../Img/yellow_circle-.svg';
 import blueCircle from '../Img/blue_circle.svg';
 

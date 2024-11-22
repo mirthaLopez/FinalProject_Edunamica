@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
 
 .carousel-item img {
-    height: 400px; 
+    height: 500px; 
     object-fit: cover; 
     width: 100%;
 }  
@@ -51,9 +51,9 @@
     right: 100px;
 }
 
-.bottom-left {
+.bottom-right {
     top: 10px; /* Coloca la imagen amarilla en la esquina superior derecha */
-    left: 10px;
+    left: 100px;
 }
 
 .text-container {
@@ -61,10 +61,11 @@
     max-width: 60%; /* Limita el ancho del texto */
     font-size: 20px; /* Tamaño de la fuente */
     line-height: 1.6; /* Mejora la legibilidad con mayor espacio entre líneas */
-    color: #333333; /* Color de texto oscuro para mayor contraste y legibilidad */
+    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
     font-family: 'Arial', sans-serif; /* Fuente profesional y limpia */
     font-weight: 400; /* Peso normal para el texto */
     padding-left: 20px; /* Alineación interna a la izquierda */
+    font-family: "Bebas Neue", sans-serif;
 }
 
 
@@ -93,5 +94,8 @@
     .image-container img {
         width: 80px; /* Tamaño reducido de las imágenes */
         height: 80px; /* Tamaño reducido de las imágenes */
+    }
+    .bottom-right{
+        display: none;
     }
 }

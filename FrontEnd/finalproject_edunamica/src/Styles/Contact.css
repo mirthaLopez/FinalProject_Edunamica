@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.divInfoContacto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Diseño responsivo */
+    margin-left: 100px;
+    margin-right: 100px; /* Centrar en pantallas grandes */
+    gap: 20px;
+    padding: 20px;
+}
+
+.cardContact {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s; /* Animaciones suaves */
+    background:  #ffffff; /* Fondo blanco */
+    cursor: pointer; /* Cambiar el cursor al pasar */
+}
+
+.cardContact:hover {
+    transform: translateY(-5px); /* Elevar ligeramente */
+    box-shadow: 5px 8px 15px #f8940c;;
+    border-color: #ffffff; /* Cambiar el color del borde */
+}
+
+.icon-container {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-style {
+    font-size: 40px; /* Tamaño del ícono */
+    color: #f8940c; /* Color principal del ícono */
+    transition: color 0.3s; /* Transición suave */
+}
+
+.cardContact:hover .icon-style {
+    color: #f8940c; /* Cambiar color del ícono al pasar el cursor */
+}
+
+.card-body-Contact {
+    flex: 1;
+}
+
+.card-text-Contact {
+    font-size: 20px;
+    color: #000000;
+    line-height: 1.5;
+    font-family: "Bebas Neue", sans-serif;
+    margin: 0;
+}
+
+.card-text-Contact strong {
+    font-weight: bold;
+    color: #005bb5; /* Color destacado */
+}
+
+/* Estilo adicional para dispositivos móviles */
+@media (max-width: 768px) {
+    .divInfoContacto {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .cardContact {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .icon-style {
+        font-size: 30px; /* Reducir tamaño del ícono */
+    }
+
+    .card-text-Contact {
+        font-size: 0.9rem; /* Reducir texto */
+    }
+}
