@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../Styles/Register.css'
+
 import emailjs from '@emailjs/browser';
 import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';
 import GetIdTypes from '../Services/RegisterForm/GetIdTypes';
@@ -20,6 +22,8 @@ import PostPayment from '../Services/Payments/PostPayments';
 
 /////////Stepper MUI//////////////////////////
 import { Stepper, Step, StepLabel, Button, Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { TextField, MenuItem, Select, InputLabel } from '@mui/material';
+import Modal from '@mui/material/Modal'; // o cualquier otro componente modal que estés usando
 
 
 
@@ -27,7 +31,14 @@ function Register() {
     ///////Stepper 
     const steps = ['Paso 1', 'Paso 2', 'Paso 3'];
     const [activeStep, setActiveStep] = useState(0);
-    const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      // Función que se ejecuta al hacer clic en el botón de "Siguiente"
+  const handleNext = () => {
+    // Primero, se avanza al siguiente paso
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    
+    // Luego, se establece isFormSent a false para deshabilitar el botón de "Siguiente"
+    setIsFormSent(false);
+  };
     const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
     const handleReset = () => setActiveStep(0);
 
@@ -48,10 +59,13 @@ function Register() {
     const [neighborhoodFk, setNeighborhoodFk] = useState('');
     const [address, setAddress] = useState('');
     
-    const cargaImagen = (e) => {const file = e.target.files[0];
-        if (file) {
-          setIdImageUrl(file);
-        }};
+
+
+    const cargaImagen = (e) => {
+      const file = e.target.files[0];
+        setIdImageUrl(file);
+    };
+
   
     // Seteo de los datos obtenidos de la base de datos
     const [identifications, setIdentifications] = useState([]);
@@ -67,6 +81,7 @@ function Register() {
     const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado
     const [userCode, setUserCode] = useState('');    // Código que el usuario ingresa para validar
     const [isCodeSent, setIsCodeSent] = useState(false); // Estado para saber si el código ha sido enviado
+    const [isFormSent, setIsFormSent] = useState(false); 
     const form = useRef();
 
     ///Paypal
@@ -78,7 +93,9 @@ function Register() {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [receiptNumber, setReceiptNumber] = useState('');
     const [paymentDate, setPaymentDate] = useState('');
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    
     const handlePaymentImg = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -86,9 +103,7 @@ function Register() {
         }
       };
     
-      const handleChange = (event) => {
-        setSelectedPaymentMethod(event.target.value);
-      };
+
 
 ///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
 const currentDate = new Date();
@@ -129,6 +144,21 @@ const activeCourses = courses.filter(course =>
         fetchData();
       }, []);
 
+      // Efecto que escucha cambios en el historial (cuando el usuario navega hacia atrás)
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsFormSent(false); // Cuando navega atrás, deshabilitamos el botón
+    };
+
+    // Agregar el listener al evento popstate
+    window.addEventListener('popstate', handlePopState);
+
+    // Limpiar el listener cuando el componente se desmonte
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
     //////////////////////Api Hacienda/////////////////////
     const handleIdentificationChange = (e) => {
         setIdentificationFk(e.target.value);
@@ -136,7 +166,6 @@ const activeCourses = courses.filter(course =>
         setFirstName('');
         setLastName('');
         setSecondLastName('');
-        setDisplayName('');
       };
     
       // Función para realizar la consulta a la API cuando el usuario hace clic en el botón
@@ -209,6 +238,24 @@ const activeCourses = courses.filter(course =>
           );
       };
 
+
+
+      const handleChange = (event) => {
+        const methodId = event.target.value;
+        setSelectedPaymentMethod(methodId);
+    
+        // Si se selecciona PayPal, abre el modal
+        if (methodId === '3') {
+          setIsModalOpen(true);
+        } else {
+          setIsModalOpen(false);
+        }
+      };
+    
+      const handleCloseModal = () => {
+        setIsModalOpen(false);
+      };
+
       ////////////Consulta a la api del banco central para obtener tipo de cambio////////
     useEffect(() => {
         // Función para consultar el endpoint
@@ -240,7 +287,7 @@ const activeCourses = courses.filter(course =>
       const total_amount = (price / valores.venta).toFixed(2);
       console.log(total_amount); // Esto devolverá un string con 2 decimales
     
-      const initianlOptions = {
+      const initialOptions = {
         clientId: import.meta.env.VITE_CLIENTE_ID, // ponerlo .env
         currency: "USD",
         intent: "capture",
@@ -263,9 +310,7 @@ const activeCourses = courses.filter(course =>
       const validateCode = async() => {
         if (parseInt(userCode) === verificationCode) {
           alert('Código validado correctamente'); ////hay que quitar estos alert 
-            
-
-            
+          setIsFormSent(true); // Indicar que el código ha sido enviado         
         } else {
           alert('El código ingresado es incorrecto');///hay que quitar estos alert 
         }
@@ -274,24 +319,34 @@ const activeCourses = courses.filter(course =>
       const onApprove = async (data, actions) => {
         try {
           const details = await actions.order.capture(); // Esperamos la captura del pago
-          alert("Pago Completado " + details.payer.name.given_name);
+          alert("Pago Completado por " + details.payer.name.given_name);
+    
+          // Si el pago es completado, setear los datos relacionados con la transacción
           if (details.status === "COMPLETED") {
-            /////Seteo de datos relacionados a la transaccion/////
-            setReceiptNumber(details.id)
+            // Seteo de datos relacionados con la transacción
+            setReceiptNumber(details.id);
             setPaymentDate(details.create_time);
-            
+    
+            // Aquí podrías hacer algo más con los datos, por ejemplo, enviar los detalles a tu backend
+            console.log("Número de recibo:", details.id);
+            console.log("Fecha de pago:", details.create_time);
           }
         } catch (error) {
           console.error('Error en la transacción:', error);
+          alert('Hubo un error al procesar el pago. Intenta nuevamente.');
         }
       };
     
-      const onCancel = () => {
-        alert("Pago Cancelado");
-      }; 
+      const onCancel = (data) => {
+        // Acción cuando el pago es cancelado
+        alert("Pago cancelado");
+        handleCloseModal(); // Cerrar el modal en caso de cancelación
+      };
 
       const PaymentButton = async () => {
         console.log("Boton pagar");
+
+        const paymentDate = (selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && new Date().toLocaleDateString('en-CA');
         
         try {
   
@@ -303,14 +358,14 @@ const activeCourses = courses.filter(course =>
             selectedPaymentMethod
           );
   
+          console.log(paymentDate);
+          console.log(receiptNumber);
+          
           console.log(dataPayment);
   
             if (dataPayment) {
               const PaymentId = dataPayment.id /////Agregar payment id al modelado FK
-              console.log(PaymentId);
-
               const payment_fk = PaymentId
-              console.log(payment_fk);
               
 
               const studentStatusFk = "1"; //// ESto hay que arreglarlo 
@@ -320,6 +375,8 @@ const activeCourses = courses.filter(course =>
                     studentStatusFk, neighborhoodFk, payment_fk);
 
                     console.log(data);
+
+                    setIsFormSent(true);
                     
 
             }else{
@@ -332,7 +389,7 @@ const activeCourses = courses.filter(course =>
       }
 
   return (
-    <div>
+    <div className='steps-container'>
          <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label, index) => (
                     <Step key={index}>
@@ -340,248 +397,411 @@ const activeCourses = courses.filter(course =>
                     </Step>
                 ))}
             </Stepper>
-            {activeStep === 0 && ( 
-    <div className='container_first_step'>
-      <form ref={form} onSubmit={sendEmail}>
-        <div>
-          <label>Select Identification Type:</label>
-          <select value={identificationFk} onChange={handleIdentificationChange} required>
-            <option value="">Select an identification</option>
-            {identifications.map((id) => (
-              <option key={id.id} value={id.id}>{id.identification_type}</option>
-            ))}
-          </select>
-        </div>
 
-        <div>
-          <label>Identification Number:</label>
-          <input type="text" value={identificationNumber} onChange={(e) => setIdentificationNumber(e.target.value)} required />
-        </div>
-
-        {/* Botón para consultar los datos de la cédula */}
-        <button type="button" onClick={handleFetchCedulaData}> Obtener Datos de la Cédula</button>
-
-        <div>
-          <label>First Name:</label>
-          <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Last Name:</label>
-          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Second Last Name:</label>
-          <input type="text" value={secondLastName} onChange={(e) => setSecondLastName(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Birth Date:</label>
-          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Phone Number:</label>
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-
-        <div>
-          <label>Gender:</label>
-          <select value={genreFk} onChange={(e) => setGenreFk(e.target.value)} required>
-            <option value="">Select a gender</option>
-            {genres.map((genre) => (
-              <option key={genre.id} value={genre.id}>{genre.genre_name}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className='Address-Container'>
-          <div>
-            <label>Provincia:</label>
-            <select value={provinceFk} onChange={(e) => setProvinceFk(e.target.value)} required>
-              <option value="">Selecciona tu provincia:</option>
-              {provinces.map((province) => (
-                <option key={province.id} value={province.id}>{province.province_name}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label>Cantón:</label>
-            <select value={cantonFk} onChange={(e) => setCantonFk(e.target.value)} required>
-              <option value="">Selecciona tu cantón:</option>
-              {cantons
-                .filter((canton) => canton.province_fk === parseInt(provinceFk)) // Filtrar cantones por province_fk
-                .map((canton) => (
-                  <option key={canton.id} value={canton.id}>{canton.canton_name}</option>
+            
+            {activeStep === 0 && (
+  <div className='container_first_step'>
+    <form ref={form} onSubmit={sendEmail}>
+      <div className='form-row'>
+        {/* Columna 1: Identificación */}
+        <div className='form-column'>
+        <FormControl fullWidth margin="normal">
+              <InputLabel>Tipo de Identificación:</InputLabel>
+              <Select
+                value={identificationFk}
+                onChange={handleIdentificationChange}
+                label="Select Identification Type"
+                required
+              >
+                <MenuItem value="">Selecciona tu tipo de Identificación</MenuItem>
+                {identifications.map((id) => (
+                  <MenuItem key={id.id} value={id.id}>
+                    {id.identification_type}
+                  </MenuItem>
                 ))}
-            </select>
-          </div>
+              </Select>
+            </FormControl>
 
-          <div>
-            <label>Distrito:</label>
-            <select value={districtFk} onChange={(e) => setDistrictFk(e.target.value)} required>
-              <option value="">Selecciona tu distrito:</option>
-              {districts
-                .filter((district) => district.canton_fk === parseInt(cantonFk)) // Filtrar distritos por canton_fk
-                .map((district) => (
-                  <option key={district.id} value={district.id}>{district.district_name}</option>
-                ))}
-            </select>
-          </div>
+            <TextField
+              label="Número de identificación"
+              value={identificationNumber}
+              onChange={(e) => setIdentificationNumber(e.target.value)}
+              margin="normal"
+            />
 
-          <div>
-            <label>Selecciona tu barrio:</label>
-            <select value={neighborhoodFk} onChange={(e) => setNeighborhoodFk(e.target.value)} required>
-              <option value="">Selecciona tu barrio:</option>
-              {neighborhoods
-                .filter((neighborhood) => neighborhood.district_fk === parseInt(districtFk)) // Filtrar barrios por district_fk
-                .map((neighborhood) => (
-                  <option key={neighborhood.id} value={neighborhood.id}>{neighborhood.neighborhood_name}</option>
-                ))}
-            </select>
-          </div>
+          {identificationFk == 1 && (
+              <Button variant="contained" color="primary" onClick={handleFetchCedulaData}>
+                Obtener Datos de la Cédula
+              </Button>
+            )}
 
-          <div>
-            <label>Dirección exacta:</label>
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} required />     
-          </div>
-        </div>
-
-       <div>
-  <label>Course:</label>
-  <select value={courseFk} onChange={(e) => setCourseFk(e.target.value)} required>
-    <option value="">Select a course</option>
-    {activeCourses.map((course) => (
-      <option key={course.id} value={course.id}>
-        {course.course_name}
-      </option>
-    ))}
-  </select>
+<div className="file-upload">
+              <input
+                type="file"
+                onChange={cargaImagen}
+                accept="image/*"
+                style={{ marginTop: 10 }}
+              />
+              {idImageUrl && (
+                <div className="preview">
+                  Preview: <img src={idImageUrl} alt="ID Preview" width="100" />
+                </div>
+              )}
 </div>
 
-        <div>
-          <label>ID Image:</label>
-          <input type="file" onChange={cargaImagen} accept="image/*" required />
+
+          </div>
+
+        {/* Columna 2: Nombre, Apellidos y Fecha de Nacimiento */}
+        <div className='form-column'>
+        <TextField
+              label="Nombre"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+
+            <TextField
+              label="Primer Apellido"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+
+            <TextField
+              label="Segundo Apellido"
+              value={secondLastName}
+              onChange={(e) => setSecondLastName(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+
+            <TextField
+              label="Fecha de Nacimiento"
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              fullWidth
+              required
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+            />
+          </div>
+
+        {/* Columna 3: Curso, Email, Teléfono y Género */}
+        <div className='form-column'>
+        <FormControl fullWidth margin="normal">
+              <InputLabel>Curso</InputLabel>
+              <Select
+                value={courseFk}
+                onChange={(e) => setCourseFk(e.target.value)}
+                label="Course"
+                required
+              >
+                <MenuItem value="">Selecccione el curso a matricular</MenuItem>
+                {activeCourses.map((course) => (
+                  <MenuItem key={course.id} value={course.id}>
+                    {course.course_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              label="Correo Electrónico"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+            
+            <TextField
+              label="Número de teléfono"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+
+<FormControl fullWidth margin="normal">
+              <InputLabel>Género</InputLabel>
+              <Select
+                value={genreFk}
+                onChange={(e) => setGenreFk(e.target.value)}
+                label="Gender"
+                required
+              >
+                <MenuItem value="">Selecciona un género</MenuItem>
+                {genres.map((genre) => (
+                  <MenuItem key={genre.id} value={genre.id}>
+                    {genre.genre_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
         </div>
 
+        {/* Columna 4: Dirección */}
+        <div className='form-column'>
+        <FormControl fullWidth margin="normal">
+              <InputLabel>Provincia</InputLabel>
+              <Select
+                value={provinceFk}
+                onChange={(e) => setProvinceFk(e.target.value)}
+                label="Provincia"
+                required
+              >
+                <MenuItem value="">Selecciona tu provincia</MenuItem>
+                {provinces.map((province) => (
+                  <MenuItem key={province.id} value={province.id}>
+                    {province.province_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Cantón</InputLabel>
+              <Select
+                value={cantonFk}
+                onChange={(e) => setCantonFk(e.target.value)}
+                label="Cantón"
+                required
+              >
+                <MenuItem value="">Selecciona tu cantón</MenuItem>
+                {cantons
+                  .filter((canton) => canton.province_fk === parseInt(provinceFk))
+                  .map((canton) => (
+                    <MenuItem key={canton.id} value={canton.id}>
+                      {canton.canton_name}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
 
-        <div>
-          <input type="submit" value="ENVIAR" />
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Distrito</InputLabel>
+              <Select
+                value={districtFk}
+                onChange={(e) => setDistrictFk(e.target.value)}
+                label="Distrito"
+                required
+              >
+                <MenuItem value="">Selecciona tu distrito</MenuItem>
+                {districts
+                  .filter((district) => district.canton_fk === parseInt(cantonFk))
+                  .map((district) => (
+                    <MenuItem key={district.id} value={district.id}>
+                      {district.district_name}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Barrio</InputLabel>
+              <Select
+                value={neighborhoodFk}
+                onChange={(e) => setNeighborhoodFk(e.target.value)}
+                label="Neighborhood"
+                required
+              >
+                <MenuItem value="">Selecciona tu barrio</MenuItem>
+                {neighborhoods
+                  .filter((neighborhood) => neighborhood.district_fk === parseInt(districtFk))
+                  .map((neighborhood) => (
+                    <MenuItem key={neighborhood.id} value={neighborhood.id}>
+                      {neighborhood.neighborhood_name}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              label="Dirección Exacta"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+            />
+          </div>
+      </div>
+
+      <div className='form-row'>
+        <div className='form-column'>
+        <Button className='btn-send' type="submit" variant="contained" color="primary" fullWidth>
+          Enviar
+        </Button>
         </div>
-      </form>
-      
+      </div>
+    </form>
 
-      {/* Mostrar el campo para ingresar el código solo si el código fue enviado */}
-      {isCodeSent && (
-        <div>
-          <h3>Ingresa el código de verificación que hemos enviado a tu correo</h3>
-          <input
-            type="text"
+    {isCodeSent && (
+      <div>
+        <h3>Ingresa el código de verificación que hemos enviado a tu correo</h3>
+        <TextField
+            label="Código de verificación"
             value={userCode}
             onChange={(e) => setUserCode(e.target.value)}
-            placeholder="Código de verificación"
+            fullWidth
             required
+            margin="normal"
           />
-          <button onClick={validateCode}>Validar Código</button>
-        </div>
-      )}
-    </div>
-  )}
-
-{activeStep === 1 && (
-  <div className='container_second_step'>
-      <h3>Valores del Dólar</h3>
-      <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
-      <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
-
-    {/* Solo renderiza los métodos de pago si el curso no es gratuito */}
-    {chosen_course.is_free === false && (
-      <div>
-        {/* Selección del método de pago */}
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
-          <RadioGroup value={selectedPaymentMethod} onChange={handleChange} name="payment-methods">
-            {paymentMethods.map((method) => (
-              <FormControlLabel
-                key={method.id}
-                value={method.id.toString()}
-                control={<Radio />}
-                label={method.payment_method_name}
-              />
-            ))}
-            <FormControlLabel
-              value="disabled"
-              disabled
-              control={<Radio />}
-              label="Pagos en Efectivo, únicamente matrícula presencial"
-            />
-          </RadioGroup>
-        </FormControl>
-             {/* Solo muestra el botón de PayPal si el método seleccionado es Paypal */}
-      {selectedPaymentMethod === '3' && ( // Suponiendo que '3' es el id de PayPal
-        <PayPalScriptProvider options={initianlOptions}>
-          <PayPalButtons
-            style={{
-              layout: "horizontal",
-              color: "blue",
-              shape: "rect",
-              label: "paypal",
-            }}
-            createOrder={createOrder}
-            onApprove={onApprove}
-            onCancel={onCancel}
-          />
-        </PayPalScriptProvider>
-      )}
-
-       {/* Subir imagen del comprobante de pago */}
-       <div>
-         <label>Foto o captura de comprobante de pago:</label>
-         <input type="file" onChange={handlePaymentImg} accept="image/*" required />
-       </div>
-
-      <button onClick={PaymentButton}>Pagar</button>
+        <Button variant="contained" color="primary" onClick={validateCode}>
+            Validar Código
+        </Button>
       </div>
     )}
+  </div>
+)}
 
 
-    </div>
-    )}
+{activeStep === 1 && (
+ <div className='container_second_step'>
+ {/* Solo renderiza los métodos de pago si el curso no es gratuito */}
+ {chosen_course.is_free === false && (
+   <div className="payment-methods-grid">
+     {/* Columna izquierda: Selección de método de pago */}
+     <div className="payment-methods-container">
+       {/* Selección del método de pago */}
+       <FormControl component="fieldset" className="payment-methods-form">
+         <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
+         <RadioGroup value={selectedPaymentMethod} onChange={handleChange} name="payment-methods" className="payment-methods-group">
+           {paymentMethods.map((method) => (
+             <FormControlLabel
+               key={method.id}
+               value={method.id.toString()}
+               control={<Radio />}
+               label={method.payment_method_name}
+               className="payment-method-option"
+             />
+           ))}
+           <FormControlLabel
+             value="disabled"
+             disabled
+             control={<Radio />}
+             label="Pagos en Efectivo, únicamente matrícula presencial"
+             className="payment-method-option-disabled"
+           />
+         </RadioGroup>
+       </FormControl>
+
+
+           {/* Mostrar input para número de comprobante si el método de pago es 1 o 2 */}
+           {(selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (
+              <div className="comprobante-container">
+                <label htmlFor="comprobante-number">Número de Comprobante de Pago:</label>
+                <input
+                  type="text"
+                  id="comprobante-number"
+                  placeholder="Ingresa el número de comprobante"
+                  value={receiptNumber} // Vinculamos el estado receiptNumber
+                  onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
+                  className="comprobante-input"
+                />
+              </div>
+            )}
+
+
+
+       {/* Modal de PayPal */}
+       <Modal
+      open={isModalOpen}
+      onClose={handleCloseModal}
+      aria-labelledby="paypal-payment-modal"
+      aria-describedby="modal-para-realizar-pago-con-paypal"
+    >
+      <div className="paypal-modal__content">
+        <h2 className="paypal-modal__title">Pago con PayPal</h2>
+        <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
+
+        {selectedPaymentMethod === '3' && (
+          <PayPalScriptProvider options={initialOptions}>
+            <PayPalButtons
+              style={{
+                layout: "horizontal",
+                color: "blue",
+                shape: "rect",
+                label: "paypal",
+              }}
+              createOrder={createOrder}
+              onApprove={onApprove}
+              onCancel={onCancel}
+              className="paypal-modal__paypal-btn" // Clase añadida aquí
+            />
+          </PayPalScriptProvider>
+        )}
+
+        <button 
+          onClick={handleCloseModal} 
+          className="paypal-modal__cancel-btn"
+        >
+          Cancelar
+        </button>
+      </div>
+    </Modal>
+       
+     </div>
+
+     {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
+     <div className="payment-info-container">
+       <h3>Valores del Dólar</h3>
+       <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
+       <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
+
+       {/* Subir imagen del comprobante de pago */}
+       <div className="upload-container">
+         <label>Foto o captura de comprobante de pago:</label>
+         <input type="file" onChange={handlePaymentImg} accept="image/*" required className="payment-img-input" />
+       </div>
+     </div>
+   </div>
+ )}
+  <div className='container-payment-btn'>
+      <div>
+     <button onClick={PaymentButton} className="payment-btn">Confirmar pago</button>
+     </div>
+     </div>
+</div>
+)}
+
+
 
 
 {activeStep === 2 && (
-        <div>
-        <p>Estamos en el paso 3</p>
-      
-        <h3>Resumen de los datos ingresados</h3>
-        <p><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
-        <p><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
-        <p><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
-        <p><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
-        <p><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
-        <p><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
-        <p><strong>Email:</strong> {email || 'No ingresado'}</p>
-        <p><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
-      
-        {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
-        {chosen_course.is_free === false && (
-          <div>
-            <h3>Detalles del Pago</h3>
-      
-            {/* Mostrar el número de recibo y el método de pago seleccionado */}
-            <p><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
-            <p><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
-          </div>
-        )}
-      </div>
+  <div className="step-three-container">
+  <p className="step-three-indicator">Estamos en el paso 3</p>
+  
+  <h3 className="step-three-section-title">Resumen de los datos ingresados</h3>
+  <p className="step-three-data-item"><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
+  <p className="step-three-data-item"><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Email:</strong> {email || 'No ingresado'}</p>
+  <p className="step-three-data-item"><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
+  
+  {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
+  {chosen_course.is_free === false && (
+    <div className="step-three-payment-details">
+      <h3 className="step-three-section-title">Detalles del Pago</h3>
+      <p className="step-three-payment-item"><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
+      <p className="step-three-payment-item"><strong>Monto:</strong> {price || 'No especificado'}</p>
+      <p className="step-three-payment-item"><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
+    </div>
+  )}
+</div>
+
       )}
 
 
@@ -607,9 +827,13 @@ const activeCourses = courses.filter(course =>
                                     Enviar
                                 </Button>
                             ) : (
-                                <Button variant="contained" onClick={handleNext}>
-                                    Siguiente
-                                </Button>
+                              <Button
+                              variant="contained"
+                              onClick={handleNext}
+                              disabled={!isFormSent} // El botón estará deshabilitado cuando isFormSent sea false
+                            >
+                              Siguiente
+                            </Button>
                             )}
                         </Box>
                     </>

@@ -11,7 +11,7 @@ import Pago from "../Pages/Pago";
 import Matricula from "../Pages/Matricula";
 import Alianzas from "../Pages/Alianzas";
 import VerCurso from "../Pages/VerCurso"
-
+import Prueba from "../Pages/Prueba"
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 //import ScrollToTop from "../Components/ScrollToTop";
@@ -21,6 +21,7 @@ const Routing = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/Prueba" element={<Prueba />} /> 
                 <Route path="/" element={<Inicio />} /> 
                 <Route path="/Login" element={<Login />} /> 
                 <Route path="/Contacto" element={<Contacto />} /> 

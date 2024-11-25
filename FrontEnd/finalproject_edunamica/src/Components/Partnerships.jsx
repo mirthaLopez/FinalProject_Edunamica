@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import GetPartners from '../Services/Partners/GetPartners'
+import GetPartners from '../Services/Partners/GetPartners';
+import '../Styles/Parnertships.css';
 
 function Partnerships() {
   const [partners, setPartners] = useState([]);
@@ -13,20 +14,20 @@ function Partnerships() {
   }, []);
 
   console.log(partners);
-  
 
   return (
-<div style={{marginTop:'60px'}}>
-  <h2 className="title">Alianzas Estratégicas</h2>
-  <div className="partners-container">
-    {partners.map((partner) => (
-      <div key={partner.id} className="partner-item">
-        <img src={partner.partner_logo_url} alt={`Partner ${partner.id}`} />
+    <div className="partnerships-wrapper">
+      <h2 className="partnerships-heading">Alianzas Estratégicas</h2>
+      <hr className='hr-title'/>
+      <div className="partners-grid">
+        {partners.map((partner) => (
+          <div key={partner.id} className="partner-item">
+            <img src={partner.partner_logo_url} alt={`Partner ${partner.id}`} />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
-  )
+    </div>
+  );
 }
 
-export default Partnerships
+export default Partnerships;

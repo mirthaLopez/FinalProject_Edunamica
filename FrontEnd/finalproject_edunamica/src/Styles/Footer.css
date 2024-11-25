@@ -112,8 +112,6 @@
   height: auto;  /* Mantiene la proporción del logo */
   margin-top: 10px;
 }
-
-/* Estilos responsivos para pantallas pequeñas */
 @media (max-width: 768px) {
   .footer-sections {
     flex-direction: column; /* Las columnas se apilan en dispositivos más pequeños */
@@ -137,7 +135,10 @@
 
   /* Ajustar íconos sociales en pantallas más pequeñas */
   .social-icons {
-    grid-template-columns: repeat(3, 1fr); /* 2 columnas en pantallas pequeñas */
+    grid-template-columns: repeat(3, 1fr); /* 3 íconos en una fila para pantallas medianas */
+    grid-gap: 15px; /* Espacio entre los íconos */
+    justify-items: center; /* Centra los íconos dentro de cada celda */
+    margin-top: 10px;
   }
 
   .footer-bottom img {
@@ -163,11 +164,13 @@
   /* Ajustar íconos sociales en pantallas más pequeñas */
   .social-icons {
     grid-template-columns: 1fr; /* Una sola columna en pantallas muy pequeñas */
+    justify-items: center; /* Centra los íconos */
+    margin-top: 15px;
   }
 
   .social-icons a {
     font-size: 18px; /* Ajusta el tamaño de los íconos sociales */
-    margin: 0 5px;
+    margin: 5px;
   }
 
   .footer-bottom img {

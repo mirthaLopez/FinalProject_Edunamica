@@ -75,24 +75,26 @@
 /* Contenedor del botón */
 .enroll-button-container {
     padding: 10px 15px;
-    background-color: #ff6f61;
+    background-color:  #eb392c;
     text-align: center;
+    font-family: "Bebas Neue", sans-serif;
 }
 
 .enroll-button {
     background-color: #fff;
-    color: #ff6f61;
-    border: 2px solid #ff6f61;
+    color:  #eb392c;
+    border: 2px solid  #eb392c;
     padding: 8px 18px;
     font-size: 0.95rem;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: "Bebas Neue", sans-serif;
 }
 
 .enroll-button:hover {
-    background-color: #ff6f61;
+    background-color:  #eb392c;
     color: #fff;
 }
 

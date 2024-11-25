@@ -36,6 +36,8 @@ async function PostPayment( payment_date, payment_amount, payment_receipt_url,
       }
       
     payment_receipt_url = imagenUrl /// Asigna el valor de la url de la imagen 
+    console.log(payment_receipt_url);
+    
 
     const paymentData = {
         payment_date, /// Este no deberia ser necesario, se asigna automaticamente
@@ -44,6 +46,9 @@ async function PostPayment( payment_date, payment_amount, payment_receipt_url,
         payment_receipt_number,
         payment_method_fk
     };
+
+    console.log(paymentData);
+    
     
     try {
         const response = await fetch('http://localhost:8000/api/payment/', {

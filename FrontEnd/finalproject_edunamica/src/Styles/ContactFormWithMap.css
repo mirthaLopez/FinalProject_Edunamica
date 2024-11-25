@@ -6,7 +6,7 @@
     justify-content: center; /* Centra los elementos horizontalmente */
     align-items: flex-start; /* Alinea los elementos verticalmente en la parte superior */
     gap: 20px; /* Espacio entre el formulario y el mapa */
-    padding: 20px; /* Margen interno para mejor visualización */
+    padding: 20px; /* Margen interno| para mejor visualización */
   }
   
   .formContainer, 

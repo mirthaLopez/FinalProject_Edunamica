@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Partners.css */
+.partnerships-wrapper {
+  margin-top: 80px;
+  padding: 0 20px;
+  margin-bottom: 80px;
+}
+
+.partnerships-heading {
+  font-size: 3rem;
+  font-family: "Bebas Neue", sans-serif;
+  text-align: center;
+  color: #2c5c92;
+}
+.hr-title {
+  margin-bottom: 30px;
+  color: #2c5c92;
+  border: none;  /* Elimina el borde predeterminado */
+  border-top: 4px solid #2c5c92;  /* Define un borde superior grueso de color azul */
+  width: 80%;  /* Define el ancho del <hr> para que no abarque toda la página */
+  margin-left: auto;  /* Centra el <hr> en la página */
+  margin-right: auto;  /* Centra el <hr> en la página */
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  justify-items: center;
+}
+
+.partner-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.partner-item:hover {
+  transform: scale(1.05);
+}
+
+.partner-item img {
+  max-width: 100%;
+  max-height: 80px;  /* Ajustar tamaño de la imagen */
+  object-fit: contain;
+}
+
+/* Estilos Responsivos */
+@media (max-width: 1200px) {
+  .partners-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .partners-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .partner-item img {
+    max-height: 70px;  /* Reducir aún más el tamaño de las imágenes */
+  }
+
+  .partnerships-heading {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .partners-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .partner-item img {
+    max-height: 60px;  /* Reducir aún más el tamaño de las imágenes en pantallas pequeñas */
+  }
+}

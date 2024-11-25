@@ -5,18 +5,17 @@ import ControlledCarousel from '../Components/Carrousel'
 import CoursesCards from '../Components/CoursesCards'
 import Partnerships from '../Components/Partnerships'
 
-
-
-function Inicio() {
+function Prueba() {
   return (
     <div>
-      <HeaderNav />
-      <ControlledCarousel />
-      <CoursesCards />
-      <Partnerships />
-      <Footer />
+        <HeaderNav />
+        <ControlledCarousel />
+        <CoursesCards />
+        <Partnerships />
+        <Footer />
+
     </div>
   )
 }
 
-export default Inicio
+export default Prueba
