@@ -1,78 +1,135 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-.formWithMapContainer {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: flex-start; /* Alinea los elementos verticalmente en la parte superior */
-    gap: 20px; /* Espacio entre el formulario y el mapa */
-    padding: 20px; /* Margen interno| para mejor visualización */
-  }
+/* Contenedor principal */
+.contact-form-with-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
-  .formContainer, 
-  .mapContainer {
-    flex: 1 1 400px; /* Toma el mismo espacio mínimo y permite ajustarse */
-    max-width: 500px; /* Ancho máximo */
-    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
-  }
-  
-  .formContainer {
-    background-color: #f9f9f9; /* Fondo claro para el formulario */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mapContainer {
-    display: flex;
-    justify-content: center; /* Centra el mapa horizontalmente */
-    align-items: center; /* Centra el mapa verticalmente */
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .formTitle {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #033d94;
-    text-align: center;
-    font-family: "Bebas Neue", sans-serif;
-  }
-  
-  .formLabel {
-    margin: 10px 0 5px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .inputName, 
-  .inputEmail, 
-  .inputMessage {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 15px;
-  }
-  
+}
 
+.container-form-background{
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Formulario */
+.contact-form-with-map__form-container {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 4%;
+  background-color: #f1f1f1; /* Gris claro */
+}
+
+.contact-form-with-map__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form-with-map__form-title {
+  color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+/* Grid para el formulario en dos columnas */
+.contact-form-with-map__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.contact-form-with-map__form-group {
+  width: 100%;
   
-  .submitButton:hover {
-    background-color: #0056b3;
+}
+
+.contact-form-with-map__text-field {
+  width: 100%;
+}
+
+/* Estilos del botón */
+.contact-form-with-map__submit-button {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+  background-color: #d32f2f;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: none; /* Evitar mayúsculas automáticas */
+  border: none;
+  width: 30%;
+  align-self: center;
+  
+}
+
+.contact-form-with-map__submit-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Mapa */
+.contact-form-with-map__map-container {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-form-with-map__map-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: ;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .contact-form-with-map__form-grid {
+    grid-template-columns: 1fr;
   }
-  
-  /* Media Queries para diseño responsivo */
-  @media (max-width: 768px) {
-    .formWithMapContainer {
-      flex-direction: column; /* Apila el formulario y el mapa */
-      align-items: center;
-    }
-  
-    .formContainer, 
-    .mapContainer {
-      max-width: 100%; /* Ocupa todo el ancho disponible */
-    }
+
+  .contact-form-with-map__form-container {
+    padding: 10px;
+    width: 90%;
   }
-  
+
+  .contact-form-with-map__map-container iframe {
+    height: 250px;
+  }
+
+  .contact-form-with-map__form-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form-with-map__map-container iframe {
+    height: 200px;
+  }
+
+  .contact-form-with-map__form-title {
+    font-size: 18px;
+  }
+
+  .contact-form-with-map__form-container {
+    padding: 10px;
+    width: 90%;
+  }
+
+  .contact-form-with-map__submit-button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}

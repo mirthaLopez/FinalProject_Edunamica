@@ -41,6 +41,7 @@ function Register() {
   };
     const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
     const handleReset = () => setActiveStep(0);
+    const [fileContent, setFileContent] = useState(""); // Para almacenar el contenido del archivo
 
     const [identificationNumber, setIdentificationNumber] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -83,6 +84,21 @@ function Register() {
     const [isCodeSent, setIsCodeSent] = useState(false); // Estado para saber si el código ha sido enviado
     const [isFormSent, setIsFormSent] = useState(false); 
     const form = useRef();
+    const [open, setOpen] = useState(false); // Estado para controlar la visibilidad del modal
+
+
+            // Función para abrir el modal
+            const handleOpen = () => {
+              setOpen(true); // Abre el modal cambiando el estado 'open' a true
+            
+            };
+          
+
+            // Función para cerrar el modal
+            const handleClose = () => {
+              setOpen(false); // Cierra el modal cambiando el estado 'open' a false
+            };
+
 
     ///Paypal
 
@@ -94,15 +110,14 @@ function Register() {
     const [receiptNumber, setReceiptNumber] = useState('');
     const [paymentDate, setPaymentDate] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
     
     const handlePaymentImg = (e) => {
         const file = e.target.files[0];
         if (file) {
           setPaymentImg(file);
         }
-      };
-    
+      };    
 
 
 ///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
@@ -231,7 +246,8 @@ const activeCourses = courses.filter(course =>
               console.log('Correo enviado con éxito!', response);
               alert(`El código de verificación se ha enviado a ${email}`);
               setIsCodeSent(true); // Indicar que el código ha sido enviado
-            },
+              handleOpen()
+            },  
             (error) => {
               console.log('Error al enviar el correo:', error.text);
             }
@@ -305,12 +321,27 @@ const activeCourses = courses.filter(course =>
           ],
         });
       };
+
+
+        // Función para vaciar todos los campos de entrada
+  const resetFields = () => {
+    setUserCode('');   // Vaciar el campo del código
+    setEmail('');      // Vaciar el campo del email
+    setName('');       // Vaciar el campo del nombre
+    setLastName('');   // Vaciar el campo del apellido
+    setPhone('');      // Vaciar el campo del teléfono
+    setAddress('');    // Vaciar el campo de la dirección
+  };
+
+
     
       // Función para validar el código ingresado por el usuario
       const validateCode = async() => {
         if (parseInt(userCode) === verificationCode) {
-          alert('Código validado correctamente'); ////hay que quitar estos alert 
-          setIsFormSent(true); // Indicar que el código ha sido enviado         
+          console.log('Código validado correctamente'); ////hay que quitar estos alert 
+          setIsCodeSent(true); // Indicar que el código ha sido enviado
+          handleClose(); // Cerrar el modal
+          setIsFormSent(true);
         } else {
           alert('El código ingresado es incorrecto');///hay que quitar estos alert 
         }
@@ -388,8 +419,34 @@ const activeCourses = courses.filter(course =>
         } 
       }
 
+       // Función para manejar la carga del archivo
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFileContent(reader.result); // Guarda el contenido del archivo
+      };
+      reader.readAsText(file); // Lee el archivo como texto
+    }
+  };
+
+  // Función para imprimir los datos
+  const handlePrint = () => {
+    const printContent = document.getElementById('printable-content');
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Imprimir Información</title></head><body>');
+    printWindow.document.write(printContent.innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  };
+
+
   return (
     <div className='steps-container'>
+      <div className='div-title-register'><h1 className='text-form-register'>Formulario de Prematrícula</h1></div>
+
          <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label, index) => (
                     <Step key={index}>
@@ -638,28 +695,62 @@ const activeCourses = courses.filter(course =>
 
       <div className='form-row'>
         <div className='form-column'>
-        <Button className='btn-send' type="submit" variant="contained" color="primary" fullWidth>
-          Enviar
-        </Button>
+        <Button 
+            className='btn-send' 
+            type="submit"  // Cambiado a 'submit' para que dispare el formulario
+            variant="contained" 
+            color="primary" 
+            fullWidth
+          >
+            Enviar
+          </Button>
         </div>
       </div>
     </form>
 
-    {isCodeSent && (
-      <div>
-        <h3>Ingresa el código de verificación que hemos enviado a tu correo</h3>
-        <TextField
-            label="Código de verificación"
-            value={userCode}
-            onChange={(e) => setUserCode(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-          />
-        <Button variant="contained" color="primary" onClick={validateCode}>
-            Validar Código
-        </Button>
-      </div>
+    {/* El modal solo se muestra si isCodeSent es true */}
+     {/* Modal solo se muestra si isCodeSent es true */}
+     {isCodeSent && (
+        <Modal
+          open={open}    // 'open' controla si el modal está visible
+          onClose={handleClose} // Función para cerrar el modal cuando se hace clic afuera
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box 
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              border: '2px solid #000',
+              boxShadow: 24,
+              p: 4,
+              textAlign: 'center'
+            }}
+          >
+            <h3 id="modal-title">Ingresa el código de verificación que hemos enviado a tu correo</h3>
+            <TextField
+              label="Código de verificación"
+              value={userCode}
+              onChange={(e) => setUserCode(e.target.value)} // Actualiza el valor de userCode
+              fullWidth
+              required
+              margin="normal"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={validateCode} // Ejecuta la validación cuando se hace clic en "Validar Código"
+              sx={{ marginTop: 2 }}
+            >
+              Validar Código
+            </Button>
+          </Box>
+        </Modal>
+
     )}
   </div>
 )}
@@ -752,12 +843,19 @@ const activeCourses = courses.filter(course =>
        
      </div>
 
+
+      {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
+{selectedPaymentMethod === '3' && (
+  <div className="payment-info-container">
+    <h3>Valores del Dólar</h3>
+    <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
+    <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
+
+  </div>
+)}
+
      {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
      <div className="payment-info-container">
-       <h3>Valores del Dólar</h3>
-       <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
-       <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
-
        {/* Subir imagen del comprobante de pago */}
        <div className="upload-container">
          <label>Foto o captura de comprobante de pago:</label>
@@ -778,34 +876,46 @@ const activeCourses = courses.filter(course =>
 
 
 {activeStep === 2 && (
-  <div className="step-three-container">
-  <p className="step-three-indicator">Estamos en el paso 3</p>
-  
-  <h3 className="step-three-section-title">Resumen de los datos ingresados</h3>
-  <p className="step-three-data-item"><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
-  <p className="step-three-data-item"><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Email:</strong> {email || 'No ingresado'}</p>
-  <p className="step-three-data-item"><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
-  
-  {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
-  {chosen_course.is_free === false && (
-    <div className="step-three-payment-details">
-      <h3 className="step-three-section-title">Detalles del Pago</h3>
-      <p className="step-three-payment-item"><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
-      <p className="step-three-payment-item"><strong>Monto:</strong> {price || 'No especificado'}</p>
-      <p className="step-three-payment-item"><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
-    </div>
-  )}
-</div>
+        <div className="step-three-container">
+          <h3 className="step-three-section-title">Resumen de los datos ingresados</h3>
 
+          <div id="printable-content">
+            <p className="step-three-data-item"><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
+            <p className="step-three-data-item"><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Email:</strong> {email || 'No ingresado'}</p>
+            <p className="step-three-data-item"><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
+            
+            {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
+            {chosen_course.is_free === false && (
+              <div className="step-three-payment-details">
+                <h3 className="step-three-section-title">Detalles del Pago</h3>
+                <p className="step-three-payment-item"><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
+                <p className="step-three-payment-item"><strong>Monto:</strong> {price || 'No especificado'}</p>
+                <p className="step-three-payment-item"><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Botón para imprimir los datos */}
+          <button onClick={handlePrint}>Imprimir información</button>
+
+          {/* Opcional: cargar un archivo */}
+          <div>
+            <label>Cargar archivo:</label>
+            <input type="file" onChange={handleFileChange} />
+          </div>
+          {fileContent && (
+            <div>
+              <h3>Contenido del archivo cargado:</h3>
+              <pre>{fileContent}</pre>
+            </div>
+          )}
+        </div>
       )}
-
-
-
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {activeStep === steps.length ? (
                     <Box>

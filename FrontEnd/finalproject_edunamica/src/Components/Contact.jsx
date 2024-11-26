@@ -5,6 +5,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 function Contact() {
+
+  
   return (
  <div style={{marginTop:'140px'}}>
       <div className="divInfoContacto">

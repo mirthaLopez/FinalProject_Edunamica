@@ -54,8 +54,8 @@ function FormLogin() {
         <div className='login-left'></div>
         <div className='login-right'>
           <form className='login-form' onSubmit={validacionEspacios}> {/* Formulario de login */}
-            <h1>Bienvenido</h1>
-            <Typography>Inicia sesión en tu cuenta</Typography>
+            <h1>Bienvenido a Edunámica</h1>
+            <Typography>Inicia sesión con tu cuenta.</Typography>
             <TextField 
               type="email" 
               id='correo' 

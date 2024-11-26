@@ -43,8 +43,8 @@ function ControlledCarousel() {
     <div className="image-container top-right">
         <img src={yellowCircle} alt="Yellow Circle" />
     </div>
-    <div className="text-container">
-        <p>EDUNÁMICA es una organización no gubernamental, sin fines de lucro, que promueve el acceso a la educación de calidad para niños, niñas, jóvenes y adultos con situación socioeconómica desfavorable.</p>
+    <div className="text-container-description">
+        <p className='text-description'>EDUNÁMICA es una organización no gubernamental, sin fines de lucro, que promueve el acceso a la educación de calidad para niños, niñas, jóvenes y adultos con situación socioeconómica desfavorable.</p>
     </div>
     <div className="image-container bottom-right">
         <img src={blueCircle} alt="Blue Circle" />

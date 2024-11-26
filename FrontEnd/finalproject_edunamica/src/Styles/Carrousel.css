@@ -47,15 +47,17 @@
     left: 100px;
 }
 
-.text-container {
+.text-container-description {
     text-align: left; /* Alineación de texto a la izquierda para mayor legibilidad */
     max-width: 60%; /* Limita el ancho del texto */
+    padding-left: 20px; /* Alineación interna a la izquierda */
+}
+
+.text-description{
     font-size: 20px; /* Tamaño de la fuente */
     line-height: 1.6; /* Mejora la legibilidad con mayor espacio entre líneas */
     color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
-    font-family: 'Arial', sans-serif; /* Fuente profesional y limpia */
     font-weight: 400; /* Peso normal para el texto */
-    padding-left: 20px; /* Alineación interna a la izquierda */
     font-family: "Bebas Neue", sans-serif;
 }
 

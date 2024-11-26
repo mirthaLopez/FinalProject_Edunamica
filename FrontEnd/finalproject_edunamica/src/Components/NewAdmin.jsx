@@ -5,6 +5,7 @@ import GetUsers from '../Services/Users/GetUsers';
 import PostAuthAdminUser from '../Services/Users/PostAdminUser';
 import PostAdmin from '../Services/Administrators/postAdmin';
 
+
 function NewAdmin() {
   // Estados del formulario
   const [admin_name, setName] = useState('');
@@ -29,6 +30,7 @@ function NewAdmin() {
     };
     fetchUsuarios();
   }, []);
+
 
   // Función para agregar administrador
   const AddNewAdminButton = async () => {

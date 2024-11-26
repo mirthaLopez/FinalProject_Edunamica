@@ -2,121 +2,199 @@ import React, { useState } from 'react';
 import emailjs from "@emailjs/browser";
 import "../Styles/ContactFormWithMap.css";
 import { TextField, Button } from '@mui/material'; // Importar componentes de MUI
+import PostPeopleInterested from '../Services/People_Interested/PostPeopleInterested';
 
 const ContactFormWithMap = () => {
   // Estado para cada campo del formulario
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [person_name, setPersonName] = useState('');
+  const [person_first_last_name, setPersonFirstLastName] = useState('');
+  const [person_email, setPersonEmail] = useState('');
+  const [person_notes, setPersonNotes] = useState('');
+  const [person_phone_number, setPersonPhoneNumber] = useState('');
+  const [course, setCourse] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para mostrar mensajes de error
 
   // Función para manejar el envío del formulario
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
 
     // Verifica que los datos se obtuvieron correctamente
-    console.log("Nombre:", name);
-    console.log("Correo:", email);
-    console.log("Mensaje:", message);
+    console.log("Nombre Completo:", person_name);
+    console.log("Apellido Paterno:", person_first_last_name);
+    console.log("Correo Electrónico:", person_email);
+    console.log("Número de Teléfono:", person_phone_number);
+    console.log("Consulta o Duda:", person_notes);
+    console.log("Curso de Interés:", course);
 
-    // Enviar los datos a EmailJS
-    emailjs
-      .send(
+    try {
+      // Enviar los datos a EmailJS
+      await emailjs.send(
         import.meta.env.VITE_SERVICE,
         import.meta.env.VITE_TEMPLATE,
-        { from_name: name, from_email: email, message: message },
-        import.meta.env.VITE_PUBLIC_KEY // publicKey
-      )
-      .then(
-        () => {
-          console.log('SUCCESS!');
+        {
+          from_name: person_name,
+          from_first_last_name: person_first_last_name,  // Aquí agregas el apellido
+          from_email: person_email,
+          phone_number: person_phone_number,
+          message: person_notes,
+          course: course,
         },
-        (error) => {
-          console.log('FAILED...', error.text);
-        }
+        import.meta.env.VITE_PUBLIC_KEY // publicKey
       );
 
-    setName('');
-    setEmail('');
-    setMessage('');
+      // Guardar la consulta a través de la API
+      await PostPeopleInterested(
+        person_name,
+        person_first_last_name,
+        person_email,
+        person_phone_number,
+        person_notes,
+        course
+      );
+
+      // Limpiar los campos del formulario después de enviar correctamente
+      setPersonName('');
+      setPersonFirstLastName('');
+      setPersonEmail('');
+      setPersonNotes('');
+      setPersonPhoneNumber('');
+      setCourse('');
+      setErrorMessage(''); // Limpiar el mensaje de error en caso de éxito
+
+    } catch (error) {
+      setErrorMessage('Hubo un error al enviar el formulario. Intenta nuevamente.');
+      console.error('Error al enviar el formulario:', error);
+    }
   };
 
   return (
-    <div className="formWithMapContainer">
+    <div className="contact-form-with-map">
       {/* Formulario */}
-      <div className="formContainer">
-      <form className="form" onSubmit={sendEmail}>
-        <h2 className="formTitle">Formulario de Contacto</h2>
+      <div className='container-form-background'>
+        <div className="contact-form-with-map__form-container">
+          <form className="contact-form-with-map__form" onSubmit={sendEmail}>
+            <h2 className="contact-form-with-map__form-title">Formulario de Contacto</h2>
 
-        <TextField
-          label="Nombre Completo"
-          variant="outlined"
-          fullWidth
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          margin="normal"
-          required
-        />
+            <div className="contact-form-with-map__form-grid">
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Nombre"
+                  variant="outlined"
+                  fullWidth
+                  value={person_name}
+                  onChange={(e) => setPersonName(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Apellido"
+                  variant="outlined"
+                  fullWidth
+                  value={person_first_last_name}
+                  onChange={(e) => setPersonFirstLastName(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
 
-        <TextField
-          label="Correo Electrónico"
-          type="email"
-          variant="outlined"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          margin="normal"
-          required
-        />
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Correo Electrónico"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                  value={person_email}
+                  onChange={(e) => setPersonEmail(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Número de Teléfono"
+                  type="tel"
+                  variant="outlined"
+                  fullWidth
+                  value={person_phone_number}
+                  onChange={(e) => setPersonPhoneNumber(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
 
-        <TextField
-          label="Consulta o duda"
-          variant="outlined"
-          multiline
-          rows={4}
-          fullWidth
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          margin="normal"
-          required
-        />
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Consulta o duda"
+                  variant="outlined"
+                  multiline
+                  rows={2}
+                  fullWidth
+                  value={person_notes}
+                  onChange={(e) => setPersonNotes(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
+              <div className="contact-form-with-map__form-group">
+                <TextField
+                  label="Curso de Interés"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  margin="normal"
+                  required
+                  className="contact-form-with-map__text-field"
+                />
+              </div>
+            </div>
 
-<Button
-  type="submit"
-  variant="contained"
-  fullWidth
-  sx={{
-    marginTop: 2,
-    width: "100%",
-    padding: "10px",
-    fontFamily: '"Bebas Neue", sans-serif',
-    fontSize: "20px",
-    backgroundColor: "#eb392c",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-    "&:hover": {
-      backgroundColor: "#d32f2f" // Cambia el color de fondo al hacer hover
-    }
-  }}
->
-  ENVIAR
-</Button>
+            {/* Mensaje de error */}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-
-      </form>
-    </div>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                backgroundColor: "#eb392c",   // Fondo rojo
+                color: "white",               // Texto blanco
+                fontSize: "18px",             // Tamaño de la fuente
+                fontWeight: "bold",           // Peso de la fuente
+                padding: "10px",              // Relleno
+                borderRadius: "4px",          // Bordes redondeados
+                cursor: "pointer",           // Cursor de puntero
+                transition: "background-color 0.3s ease",  // Transición de color al hacer hover
+                textTransform: "none",       // Evitar que el texto se ponga en mayúsculas
+                border: "none",              // Sin borde
+                width: "30%",                 // Ancho del botón
+                alignSelf: "center",         // Centrado
+                "&:hover": {
+                  backgroundColor: "#d32f2f",  // Cambio de color de fondo cuando se pasa el mouse
+                },
+              }}
+            >
+              ENVIAR
+            </Button>
+          </form>
+        </div>
+      </div>
 
       {/* Mapa */}
-      
-      <div className="mapContainer">
-        
-        <div style={{ overflow: 'hidden', width: '100%', maxWidth: '400px', height: '300px' }}>
+      <div className="contact-form-with-map__map-container">
+        <div className="contact-form-with-map__map-wrapper">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.7726624167444!2d-85.6433989259931!3d9.974981273466868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f9e5376f7f4cc09%3A0xa723a345ff5e4179!2sEdun%C3%A1mica%20Nosara!5e1!3m2!1ses-419!2scr!4v1732293559209!5m2!1ses-419!2scr"
-            width="400"
-            height="300"
+            width="100%"
+            height="400"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"

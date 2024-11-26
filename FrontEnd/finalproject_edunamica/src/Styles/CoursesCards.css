@@ -10,8 +10,7 @@
 .courses-title {
     text-align: center;
     font-size: 2.2rem;
-    font-weight: bold;
-    color: #444444;
+    color: #333333;
     margin-bottom: 30px;
 }
 
@@ -53,8 +52,8 @@
 
 .course-title {
     font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c5c92;
+    font-family: "Bebas Neue", sans-serif;
+    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
     margin-bottom: 10px;
 }
 
@@ -78,13 +77,13 @@
 
 .course-price {
     font-weight: bold;
-    color: #f8940c;
 }
 
 .course-schedule,
 .course-duration,
 .course-dates {
     font-style: italic;
+    font-weight: bold;
 }
 
 /* Contenedor del botón "Matrícula" */
@@ -92,8 +91,6 @@
     display: flex;
     justify-content: center;
     padding: 15px;
-    background-color: #f9f9f9;
-    border-top: 1px solid #eee;
 }
 
 /* Estilo del botón "Matrícula" */

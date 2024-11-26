@@ -6,7 +6,6 @@ import CoursesCards from '../Components/CoursesCards'
 import Partnerships from '../Components/Partnerships'
 
 
-
 function Inicio() {
   return (
     <div>
