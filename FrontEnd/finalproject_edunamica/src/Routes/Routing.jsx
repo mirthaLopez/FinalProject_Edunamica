@@ -12,6 +12,7 @@ import Matricula from "../Pages/Matricula";
 import Alianzas from "../Pages/Alianzas";
 import VerCurso from "../Pages/VerCurso"
 import Prueba from "../Pages/Prueba"
+import Principal from "../Pages/Principal"
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 //import ScrollToTop from "../Components/ScrollToTop";
@@ -33,6 +34,7 @@ const Routing = () => {
                 <Route path="/Matricula" element={<Matricula />} /> 
                 <Route path="/Alianzas" element={<Alianzas />} /> 
                 <Route path="/Cursos" element={<VerCurso />} /> 
+                <Route path="/Principal" element={<Principal />} /> 
             </Routes>
         </Router>
     );

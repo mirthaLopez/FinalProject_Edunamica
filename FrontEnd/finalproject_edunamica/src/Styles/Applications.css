@@ -1,0 +1,28 @@
+.accordion-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+.divApplication{
+  margin-left: 290px;
+
+}
+
+  .application-info, .payment-info {
+    flex: 1;
+    min-width: 300px;
+    margin: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .application-info, .payment-info {
+      min-width: 100%;
+    }
+    .divApplication{
+      margin-left: 10px;
+      margin-top: 70px;
+    
+    }
+  }
+

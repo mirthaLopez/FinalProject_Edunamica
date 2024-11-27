@@ -1,9 +1,13 @@
 import React from 'react'
 import CourseForm from '../Components/CourseForm'
+import HeaderProfile from '../Components/HeaderProfile'
 
 function Curso() {
   return (
-    <div><CourseForm /></div>
+    <div>
+      <HeaderProfile />
+      <CourseForm />
+      </div>
   )
 }
 

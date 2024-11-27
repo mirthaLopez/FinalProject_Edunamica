@@ -53,20 +53,22 @@ function Register() {
     const [identificationFk, setIdentificationFk] = useState('');
     const [genreFk, setGenreFk] = useState('');
     const [courseFk, setCourseFk] = useState('');
-    const [idImageUrl, setIdImageUrl] = useState(null);
     const [provinceFk, setProvinceFk] = useState('');
     const [cantonFk, setCantonFk] = useState('');
     const [districtFk, setDistrictFk] = useState('');
     const [neighborhoodFk, setNeighborhoodFk] = useState('');
     const [address, setAddress] = useState('');
-    
-
-
-    const cargaImagen = (e) => {
-      const file = e.target.files[0];
+    const [idImageUrl, setIdImageUrl] = useState(null);
+      
+      const cargaImagen = (e) => {
+        const file = e.target.files[0];
         setIdImageUrl(file);
-    };
+      };
+    
+      // Generar la URL de vista previa para la imagen seleccionada
+      const imagePreviewUrl = idImageUrl ? URL.createObjectURL(idImageUrl) : null;
 
+ 
   
     // Seteo de los datos obtenidos de la base de datos
     const [identifications, setIdentifications] = useState([]);
@@ -117,7 +119,10 @@ function Register() {
         if (file) {
           setPaymentImg(file);
         }
-      };    
+      };  
+      
+     // Generar la URL de vista previa para la imagen del comprobante de pago
+  const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
 
 
 ///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
@@ -492,19 +497,19 @@ const activeCourses = courses.filter(course =>
               </Button>
             )}
 
-<div className="file-upload">
-              <input
-                type="file"
-                onChange={cargaImagen}
-                accept="image/*"
-                style={{ marginTop: 10 }}
-              />
-              {idImageUrl && (
-                <div className="preview">
-                  Preview: <img src={idImageUrl} alt="ID Preview" width="100" />
-                </div>
-              )}
-</div>
+  <div className="file-upload">
+          <input
+            type="file"
+            onChange={cargaImagen}
+            accept="image/*"
+            style={{ marginTop: 10 }}
+          />
+        {imagePreviewUrl && (
+            <div className="preview">
+              <img src={imagePreviewUrl} alt="ID Preview" width="100" />
+            </div>
+          )}
+  </div>
 
 
           </div>
@@ -856,12 +861,29 @@ const activeCourses = courses.filter(course =>
 
      {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
      <div className="payment-info-container">
+      
        {/* Subir imagen del comprobante de pago */}
        <div className="upload-container">
-         <label>Foto o captura de comprobante de pago:</label>
-         <input type="file" onChange={handlePaymentImg} accept="image/*" required className="payment-img-input" />
-       </div>
+        <label>Foto o captura de comprobante de pago:</label>
+        <input
+          type="file"
+          onChange={handlePaymentImg}
+          accept="image/*"
+          required
+          className="payment-img-input"
+        />
+        {paymentImgPreviewUrl && (
+          <div className="preview">
+            <img src={paymentImgPreviewUrl} alt="Comprobante de pago" width="100" />
+          </div>
+        )}
+      </div>
+
+     
      </div>
+
+
+
    </div>
  )}
   <div className='container-payment-btn'>
@@ -904,10 +926,7 @@ const activeCourses = courses.filter(course =>
           <button onClick={handlePrint}>Imprimir información</button>
 
           {/* Opcional: cargar un archivo */}
-          <div>
-            <label>Cargar archivo:</label>
-            <input type="file" onChange={handleFileChange} />
-          </div>
+
           {fileContent && (
             <div>
               <h3>Contenido del archivo cargado:</h3>
