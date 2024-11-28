@@ -1,12 +1,12 @@
 import React from 'react'
 import Partners from '../Components/Partners'
-import HeaderProfile from '../Components/HeaderProfile'
+import SidebarAdmin from '../Components/SidebarAdmin'
 
 
 function Alianzas() {
   return (
     <div>
-        <HeaderProfile /> 
+        <SidebarAdmin /> 
         <Partners />
     </div>
   )

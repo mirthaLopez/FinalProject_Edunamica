@@ -1,12 +1,14 @@
 import React from 'react'
 import EnrollmentForm from '../Components/EnrollmentForm'
-import HeaderProfile from '../Components/HeaderProfile'
+import SidebarAdmin from '../Components/SidebarAdmin'
+import NavAdministration from '../Components/NavAdministration'
 
 function Matricula() {
   return (
     <div>
-        <HeaderProfile />
-        <EnrollmentForm />
+      <SidebarAdmin /> 
+      <NavAdministration />
+      <EnrollmentForm  />
     </div>
   )
 }

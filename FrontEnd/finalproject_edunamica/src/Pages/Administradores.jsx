@@ -1,17 +1,18 @@
 import React from 'react'
 import NewAdmin from '../Components/NewAdmin'
-import HeaderProfile from '../Components/HeaderProfile'
+import SidebarAdmin from '../Components/SidebarAdmin'
 
 
 function Administradores() {
   return (
 
     <div>
-     <HeaderProfile /> 
+     <SidebarAdmin /> 
      <NewAdmin />
     </div>
 
   )
 }
+
 
 export default Administradores

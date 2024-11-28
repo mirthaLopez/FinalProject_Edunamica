@@ -1,6 +1,5 @@
 import React from 'react';
-import HeaderProfile from '../Components/HeaderProfile';
-
+import SidebarAdmin from '../Components/SidebarAdmin'
 
 
 function Principal() {

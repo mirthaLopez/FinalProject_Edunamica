@@ -1,5 +1,5 @@
 import React from 'react'
-import HeaderProfile from '../Components/HeaderProfile';
+import SidebarAdmin from '../Components/SidebarAdmin';
 import Applications from '../Components/Applications'
 
 
@@ -7,7 +7,7 @@ function Solicitudes() {
   return (
 <div>
 <Applications />
-<HeaderProfile />
+<SidebarAdmin />
 </div>
 
   )

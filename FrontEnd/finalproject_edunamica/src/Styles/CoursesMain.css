@@ -12,7 +12,6 @@
     margin-top: 20px;
     padding: 0 20px;  /* Espaciado a los lados para que no peguen a los bordes */
 }
-
 /* Estilo de cada card */
 .course-card-item {
     display: flex;

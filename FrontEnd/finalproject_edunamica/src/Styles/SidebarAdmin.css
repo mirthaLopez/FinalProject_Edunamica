@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Estilos generales para el sidebar */
+.sidebar {
+    height: 100vh;
+    background-color: #444444; /* Color de fondo gris */
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 280px; /* Ancho del sidebar cuando esté completamente visible */
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: all 0.3s ease; /* Animación para cambios de ancho */
+}
+
+.brand-logo {
+   
+    width: 150px; /* Establece un tamaño máximo para la imagen */
+    height: auto; /* Mantiene la proporción original de la imagen */
+    display: block; /* Asegura que la imagen sea un bloque, para evitar posibles espacios debajo de ella */
+    margin: 0 auto; /* Centra la imagen en su contenedor */
+}
+
+
+/* Estilo cuando el sidebar está reducido (pantallas pequeñas) */
+.sidebar-collapsed {
+    width: 60px; /* Reducido para pantallas pequeñas */
+}
+
+/* Botón para abrir el sidebar en pantallas pequeñas */
+.sidebar-toggle-btn {
+    display: none; /* Por defecto, no se muestra */
+}
+
+/* Estilo para el logotipo y nombre de la marca */
+.brand-link {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.brand-link .bi {
+    fill: #007bff;
+}
+
+.brand-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-left: 0.5rem;
+    display: inline-block;
+}
+
+/* Estilo para el menú principal */
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Elemento de menú */
+.menu-item {
+    margin-bottom: 1rem;
+}
+
+/* Estilo por defecto del botón */
+.styles-btn {
+    background-color: white !important;  /* Fondo blanco por defecto */
+    color: black;  /* Color del texto */
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1.25rem;
+    font-size: 20px;
+    font-weight: 300;  /* Aumento ligeramente el peso de la fuente */
+    border-radius: 0.5rem;  /* Bordes más redondeados */
+    border: 1px solid transparent;  /* Borde más definido */
+    display: grid;
+    grid-template-columns: auto 1fr;  /* Define dos columnas, una para el icono y otra para el texto */
+    gap: 10px;  /* Espacio entre el icono y el texto */
+    align-items: center;  /* Alineación vertical centrada */
+    cursor: pointer;
+    transition: all 0.3s ease;  /* Transición suave para el hover, focus y active */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Sombra suave por defecto */
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.styles-btn .MuiSvgIcon-root {
+    color: black;  /* Asegura que el icono sea negro */
+}
+
+
+.styles-btn:hover,
+.styles-btn:focus {
+    background-color: rgb(235, 17, 17); /* Fondo rojo suave */
+    color: rgb(0, 0, 0); /* Texto blanco */
+    border-color: #eb392c; /* Borde rojo */
+    box-shadow: 0 4px 8px rgba(235, 57, 44, 0.4);  /* Sombra más fuerte en hover/focus */
+}
+
+.styles-btn:active {
+    background-color: #eb392c; /* Fondo rojo intenso */
+    color: white; /* Texto blanco */
+    border-color: #d32f2f; /* Borde más oscuro cuando se presiona */
+    box-shadow: 0 2px 6px rgba(235, 57, 44, 0.4);  /* Sombra más ligera al estar presionado */
+}
+
+/* Efecto adicional: añadir un foco más destacado (opcional) */
+.styles-btn:focus-visible {
+    outline: 2px solid #eb392c; /* Resalta con un borde más grueso al usar Tab */
+}
+
+
+
+/* Submenú: Estilo de los elementos del submenu */
+.submenu-item {
+    padding: 0.5rem 0;
+    color: #ffffff; /* Texto blanco */
+    text-decoration: none;
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 17px;
+}
+
+.large-text{
+    padding: 0.5rem 0;
+    color: #ffffff; /* Texto blanco */
+    text-decoration: none;
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 17px;
+}
+
+/* Forzar color blanco para los elementos del submenu */
+.submenu-item {
+    color: white !important;
+}
+
+/* Estilo del hover en los submenús */
+.submenu-item:hover {
+    background-color: #e9ecefb0;
+    color: #000705;
+}
+
+/* Cambiar el color de los enlaces del submenu cuando son activos */
+.submenu-item:focus, 
+.submenu-item:active {
+    background-color: #e9ecefb0;
+    color: #000705;
+}
+
+/* Cambiar visibilidad de los submenús cuando se expanda */
+.collapse.show .submenu {
+    display: block;
+}
+
+/* Separador de secciones */
+.separator {
+    border-top: 1px solid #e0e0e0;
+    margin: 1.5rem 0;
+}
+
+/* Estilo de los botones de la cuenta */
+.account-btn {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    width: 100%; /* Hace que el botón de la cuenta sea de ancho completo */
+}
+
+/* Estilo para el hover de los botones de cuenta */
+.account-btn:hover {
+    background-color: #e2e6ea;
+    color: #e6840a;
+    border-color: #e6840a;
+}
+
+.account-btn:focus {
+    outline: none;
+}
+
+
+
+
+
+/* Estilos para el sidebar en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -280px; /* Inicialmente oculto fuera de la pantalla */
+        width: 250px; /* El ancho cuando el sidebar esté visible */
+    }
+
+    /* Mostrar el sidebar cuando la clase .open esté presente */
+    .sidebar.open {
+        left: 0; /* Lo coloca en la pantalla */
+    }
+
+    /* Mostrar el botón para abrir el sidebar en pantallas pequeñas */
+    .sidebar-toggle-btn {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000; /* Asegura que esté por encima del sidebar */
+        background-color: #eb392c;
+        color: #fff;
+        padding: 0.5rem;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .brand-logo {
+        width: 150px; /* Establece un tamaño máximo para la imagen */
+        height: auto; /* Mantiene la proporción original de la imagen */
+        display: block; /* Asegura que la imagen sea un bloque, para evitar posibles espacios debajo de ella */
+        margin: 0 auto; /* Centra la imagen en su contenedor */
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo para el sidebar cuando está comprimido */
+    .sidebar-collapsed .bi {
+        font-size: 1.5rem; /* Hacer los íconos más pequeños en el estado comprimido */
+    }
+}

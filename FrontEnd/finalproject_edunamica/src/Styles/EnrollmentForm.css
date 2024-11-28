@@ -1,0 +1,58 @@
+/* Estilos generales */
+.main-div-enrrollment {
+  margin-left: 300px; /* Margin left para pantallas grandes */
+  padding: 20px;
+  margin-top: 100px;
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+  .main-div-enrrollment {
+    margin-left: 0; /* Elimina el margin-left en pantallas pequeñas */
+    position: absolute;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaciado entre los elementos */
+  flex-grow: 1;
+}
+
+.form-item {
+  flex: 1 1 45%; /* Cada campo tomará el 45% del ancho */
+  min-width: 280px; /* Tamaño mínimo de cada item */
+}
+
+@media (max-width: 768px) {
+  .form-item {
+    flex: 1 1 100%; /* En pantallas pequeñas, cada item ocupará todo el ancho */
+  }
+}
+
+/* Contenedor del botón centrado */
+.button-container {
+  display: flex;
+  justify-content: center; /* Centra el botón horizontalmente */
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+/* Asegura que el botón se ubique al final de la pantalla */
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ocupa toda la altura disponible */
+}
+
+form .form-container {
+  flex-grow: 1; /* Permite que los campos de formulario crezcan */
+}
+
+/* Estilo para el botón pequeño */
+.small-button {
+  width: auto; /* Ajusta el ancho del botón */
+  padding: 10px 20px; /* Ajusta el padding del botón */
+}

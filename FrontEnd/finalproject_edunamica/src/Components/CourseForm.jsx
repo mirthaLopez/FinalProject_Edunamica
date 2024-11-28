@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PostCourse from '../Services/Courses/PostCourses';
 import GetCategory from '../Services/Categories/GetCategories';
-import '../Styles/CourseForm.css'
+import { TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import '../Styles/CourseForm.css';
 
 const CourseForm = () => {
   const [courseImageUrl, setCourseImageUrl] = useState(null);
@@ -50,70 +51,152 @@ const CourseForm = () => {
   };
 
   return (
-    <form className="course-form" onSubmit={handleSubmit}>
+    <form style={{position: 'absolute', zIndex: 1, top: 0, left: 0}} className="course-form" onSubmit={handleSubmit}>
       <div className="course-form__group">
-        <label className="course-form__label">Nombre del curso:</label>
-        <input className="course-form__input" type="text" value={courseName} onChange={handleChangeCourseName} required />
+        <TextField
+          label="Nombre del curso"
+          variant="outlined"
+          value={courseName}
+          onChange={handleChangeCourseName}
+          required
+          className="course-form__input"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Descripción del curso:</label>
-        <textarea className="course-form__textarea" value={courseDescription} onChange={handleChangeCourseDescription} required />
+        <TextField
+          label="Descripción del curso"
+          variant="outlined"
+          multiline
+          rows={4}
+          value={courseDescription}
+          onChange={handleChangeCourseDescription}
+          required
+          className="course-form__textarea"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Añade los requisitos separados por coma:</label>
-        <input className="course-form__input" type="text" value={courseObligatoryRequirements} onChange={handleChangeCourseObligatoryRequirements} placeholder="Requisito 1, Requisito 2, Requisito 3" />
+        <TextField
+          label="Añade los requisitos separados por coma"
+          variant="outlined"
+          value={courseObligatoryRequirements}
+          onChange={handleChangeCourseObligatoryRequirements}
+          className="course-form__input"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Precio del curso:</label>
-        <input className="course-form__input" type="number" value={coursePrice} onChange={handleChangeCoursePrice} required />
+        <TextField
+          label="Precio del curso"
+          variant="outlined"
+          type="number"
+          value={coursePrice}
+          onChange={handleChangeCoursePrice}
+          required
+          className="course-form__input"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Horario:</label>
-        <input className="course-form__input" type="text" value={courseSchedule} onChange={handleChangeCourseSchedule} required />
+        <TextField
+          label="Horario"
+          variant="outlined"
+          value={courseSchedule}
+          onChange={handleChangeCourseSchedule}
+          required
+          className="course-form__input"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Fecha de inicio:</label>
-        <input className="course-form__input" type="date" value={begins} onChange={handleChangeBegins} required />
+        <TextField
+          label="Fecha de inicio"
+          variant="outlined"
+          type="date"
+          value={begins}
+          onChange={handleChangeBegins}
+          required
+          className="course-form__input"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Fecha de finalización:</label>
-        <input className="course-form__input" type="date" value={ends} onChange={handleChangeEnds} required />
+        <TextField
+          label="Fecha de finalización"
+          variant="outlined"
+          type="date"
+          value={ends}
+          onChange={handleChangeEnds}
+          required
+          className="course-form__input"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Duración del curso:</label>
-        <input className="course-form__input" type="text" value={courseDuration} onChange={handleChangeCourseDuration} required />
+        <TextField
+          label="Duración del curso"
+          variant="outlined"
+          value={courseDuration}
+          onChange={handleChangeCourseDuration}
+          required
+          className="course-form__input"
+        />
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Categoría del curso:</label>
-        <select className="course-form__select" value={courseCategory} onChange={handleChangeCategory} required>
-          <option value="">Selecciona una categoría</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.category_name}
-            </option>
-          ))}
-        </select>
+        <FormControl required className="course-form__select">
+          <InputLabel id="course-category-label">Categoría del curso</InputLabel>
+          <Select
+            labelId="course-category-label"
+            value={courseCategory}
+            onChange={handleChangeCategory}
+            label="Categoría del curso"
+            className="course-form__select"
+          >
+            <MenuItem value="">
+              <em>Selecciona una categoría</em>
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.category_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
 
       <div className="course-form__group">
-        <label className="course-form__label">Imagen de referencia:</label>
-        <input className="course-form__input" type="file" onChange={cargarimagen} accept="image/*" required />
+        <input
+          label="Imagen de referencia"
+          variant="outlined"
+          type="file"
+          onChange={cargarimagen}
+          required
+          className="course-form__input"
+          inputProps={{ accept: "image/*" }}
+        />
       </div>
 
       <div className="course-form__group">
-        <button className="course-form__button" type="submit">Submit</button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          fullWidth
+          className="course-form__button"
+        >
+          Submit
+        </Button>
       </div>
     </form>
   );
 };
 
 export default CourseForm;
-

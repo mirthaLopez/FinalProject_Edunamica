@@ -4,15 +4,14 @@ import HeaderNav from '../Components/Header'
 import ControlledCarousel from '../Components/Carrousel'
 import CoursesCards from '../Components/CoursesCards'
 import Partnerships from '../Components/Partnerships'
+import SidebarAdmin from '../Components/SidebarAdmin'
+import Applications from '../Components/Applications'
 
 function Prueba() {
   return (
     <div>
-        <HeaderNav />
-        <ControlledCarousel />
-        <CoursesCards />
-        <Partnerships />
-        <Footer />
+
+      <Applications />
 
     </div>
   )

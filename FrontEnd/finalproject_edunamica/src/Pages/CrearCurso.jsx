@@ -1,11 +1,13 @@
 import React from 'react'
 import CourseForm from '../Components/CourseForm'
-import HeaderProfile from '../Components/HeaderProfile'
+import SidebarAdmin from '../Components/SidebarAdmin'
+import NavAdministration from '../Components/NavAdministration'
 
 function Curso() {
   return (
     <div>
-      <HeaderProfile />
+     <SidebarAdmin />
+      <NavAdministration />
       <CourseForm />
       </div>
   )
