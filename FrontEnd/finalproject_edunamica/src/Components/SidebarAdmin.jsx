@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/SidebarAdmin.css'; // Importa el archivo CSS con estilos personalizados
 import logo_edunamica from "../Img/edunamica_logo.svg"
 
-
 // iconos para sidebar
 import ClassIcon from '@mui/icons-material/Class'; //cursos
 import ChecklistIcon from '@mui/icons-material/Checklist'; //prematrícula
@@ -14,7 +13,6 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; //adm
 import SchoolIcon from '@mui/icons-material/School'; // matrícula
 import HandshakeIcon from '@mui/icons-material/Handshake'; // alianzas
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // perfil
-
 
 function SidebarAdmin() {
     const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar la visibilidad del sidebar
@@ -58,10 +56,9 @@ function SidebarAdmin() {
                 </Button>
                     <Collapse in={openSection === 'courses'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Cursos</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Añadir Categoría</p></Link></li>
+                            <li><Link to="/Categorias" className="submenu-item link-dark rounded"><p className="large-text">Categorías</p></Link></li>
                             <li><Link to="/Curso" className="submenu-item link-dark rounded"><p className="large-text">Añadir Curso</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Modificar / Eliminar Curso</p></Link></li>
+                            <li><Link to="/CursosAdmin" className="submenu-item link-dark rounded"><p className="large-text">Editar Cursos</p></Link></li>
                         </ul>
                     </Collapse>
                 </li>
@@ -77,7 +74,7 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'preenrollment'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Historial</p></Link></li>
+                            <li><Link to="/Solicitudes" className="submenu-item link-dark rounded"><p className="large-text">Historial</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Pendientes</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Aceptadas</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Denegadas</p></Link></li>
@@ -96,7 +93,7 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'students'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Nuevo Estudiante</p></Link></li>
+                            <li><Link to="/Registro" className="submenu-item link-dark rounded"><p className="large-text">Nuevo Estudiante</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Estudiantes</p></Link></li>
                         </ul>
                     </Collapse>
@@ -113,7 +110,7 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'admin'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Crear Nuevo Administrador</p></Link></li>
+                            <li><Link to="/Administradores" className="submenu-item link-dark rounded"><p className="large-text">Crear Nuevo Administrador</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Administradores</p></Link></li>
                        </ul>
                     </Collapse>
@@ -130,7 +127,7 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'enrollment'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Habilitar Matrícula</p></Link></li>
+                            <li><Link to="/Matricula" className="submenu-item link-dark rounded"><p className="large-text">Habilitar Matrícula</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Matrícula</p></Link></li>
                         </ul>
                     </Collapse>
@@ -175,6 +172,7 @@ function SidebarAdmin() {
             </ul>
         </div>
     </div>
+    
     );
 };
 

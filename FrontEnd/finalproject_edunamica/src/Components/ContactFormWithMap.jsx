@@ -3,6 +3,9 @@ import emailjs from "@emailjs/browser";
 import "../Styles/ContactFormWithMap.css";
 import { TextField, Button } from '@mui/material'; // Importar componentes de MUI
 import PostPeopleInterested from '../Services/People_Interested/PostPeopleInterested';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
 
 const ContactFormWithMap = () => {
   // Estado para cada campo del formulario
@@ -13,6 +16,8 @@ const ContactFormWithMap = () => {
   const [person_phone_number, setPersonPhoneNumber] = useState('');
   const [course, setCourse] = useState('');
   const [errorMessage, setErrorMessage] = useState(''); // Estado para mostrar mensajes de error
+
+  const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
   // Función para manejar el envío del formulario
   const sendEmail = async (e) => {
@@ -52,6 +57,9 @@ const ContactFormWithMap = () => {
         course
       );
 
+      //mensaje cuando se envia el correo
+      notyf.success('Formulario enviado con éxito!');
+
       // Limpiar los campos del formulario después de enviar correctamente
       setPersonName('');
       setPersonFirstLastName('');
@@ -64,6 +72,9 @@ const ContactFormWithMap = () => {
     } catch (error) {
       setErrorMessage('Hubo un error al enviar el formulario. Intenta nuevamente.');
       console.error('Error al enviar el formulario:', error);
+    
+      notyf.error(`Error al enviar el formulario de contacto`);
+    
     }
   };
 

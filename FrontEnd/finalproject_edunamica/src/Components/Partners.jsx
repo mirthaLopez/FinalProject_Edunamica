@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Typography, Button} from '@mui/material';
 import PostPartners from '../Services/Partners/PostPartners'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function Partners() {
 
@@ -10,6 +12,7 @@ function Partners() {
 
   const [partner, setPartner] = useState([]);
 
+  const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
   function NewImage(e) {
     const file = e.target.files[0]    
@@ -18,17 +21,25 @@ function Partners() {
 
 
  const AddNewPartner = async (e) => {
-    console.log("Botón agregar new partner");
-
+  console.log("Botón agregar new partner");
   e.preventDefault();
-    const data = await PostPartners(partner_logo_url, partner_name); // se envian los datos del curso
-    console.log("Soy la respuesta del server:", data);
-  if (!data) {
-    console.log("No se obtuvieron datos"); 
-  }
+  
+  try {
+      const data = await PostPartners(partner_logo_url, partner_name); // se envian los datos del curso
+      console.log("Soy la respuesta del server:", data);
 
-    
-  };
+      notyf.success('Alianza agregada de manera exitosa!');
+      
+      if (!data) {
+          console.log("No se obtuvieron datos"); 
+          notyf.error(`Error al agregar la alianza, datos incompletos`);
+      }
+  } catch (error) {
+      console.error("Hubo un error al agregar el nuevo partner:", error);
+      notyf.error(`Error al agregar la alianza`);
+    }
+};
+
 
 
 

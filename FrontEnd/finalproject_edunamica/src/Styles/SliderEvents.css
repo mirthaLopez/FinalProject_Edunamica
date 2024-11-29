@@ -1,0 +1,88 @@
+/* EventCard.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Estilo general del contenedor del evento */
+.event-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px;
+  width: 300px;
+  height: 200px; /* Asegurar que todos los cards tengan la misma altura */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out;
+  border-left: 5px solid #e6840a; /* Añadir borde izquierdo en amarillo */
+}
+
+/* Estilo de la fecha */
+.event-card-date {
+  font-size: 14px;
+  color: #e6840a; /* Color distintivo para la fecha */
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Estilo del nombre del evento */
+.event-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c2c2c; /* Gris oscuro para el título */
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+/* Descripción del evento */
+.event-card-description {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Efecto de hover */
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .event-card {
+      width: 100%;
+      padding: 15px;
+  }
+
+  .event-card-title {
+      font-size: 16px;
+  }
+
+  .event-card-description {
+      font-size: 14px;
+  }
+}
+
+/* Estilos del contenedor del slider */
+.event-slider-container {
+  margin: 40px; /* Margen de 40px alrededor del slider */
+  padding: 20px;
+}
+
+/* Estilo del título del slider */
+.event-slider-title {
+  font-size: 2.5rem;
+  font-family: "Bebas Neue", sans-serif;
+  text-align: left;
+  color: #2c5c92;
+}
+
+/* Estilos para los puntos de paginación */
+.swiper-pagination-bullet {
+  background-color: #444444; /* Color de los puntos */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: black; /* Color del punto activo */
+}

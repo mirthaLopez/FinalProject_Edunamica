@@ -13,7 +13,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import logo_edunamica from "../Img/edunamica_logo.svg"
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -23,6 +24,8 @@ function Applications() {
   const [paymentsData, setPayments] = useState([]);
   const [courses, setCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+
+  const [notyf] = useState(new Notyf({ duration: 2000, position: { x: 'center', y: 'center' } }));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +95,8 @@ function Applications() {
           application.neighborhood_fk,
         );
 
+        notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
+
         if (NewStudent) {
           const templateParams = {
             user_name: application.name,
@@ -110,18 +115,32 @@ function Applications() {
               }
             );
         } else {
-          console.error('No se pudo crear el administrador');
+          console.error('No se pudo crear el estudiante');
+          notyf.error(`Error no se pudo crear el estudiante`);
         }
       } else {
         console.error('No se pudo crear el auth_user');
+        notyf.error(`Error no se pudo crear la autorización para el estudiante`);
       }
     } catch (error) {
-      console.error('Error al agregar a un nuevo administrador', error);
+      console.error('Error al aceptar la solicitud pendiente', error);
+      notyf.error(`Error al aceptar la solicitud pendiente`);
     }
   };
 
   const handleReject = async (applicationId) => {
-    await patchStatusApplication(applicationId, 3);
+
+    try {
+      await patchStatusApplication(applicationId, 3);
+
+      console.log('Solicitud denegada exitosamente!');
+      notyf.success('Solicitud denegada exitosamente!');
+
+    } catch (error) {
+      console.error('Error al denegar la solicitud pendiente');
+          notyf.error(`Error al denegar la solicitud pendiente`);
+    }
+
   };
 
   const calculateAge = (birthDate) => {

@@ -3,6 +3,8 @@ import PostCourse from '../Services/Courses/PostCourses';
 import GetCategory from '../Services/Categories/GetCategories';
 import { TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import '../Styles/CourseForm.css';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const CourseForm = () => {
   const [courseImageUrl, setCourseImageUrl] = useState(null);
@@ -16,6 +18,8 @@ const CourseForm = () => {
   const [courseCategory, setCourseCategory] = useState('');
   const [courseObligatoryRequirements, setCourseObligatoryRequirements] = useState('');
   const [categories, setCategories] = useState([]);
+
+  const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
   const handleChangeCourseName = (e) => setCourseName(e.target.value);
   const handleChangeCourseDescription = (e) => setCourseDescription(e.target.value);
@@ -38,10 +42,20 @@ const CourseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await PostCourse(courseImageUrl, courseName, courseDescription, courseObligatoryRequirements, coursePrice, courseSchedule, begins, ends, courseDuration, courseCategory);
-    console.log("Soy la respuesta del server:", data);
-    if (!data) {
-      console.log("No se obtuvieron datos");
+    try {
+      const data = await PostCourse(courseImageUrl, courseName, courseDescription, courseObligatoryRequirements, coursePrice, courseSchedule, begins, ends, courseDuration, courseCategory);
+      console.log("Soy la respuesta del server:", data);
+  
+      // Si no se obtiene respuesta, se lanza un error
+      if (!data) {
+        throw new Error('No se obtuvo información');
+        notyf.error(`No se puede agregar el curso, datos incompletos`);
+      }
+  
+      notyf.success('Curso agregado exitosamente!');
+    } catch (error) {
+      console.error("Error en el proceso:", error);
+      notyf.error(`Error al agregar el curso`);
     }
   };
 

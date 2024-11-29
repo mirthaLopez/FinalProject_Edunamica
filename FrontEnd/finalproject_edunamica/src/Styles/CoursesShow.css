@@ -1,0 +1,134 @@
+/* Estilos básicos */
+.show-course-search {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .show-course-search input {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .show-course-search-icon {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .show-course-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+    margin-left: 310px;
+  }
+  
+  .show-course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .show-course-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .show-course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .show-course-info {
+    padding: 15px;
+  }
+  
+  .show-course-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .show-course-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .show-course-meta {
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .show-course-meta span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .show-course-price {
+    color: #2a9d8f;
+    font-weight: bold;
+  }
+  
+  .show-course-schedule,
+  .show-course-duration,
+  .show-course-dates {
+    color: #333;
+  }
+  
+  /* Media Queries para dispositivos pequeños */
+  @media (max-width: 768px) {
+    .show-course-search input {
+      width: 90%;
+      max-width: 300px;
+    }
+  
+    .show-course-list {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-left: 10px;
+    }
+  
+    .show-course-title {
+      font-size: 18px;
+    }
+  
+    .show-course-description {
+      font-size: 13px;
+    }
+  }
+  
+  /* Media Queries para dispositivos muy pequeños (por ejemplo, teléfonos) */
+  @media (max-width: 480px) {
+    .show-course-search input {
+      width: 100%;
+      max-width: 100%;
+    }
+  
+    .show-course-list {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-left: 0px;
+      padding: 20px;
+    }
+  
+    .show-course-title {
+      font-size: 16px;
+    }
+  
+    .show-course-description {
+      font-size: 12px;
+    }
+  
+    .show-course-meta span {
+      font-size: 12px;
+    }
+  }
+  

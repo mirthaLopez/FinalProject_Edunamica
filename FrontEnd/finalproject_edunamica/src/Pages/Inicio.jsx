@@ -4,6 +4,7 @@ import HeaderNav from '../Components/Header'
 import ControlledCarousel from '../Components/Carrousel'
 import CoursesCards from '../Components/CoursesCards'
 import Partnerships from '../Components/Partnerships'
+import EventSlider from '../Components/SliderEvents'
 
 
 function Inicio() {
@@ -12,6 +13,7 @@ function Inicio() {
       <HeaderNav />
       <ControlledCarousel />
       <CoursesCards />
+      <EventSlider />
       <Partnerships />
       <Footer />
     </div>

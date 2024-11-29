@@ -4,7 +4,8 @@ import { TextField, Button } from '@mui/material';
 import GetUsers from '../Services/Users/GetUsers';
 import PostAuthAdminUser from '../Services/Users/PostAdminUser';
 import PostAdmin from '../Services/Administrators/postAdmin';
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function NewAdmin() {
   // Estados del formulario
@@ -17,6 +18,8 @@ function NewAdmin() {
   const [admin, setAdmin] = useState([]);
   console.log(admin);
   
+  const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
+
 
   // Obtener los usuarios autenticados (auth_user)
   useEffect(() => {
@@ -69,6 +72,7 @@ function NewAdmin() {
 
         if (NewAdministrador) {
           console.log('Administrador creado exitosamente');
+          notyf.success('Administrador creado exitosamente!');
 
           // Preparar los parámetros para enviar el correo
           const templateParams = {
@@ -83,20 +87,25 @@ function NewAdmin() {
             .then(
               (response) => {
                 console.log('Correo enviado con éxito!', response);
-                alert(`El código de verificación se ha enviado a ${email}`);
+                notyf.success(`El código de verificación se ha enviado a: ${email}`);
               },
               (error) => {
                 console.error('Error al enviar el correo:', error.text);
+                notyf.error(`Error al enviar el correo: ${email}`);
               }
             );
         } else {
           console.error('No se pudo crear el administrador');
+          notyf.error(`Error no se pudo crear el administrador`);
         }
       } else {
         console.error('No se pudo crear el auth_user');
+        notyf.error(`Error no se pudo crear la autorización para el administrador`);
+
       }
     } catch (error) {
       console.error('Error al agregar a un nuevo administrador', error);
+      notyf.error(`Error al agregar a un nuevo administrador`);
     }
   };
 

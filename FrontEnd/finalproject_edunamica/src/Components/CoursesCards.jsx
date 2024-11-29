@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';  // Importa el componente Link
 import GetCourses from '../Services/Courses/GetCourses';
 import GetEnrollment from '../Services/Enrollment/GetEnrollment';
 import '../Styles/CoursesCards.css'
@@ -69,7 +70,7 @@ function CoursesCards() {
             </div>
             {/* Botón de matrícula */}
             <div className="btn-container">
-              <button className="btn-matricula">Matrícula</button>
+              <Link to={`/registro`} className="btn-matricula">Matrícula</Link> {/* Aquí agregas el enlace */}
             </div>
           </div>
         ))}
@@ -77,12 +78,13 @@ function CoursesCards() {
 
       {/* Botón "Ver todos los cursos" al final */}
       <div className="btn-view-all-container">
-        <button className="btn-view-all">Ver todos los cursos</button>
+        <Link to="/cursos" className="btn-view-all">Ver todos los cursos</Link> {/* Aquí también el enlace */}
       </div>
     </div>
   );
 }
 
 export default CoursesCards;
+
 
 

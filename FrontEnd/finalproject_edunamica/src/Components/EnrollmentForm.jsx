@@ -1,9 +1,16 @@
-import '../Styles/EnrollmentForm.css'
+import '../Styles/EnrollmentForm.css';
 import React, { useState, useEffect } from 'react';
-import { TextField, Typography, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GetCourses from '../Services/Courses/GetCourses';
 import GetModalities from '../Services/Modality/GetModalities';
 import PostEnrollment from '../Services/Enrollment/PostEnrollment';
+import GetEnrollment from '../Services/Enrollment/GetEnrollment';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function EnrollmentForm() {
   const [enrollment_start_date, setBegins] = useState('');
@@ -14,6 +21,9 @@ function EnrollmentForm() {
 
   const [courses_list, setCourses_List] = useState([]);
   const [modalities_list, setModalities_List] = useState([]);
+  const [enrollment, setEnrollment] = useState([]);
+
+  const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
   const handleChangeCourse = (e) => setCourses(e.target.value);
   const handleChangeModality = (e) => setModalities(e.target.value);
@@ -23,6 +33,8 @@ function EnrollmentForm() {
     const fetchCourse = async () => {
       const data_course = await GetCourses();
       setCourses_List(data_course);
+      const enrollmentData = await GetEnrollment();
+      setEnrollment(enrollmentData);
     };
     fetchCourse();
   }, []);
@@ -37,32 +49,50 @@ function EnrollmentForm() {
   }, []);
 
   const AddEnrollment = async (e) => {
-    console.log('Botón agregar matrícula');
     e.preventDefault();
+  
+    try {
+      const course_fk = courses;
+      const course_modality_fk = modalities;
+  
+      const data = await PostEnrollment(
+        enrollment_start_date,
+        enrollment_end_date,
+        available_spots,
+        course_fk,
+        course_modality_fk
+      );
+      
+      console.log('Soy la respuesta del server:', data);
+      notyf.success('Matrícula agregada de manera exitosa!');
+  
+      if (!data) {
+        console.log('No se obtuvieron datos');
+        notyf.error(`No se puede habilitar la matrícula, datos incompletos`);
+      }
 
-    const course_fk = courses;
-    const course_modality_fk = modalities;
-
-    const data = await PostEnrollment(
-      enrollment_start_date,
-      enrollment_end_date,
-      available_spots,
-      course_fk,
-      course_modality_fk
-    );
-    console.log('Soy la respuesta del server:', data);
-
-    if (!data) {
-      console.log('No se obtuvieron datos');
+    } catch (error) {
+      console.error('Ocurrió un error al agregar la matrícula:', error);
+      notyf.error(`Error al habilitar la matrícula`);
     }
+  };
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('es-ES', options);
   };
 
   return (
     <div style={{position: 'absolute', zIndex: 1, top: 0, left: 0}} className="main-div-enrrollment">
-      <Typography variant="h4" gutterBottom>
-        Matrícula
-      </Typography>
-
+      <div className='grid-enrollment'>
+      <div className='main-div-form-enrollment'>
+      <div className='title-enrollment-div'>
+      <h1 className='title-enrollment-form'>
+        Crear Matrícula
+      </h1>
+      </div>
       <form onSubmit={AddEnrollment}>
         <div className="form-container">
           {/* Campo de selección de curso */}
@@ -154,18 +184,42 @@ function EnrollmentForm() {
 
           {/* Contenedor para el botón centrado al final */}
           <div className="button-container">
-            <Button
+            <button
               onClick={AddEnrollment}
               type="submit"
-              variant="contained"
-              color="success"
-              className="small-button" // Añade una clase para el botón
+              className='btn-send-enrollment' // Añade una clase para el botón
             >
               Registrar Matrícula
-            </Button>
+            </button>
           </div>
         </div>
       </form>
+      </div>
+      <div className='container-history-enrollment'>
+        <h1 className='title-history-enrollment'>Historial de Matrículas</h1>
+        {enrollment.map(enroll => {
+          const course = courses_list.find(course => course.id === enroll.course_fk);
+          const isActive = today >= enroll.enrollment_start_date && today <= enroll.enrollment_end_date ? 'Matrícula Activa' : 'Matrícula Inactiva';
+
+          return (
+            <Accordion key={enroll.course_fk}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel-content"
+                id="panel-header"
+              >
+                <div>{course.course_name} - {isActive}</div>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div>Fecha de inicio: {formatDate(enroll.enrollment_start_date)}</div>
+                <div>Fecha de fin: {formatDate(enroll.enrollment_end_date)}</div>
+                <div>Cupos disponibles: {enroll.available_spots}</div>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+      </div>
+      </div>
     </div>
   );
 }

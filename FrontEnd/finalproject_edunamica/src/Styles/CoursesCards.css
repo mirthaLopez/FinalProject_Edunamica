@@ -167,8 +167,23 @@
 
 /* Efecto hover */
 .btn-view-all:hover {
-    background-color: #d32f2f;  /* Color más oscuro cuando se pasa el mouse */
-    transform: scale(1.05);      /* Aumenta ligeramente el tamaño */
-}
+    background-color: #d32f2f; 
+    transform: scale(1.05);     
+ }
+
+a {
+    text-decoration: none; 
+    color: white; 
+  }
+  
+  
+  .btn-matricula, .btn-view-all {
+    text-decoration: none; 
+    color: white; 
+  }
+  
+  .btn-matricula:hover, .btn-view-all:hover {
+    color: white; 
+  }
 
   

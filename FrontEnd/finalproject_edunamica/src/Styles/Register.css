@@ -502,3 +502,124 @@ input[type="file"] {
   color: #555;
   line-height: 1.6;
 }
+
+
+
+/* Estilos generales del contenedor */
+.receipt-step-three-container {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto; /* Centrar el contenedor */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 800px; /* Reducir el ancho máximo del contenedor */
+}
+
+/* Estilo del logo de la empresa */
+.receipt-company-logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 150px;
+}
+
+/* Estilo del título de la sección */
+.receipt-step-three-section-title {
+  text-align: center;
+  font-size: 20px;
+  color: #2c5c92;
+  margin-bottom: 20px;
+}
+
+/* Estilo del contenido en columnas */
+.receipt-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Estilo de las columnas */
+.receipt-column {
+  width: 48%;
+}
+
+/* Estilo del título de las columnas */
+.receipt-column-title {
+  font-size: 18px;
+  color: #2c5c92;
+  margin-bottom: 10px;
+}
+
+/* Estilo de los ítems de datos */
+.receipt-step-three-data-item,
+.receipt-step-three-payment-item {
+  font-size: 16px;
+  color: #444444;
+  margin-bottom: 10px;
+}
+
+/* Estilo de los ítems de pago */
+.receipt-step-three-payment-details {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #dddddd;
+}
+
+/* Estilo del botón de imprimir */
+.receipt-print-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #2c5c92;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.receipt-print-button:hover {
+  background-color: #1a3b6e;
+}
+
+/* Estilos del contenedor */
+.completion-container {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto; /* Centrar el contenedor */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 600px; /* Reducir el ancho máximo del contenedor */
+  text-align: center; /* Centrar el texto */
+}
+
+/* Estilo del título */
+.completion-title {
+  font-size: 24px;
+  color: #2c5c92;
+  margin-bottom: 10px;
+}
+
+/* Estilo del mensaje */
+.completion-message {
+  font-size: 16px;
+  color: #444444;
+  margin-bottom: 20px;
+}
+
+/* Estilo del enlace */
+.completion-link {
+  text-decoration: none; /* Quitar subrayado del enlace */
+}
+
+/* Estilo del botón */
+.completion-link .MuiButton-contained {
+  background-color: #2c5c92;
+  color: #ffffff;
+}
+
+.completion-link .MuiButton-contained:hover {
+  background-color: #1a3b6e;
+}

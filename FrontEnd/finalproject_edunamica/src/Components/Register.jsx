@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../Styles/Register.css'
+import logo from '../Img/OIP.jpg'
+import { Link } from 'react-router-dom'; // Importar Link para la navegación
+
 
 import emailjs from '@emailjs/browser';
 import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';
@@ -25,7 +28,8 @@ import { Stepper, Step, StepLabel, Button, Box, FormControl, FormControlLabel, F
 import { TextField, MenuItem, Select, InputLabel } from '@mui/material';
 import Modal from '@mui/material/Modal'; // o cualquier otro componente modal que estés usando
 
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function Register() {
     ///////Stepper 
@@ -88,22 +92,19 @@ function Register() {
     const form = useRef();
     const [open, setOpen] = useState(false); // Estado para controlar la visibilidad del modal
 
+    const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
             // Función para abrir el modal
             const handleOpen = () => {
               setOpen(true); // Abre el modal cambiando el estado 'open' a true
-            
             };
           
-
             // Función para cerrar el modal
             const handleClose = () => {
               setOpen(false); // Cierra el modal cambiando el estado 'open' a false
             };
 
-
-    ///Paypal
-
+    //PayPal
     const [valores, setValores] = useState({ compra: null, venta: null });
     const [courses, setCourses] = useState([]);
     const [paymentMethods, setPaymentMethods] = useState([]);
@@ -113,7 +114,6 @@ function Register() {
     const [paymentDate, setPaymentDate] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    
     const handlePaymentImg = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -122,24 +122,23 @@ function Register() {
       };  
       
      // Generar la URL de vista previa para la imagen del comprobante de pago
-  const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
+    const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
 
-
-///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
-const currentDate = new Date();
-currentDate.setHours(0, 0, 0, 0);
-/* Active Courses son los cursos que tienen una matricula activa*/
-const activeCourses = courses.filter(course =>
-  enrollment.some(e => {
-    const enrollmentStartDate = new Date(e.enrollment_start_date);
-    const enrollmentEndDate = new Date(e.enrollment_end_date);
-    enrollmentStartDate.setHours(0, 0, 0, 0);
-    enrollmentEndDate.setHours(0, 0, 0, 0);
-    return e.course_fk === course.id &&
-      enrollmentStartDate <= currentDate &&
-      enrollmentEndDate >= currentDate;
-  })
-);
+    ///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    /* Active Courses son los cursos que tienen una matricula activa*/
+    const activeCourses = courses.filter(course =>
+      enrollment.some(e => {
+        const enrollmentStartDate = new Date(e.enrollment_start_date);
+        const enrollmentEndDate = new Date(e.enrollment_end_date);
+        enrollmentStartDate.setHours(0, 0, 0, 0);
+        enrollmentEndDate.setHours(0, 0, 0, 0);
+        return e.course_fk === course.id &&
+          enrollmentStartDate <= currentDate &&
+          enrollmentEndDate >= currentDate;
+      })
+    );
     useEffect(() => {
         const fetchData = async () => {
           const identificationsData = await GetIdTypes();
@@ -174,14 +173,15 @@ const activeCourses = courses.filter(course =>
     window.addEventListener('popstate', handlePopState);
 
     // Limpiar el listener cuando el componente se desmonte
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }, []);
 
     //////////////////////Api Hacienda/////////////////////
     const handleIdentificationChange = (e) => {
         setIdentificationFk(e.target.value);
+
         // Limpiamos los datos anteriores cuando se cambia el tipo de identificación
         setFirstName('');
         setLastName('');
@@ -208,14 +208,16 @@ const activeCourses = courses.filter(course =>
               setSecondLastName(segundoApellido)
     
             } else {
-              setDisplayName('No se encontraron datos para la cédula ingresada.');
+              setDisplayName('No se encontraron datos para la cédula ingresada');
+              notyf.error(`Error no se encontraron datos para la cédula ingresada`);
             }
           } catch (error) {
             console.error('Error al obtener los datos de la API:', error);
             setDisplayName('Error al obtener los datos.');
+            notyf.error(`Error con la consulta de los datos`);
           }
         } else {
-          alert('Por favor, ingrese un número de cédula válido.');
+          notyf.info('Por favor, ingrese un número de cédula válido');
         }
       };
 
@@ -227,7 +229,7 @@ const activeCourses = courses.filter(course =>
         return code;
     };
 
-    ///////////Envio del email Js///////////////////////////
+    ///////////Envio del email JS///////////////////////////
     const sendEmail = async (e) => {
         e.preventDefault();
         const code = generateRandomCode(); // Genera el código de validación
@@ -249,17 +251,16 @@ const activeCourses = courses.filter(course =>
           .then(
             (response) => {
               console.log('Correo enviado con éxito!', response);
-              alert(`El código de verificación se ha enviado a ${email}`);
+              notyf.success(`El código de verificación se ha enviado a ${email}`);
               setIsCodeSent(true); // Indicar que el código ha sido enviado
               handleOpen()
             },  
             (error) => {
               console.log('Error al enviar el correo:', error.text);
+              notyf.error(`Error al enviar el código de verificación se ha enviado a ${email}`);
             }
           );
       };
-
-
 
       const handleChange = (event) => {
         const methodId = event.target.value;
@@ -267,10 +268,10 @@ const activeCourses = courses.filter(course =>
     
         // Si se selecciona PayPal, abre el modal
         if (methodId === '3') {
-          setIsModalOpen(true);
-        } else {
-          setIsModalOpen(false);
-        }
+            setIsModalOpen(true);
+          } else {
+            setIsModalOpen(false);
+          }
       };
     
       const handleCloseModal = () => {
@@ -278,7 +279,7 @@ const activeCourses = courses.filter(course =>
       };
 
       ////////////Consulta a la api del banco central para obtener tipo de cambio////////
-    useEffect(() => {
+      useEffect(() => {
         // Función para consultar el endpoint
         const obtenerValores = async () => {
           try {
@@ -294,6 +295,7 @@ const activeCourses = courses.filter(course =>
             });
           } catch (error) {
             console.error('Error:', error);
+            notyf.error(`Error al obtener los datos del tipo de cambio (problema interno)`);
           }
         };
         obtenerValores();
@@ -327,36 +329,35 @@ const activeCourses = courses.filter(course =>
         });
       };
 
-
         // Función para vaciar todos los campos de entrada
-  const resetFields = () => {
-    setUserCode('');   // Vaciar el campo del código
-    setEmail('');      // Vaciar el campo del email
-    setName('');       // Vaciar el campo del nombre
-    setLastName('');   // Vaciar el campo del apellido
-    setPhone('');      // Vaciar el campo del teléfono
-    setAddress('');    // Vaciar el campo de la dirección
-  };
-
-
+        const resetFields = () => {
+          setUserCode('');   // Vaciar el campo del código
+          setEmail('');      // Vaciar el campo del email
+          setName('');       // Vaciar el campo del nombre
+          setLastName('');   // Vaciar el campo del apellido
+          setPhone('');      // Vaciar el campo del teléfono
+          setAddress('');    // Vaciar el campo de la dirección
+        };
     
       // Función para validar el código ingresado por el usuario
       const validateCode = async() => {
         if (parseInt(userCode) === verificationCode) {
-          console.log('Código validado correctamente'); ////hay que quitar estos alert 
+          console.log('Código validado exitosamente!'); ////hay que quitar estos alert 
+          notyf.success('Código validado exitosamente!');
           setIsCodeSent(true); // Indicar que el código ha sido enviado
           handleClose(); // Cerrar el modal
           setIsFormSent(true);
         } else {
           alert('El código ingresado es incorrecto');///hay que quitar estos alert 
+          notyf.error(`Error el código ingresado es incorrecto`);
         }
       };
       
       const onApprove = async (data, actions) => {
         try {
           const details = await actions.order.capture(); // Esperamos la captura del pago
-          alert("Pago Completado por " + details.payer.name.given_name);
-    
+          notyf.success('Pago Completado por ' + details.payer.name.given_name);
+
           // Si el pago es completado, setear los datos relacionados con la transacción
           if (details.status === "COMPLETED") {
             // Seteo de datos relacionados con la transacción
@@ -369,23 +370,21 @@ const activeCourses = courses.filter(course =>
           }
         } catch (error) {
           console.error('Error en la transacción:', error);
-          alert('Hubo un error al procesar el pago. Intenta nuevamente.');
+          notyf.error('Hubo un error al procesar el pago. Intenta nuevamente');
         }
       };
     
       const onCancel = (data) => {
         // Acción cuando el pago es cancelado
-        alert("Pago cancelado");
+        notyf.warning(`Pago cancelado`);
         handleCloseModal(); // Cerrar el modal en caso de cancelación
       };
 
       const PaymentButton = async () => {
         console.log("Boton pagar");
-
         const paymentDate = (selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && new Date().toLocaleDateString('en-CA');
         
         try {
-  
           const dataPayment = await PostPayment(
             paymentDate,
             price, //////PRECIO DEL CURSO, RELACIONADO A LA TABLA DE MATRICULA
@@ -411,8 +410,9 @@ const activeCourses = courses.filter(course =>
                     studentStatusFk, neighborhoodFk, payment_fk);
 
                     console.log(data);
-
+                    notyf.success('Pago registrado de manera exitosa!');
                     setIsFormSent(true);
+                    
                     
 
             }else{
@@ -421,6 +421,7 @@ const activeCourses = courses.filter(course =>
           
         } catch (error) {
           console.error("Error al agregar el payment", error);
+          notyf.error(`Error al ejecutar el pago`);
         } 
       }
 
@@ -898,49 +899,57 @@ const activeCourses = courses.filter(course =>
 
 
 {activeStep === 2 && (
-        <div className="step-three-container">
-          <h3 className="step-three-section-title">Resumen de los datos ingresados</h3>
+  <div className="receipt-step-three-container">
+    <img src={logo} alt="Logo de la Empresa" className="receipt-company-logo" /> 
+    <h3 className="receipt-step-three-section-title">Resumen de los datos ingresados</h3>
 
-          <div id="printable-content">
-            <p className="step-three-data-item"><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
-            <p className="step-three-data-item"><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Email:</strong> {email || 'No ingresado'}</p>
-            <p className="step-three-data-item"><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
-            
-            {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
-            {chosen_course.is_free === false && (
-              <div className="step-three-payment-details">
-                <h3 className="step-three-section-title">Detalles del Pago</h3>
-                <p className="step-three-payment-item"><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
-                <p className="step-three-payment-item"><strong>Monto:</strong> {price || 'No especificado'}</p>
-                <p className="step-three-payment-item"><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
-              </div>
-            )}
-          </div>
+    <div id="printable-content" className="receipt-content">
+      <div className="receipt-column">
+        <h4 className="receipt-column-title">Datos Ingresados</h4>
+        <p className="receipt-step-three-data-item"><strong>Tipo de identificación:</strong> {identifications.find(id => id.id === identificationFk)?.identification_type || 'No seleccionado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Número de identificación:</strong> {identificationNumber || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Primer nombre:</strong> {firstName || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Apellido:</strong> {lastName || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Segundo apellido:</strong> {secondLastName || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Número de teléfono:</strong> {phoneNumber || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Email:</strong> {email || 'No ingresado'}</p>
+        <p className="receipt-step-three-data-item"><strong>Curso:</strong> {courses.find(course => course.id === courseFk)?.course_name || 'No seleccionado'}</p>
+      </div>
 
-          {/* Botón para imprimir los datos */}
-          <button onClick={handlePrint}>Imprimir información</button>
-
-          {/* Opcional: cargar un archivo */}
-
-          {fileContent && (
-            <div>
-              <h3>Contenido del archivo cargado:</h3>
-              <pre>{fileContent}</pre>
-            </div>
-          )}
+      {/* Solo mostrar los detalles del pago si el curso no es gratuito */}
+      {chosen_course.is_free === false && (
+        <div className="receipt-column">
+          <h4 className="receipt-column-title">Detalles del Pago</h4>
+          <p className="receipt-step-three-payment-item"><strong>Número de Recibo:</strong> {receiptNumber || 'No especificado'}</p>
+          <p className="receipt-step-three-payment-item"><strong>Monto:</strong> {price || 'No especificado'}</p>
+          <p className="receipt-step-three-payment-item"><strong>Método de Pago:</strong> {paymentMethods.find(method => method.id.toString() === selectedPaymentMethod)?.payment_method_name || 'No especificado'}</p>
         </div>
       )}
+    </div>
+
+    {/* Botón para imprimir los datos */}
+    <button onClick={handlePrint} className="receipt-print-button">Imprimir información</button>
+
+    {/* Opcional: cargar un archivo */}
+    {fileContent && (
+      <div>
+        <h3>Contenido del archivo cargado:</h3>
+        <pre>{fileContent}</pre>
+      </div>
+    )}
+  </div>
+)}
             <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {activeStep === steps.length ? (
-                    <Box>
-                        <h2>Todos los pasos completados - ¡has terminado!</h2>
-                        <Button variant="contained" onClick={handleReset} sx={{ mt: 2 }}>Reiniciar</Button>
-                    </Box>
+                     <Box className="completion-container">
+                     <div>
+                       <h2 className="completion-title">Haz completado el proceso de Prematrícula</h2>
+                       <p className="completion-message">Una vez tu solicitud sea aceptada recibirás un correo con las credenciales de acceso al sistema.</p>
+                     </div>
+                     <Link to="/" className="completion-link">
+                       <Button variant="contained" sx={{ mt: 2 }}>Ir a Inicio</Button>
+                     </Link>
+                   </Box>
                 ) : (
                     <>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '50%' }}>

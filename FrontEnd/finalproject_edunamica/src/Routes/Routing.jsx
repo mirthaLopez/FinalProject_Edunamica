@@ -13,14 +13,17 @@ import Alianzas from "../Pages/Alianzas";
 import VerCurso from "../Pages/VerCurso"
 import Prueba from "../Pages/Prueba"
 import Principal from "../Pages/Principal"
+import CursosAdmin from "../Pages/CursosAdmin"
+import Categorias from "../Pages/Categorias"
 
 //import ProtectedRoutes from "./ProtectedRoutes";
-//import ScrollToTop from "../Components/ScrollToTop";
+import ScrollToTop from "../Components/ScrollToTop";
 //<ScrollToTop /> PONER ESTA ENTRE <Router><Routes>
 
 const Routing = () => {
     return (
         <Router>
+            <ScrollToTop />
             <Routes>
                 <Route path="/Prueba" element={<Prueba />} /> 
                 <Route path="/" element={<Inicio />} /> 
@@ -35,6 +38,8 @@ const Routing = () => {
                 <Route path="/Alianzas" element={<Alianzas />} /> 
                 <Route path="/Cursos" element={<VerCurso />} /> 
                 <Route path="/Principal" element={<Principal />} /> 
+                <Route path="/CursosAdmin" element={<CursosAdmin />} /> 
+                <Route path="/Categorias" element={<Categorias />} /> 
             </Routes>
         </Router>
     );

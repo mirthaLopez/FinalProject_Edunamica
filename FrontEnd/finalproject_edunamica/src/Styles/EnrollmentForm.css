@@ -1,23 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Estilos para los títulos */
+.title-enrollment-form,
+.title-history-enrollment {
+  font-family: "Bebas Neue", sans-serif;
+  color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
+}
+
+/* Estilos para el contenedor principal del formulario */
+.main-div-form-enrollment {
+  max-width: 400px;
+  padding: 30px;
+  min-height: fit-content;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  margin: 0 auto;
+}
+
+/* Estilos para el botón de envío */
+.btn-send-enrollment {
+  margin-top: 0%;
+  background-color: #eb392c; /* Rojo que solicitaste */
+  color: white; /* Color del texto */
+  padding: 12px 24px; /* Espaciado interno */
+  border: 2px solid #eb392c; /* Borde del botón */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de la fuente */
+  font-weight: bold; /* Negrita */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Para comportarse como un enlace */
+  cursor: pointer; /* Cambio de cursor al pasar el ratón */
+  transition: all 0.3s ease; /* Animación suave para transiciones */
+}
+
+.btn-send-enrollment:hover {
+  background-color: #d02a23; /* Color de fondo al pasar el ratón */
+  border-color: #d02a23; /* Borde al pasar el ratón */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra al pasar el ratón */
+}
+
+.btn-send-enrollment:active {
+  background-color: #c3271f; /* Color de fondo cuando se hace clic */
+  border-color: #c3271f; /* Borde al hacer clic */
+}
+
+/* Estilos para el contenedor del título */
+.title-enrollment-div {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 /* Estilos generales */
 .main-div-enrrollment {
   margin-left: 300px; /* Margin left para pantallas grandes */
   padding: 20px;
-  margin-top: 100px;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-history-enrollment {
+  margin-top: 30px;
+  width: 100%;
 }
 
 /* Para pantallas pequeñas */
 @media (max-width: 768px) {
   .main-div-enrrollment {
     margin-left: 0; /* Elimina el margin-left en pantallas pequeñas */
-    position: absolute;
+    position: relative; /* Asegura que todo el contenido sea visible */
+  }
+
+  .main-div-form-enrollment {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-item {
+    flex: 1 1 100%; /* En pantallas pequeñas, cada item ocupará todo el ancho */
+  }
+
+  .btn-send-enrollment {
+    width: 100%; /* Asegura que el botón ocupe el 100% del ancho en pantallas pequeñas */
+  }
+
+  .container-history-enrollment {
+    margin-top: 80px;
   }
 }
 
+/* Estilos para el contenedor del formulario */
 .form-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px; /* Espaciado entre los elementos */
   flex-grow: 1;
+  width: 100%; /* Hace que el contenedor ocupe todo el ancho disponible */
 }
 
 .form-item {
@@ -31,13 +111,23 @@
   }
 }
 
-/* Contenedor del botón centrado */
-.button-container {
-  display: flex;
-  justify-content: center; /* Centra el botón horizontalmente */
-  width: 100%; /* Asegura que ocupe todo el ancho */
-  margin-top: 20px;
-  padding-top: 20px;
+/* Grid para historia de matrículas */
+.grid-enrollment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .grid-enrollment {
+    grid-template-columns: 1fr; /* En pantallas pequeñas, los items de historia serán de una sola columna */
+  }
+}
+
+/* Estilo para el botón pequeño */
+.small-button {
+  width: auto; /* Ajusta el ancho del botón */
+  padding: 10px 20px; /* Ajusta el padding del botón */
 }
 
 /* Asegura que el botón se ubique al final de la pantalla */
@@ -49,10 +139,4 @@ form {
 
 form .form-container {
   flex-grow: 1; /* Permite que los campos de formulario crezcan */
-}
-
-/* Estilo para el botón pequeño */
-.small-button {
-  width: auto; /* Ajusta el ancho del botón */
-  padding: 10px 20px; /* Ajusta el padding del botón */
 }
