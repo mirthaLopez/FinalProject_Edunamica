@@ -20,7 +20,7 @@
 
 .about-edunamica {
     background-color: #f1f1f1; /* Gris claro */
-    max-height: 200px; /* Altura máxima de 200px */
+    max-height: 150px; /* Altura máxima de 200px */
     display: flex;
     justify-content: center; /* Centra los elementos horizontalmente */
     align-items: center; /* Centra los elementos verticalmente */

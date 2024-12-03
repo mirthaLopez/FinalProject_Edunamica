@@ -1,0 +1,151 @@
+/* Styles/CourseForm.css */
+
+/* Estilos generales para el contenedor principal */
+.create-course-main-div {
+    margin-left: 300px;
+    margin-top: 100px;
+}
+
+@media (max-width: 768px) {
+    .create-course-main-div {
+        margin-left: 10px;
+    }
+}
+
+.course-form {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.course-form__group {
+  margin-bottom: 20px;
+}
+
+.course-form__input,
+.course-form__textarea,
+.course-form__select {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.course-form__textarea {
+  resize: vertical;
+}
+
+.course-form__button {
+  margin-top: 20px;
+}
+
+.course-form__radio-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-form__image-preview {
+  max-width: 200px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+/* Estilos para el campo input de tipo file */
+input[type="file"] {
+  margin-top: 10px;
+}
+
+input[type="file"]:focus {
+  outline: none;
+}
+
+/* Media query para pantallas más pequeñas (menos de 768px) */
+@media (max-width: 768px) {
+  .create-course-main-div {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .course-form {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .course-form__group {
+    margin-bottom: 15px;
+  }
+
+  .course-form__button {
+    padding: 12px 0;
+    font-size: 16px;
+  }
+
+  .course-form__input, .course-form__textarea, .course-form__select {
+    font-size: 14px;
+  }
+
+  .course-form__radio-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Media query para pantallas más pequeñas (menos de 600px) */
+@media (max-width: 600px) {
+  .create-course-main-div {
+    margin-top: 50px;
+  }
+
+  .course-form {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .course-form__group {
+    margin-bottom: 10px;
+  }
+
+  .course-form__input, .course-form__textarea, .course-form__select {
+    font-size: 12px;
+  }
+
+  .course-form__button {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  .course-form__image-preview {
+    max-width: 100px;
+    margin-top: 10px;
+  }
+
+  input[type="file"] {
+    font-size: 12px;
+  }
+}
+
+/* Media query para pantallas extremadamente pequeñas o móviles muy pequeños */
+@media (max-width: 400px) {
+  .create-course-main-div {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .course-form__button {
+    font-size: 12px;
+    padding: 8px 0;
+  }
+
+  .course-form__input,
+  .course-form__textarea,
+  .course-form__select {
+    font-size: 12px;
+  }
+
+  .course-form__image-preview {
+    max-width: 80px;
+    margin-top: 10px;
+  }
+}

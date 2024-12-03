@@ -14,7 +14,9 @@ import VerCurso from "../Pages/VerCurso"
 import Prueba from "../Pages/Prueba"
 import Principal from "../Pages/Principal"
 import CursosAdmin from "../Pages/CursosAdmin"
-import Categorias from "../Pages/Categorias"
+import PerfilEstudiante from "../Pages/PerfilEstudiante";
+import SolicitudesRechazadas from "../Pages/Solicitudes/SolicitudesRechazadas";
+import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
@@ -39,7 +41,9 @@ const Routing = () => {
                 <Route path="/Cursos" element={<VerCurso />} /> 
                 <Route path="/Principal" element={<Principal />} /> 
                 <Route path="/CursosAdmin" element={<CursosAdmin />} /> 
-                <Route path="/Categorias" element={<Categorias />} /> 
+                <Route path="/PerfilEstudiante" element={<PerfilEstudiante />} /> 
+                <Route path="/SolicitudesRechazadas" element={<SolicitudesRechazadas />} /> 
+                <Route path="/SolicitudesAceptadas" element={<SolicitudesAceptadas />} /> 
             </Routes>
         </Router>
     );

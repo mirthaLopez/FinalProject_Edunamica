@@ -56,7 +56,6 @@ function SidebarAdmin() {
                 </Button>
                     <Collapse in={openSection === 'courses'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="/Categorias" className="submenu-item link-dark rounded"><p className="large-text">Categorías</p></Link></li>
                             <li><Link to="/Curso" className="submenu-item link-dark rounded"><p className="large-text">Añadir Curso</p></Link></li>
                             <li><Link to="/CursosAdmin" className="submenu-item link-dark rounded"><p className="large-text">Editar Cursos</p></Link></li>
                         </ul>
@@ -76,8 +75,8 @@ function SidebarAdmin() {
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
                             <li><Link to="/Solicitudes" className="submenu-item link-dark rounded"><p className="large-text">Historial</p></Link></li>
                             <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Pendientes</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Aceptadas</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Denegadas</p></Link></li>
+                            <li><Link to="/SolicitudesAceptadas" className="submenu-item link-dark rounded"><p className="large-text">Aceptadas</p></Link></li>
+                            <li><Link to="/SolicitudesRechazadas" className="submenu-item link-dark rounded"><p className="large-text">Denegadas</p></Link></li>
                         </ul>
                     </Collapse>
                 </li>
@@ -128,7 +127,7 @@ function SidebarAdmin() {
                     <Collapse in={openSection === 'enrollment'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
                             <li><Link to="/Matricula" className="submenu-item link-dark rounded"><p className="large-text">Habilitar Matrícula</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Matrícula</p></Link></li>
+
                         </ul>
                     </Collapse>
                 </li>

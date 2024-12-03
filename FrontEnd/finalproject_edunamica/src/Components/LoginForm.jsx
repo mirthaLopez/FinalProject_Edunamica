@@ -1,39 +1,56 @@
-import React, { useState } from 'react'; // Importa React y hooks de estado y efecto
-import { useNavigate } from 'react-router-dom'; // Importa el hook para la navegación
-//import { useAuth } from './AuthContext'; // Importa el contexto de autenticación
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import Swal from 'sweetalert2'; 
-import { TextField, Typography, Button} from '@mui/material';
-import '../Styles/LoginForm.css'; // Importa estilos CSS para el formulario de inicio de sesión CREAR
+import { TextField, Typography, Button } from '@mui/material';
+import '../Styles/LoginForm.css'; // Importa los estilos CSS
 import PostUser from '../Services/Users/PostUsers';
-
+import GetAdmin from '../Services/Administrators/GetAdministrators';
 
 function FormLogin() {
-  const [email, setEmail] = useState(''); // Estado para el correo electrónico
-  const [password, setPassword] = useState(''); // Estado para la contraseña
-  const navigate = useNavigate(); // Hook para la navegación
+  const [email, setEmail] = useState(''); 
+  const [password, setPassword] = useState(''); 
+  const navigate = useNavigate(); 
+  const [administrators, setAdministrators] = useState([]); 
 
-  // Funciones para manejar los cambios de estado
+  useEffect(() => {
+    const fetchData = async () => {
+      const adminData = await GetAdmin();
+      setAdministrators(adminData);
+    };
+    fetchData();
+  }, []);
+
   const handlePassword = (event) => setPassword(event.target.value);
   const handleEmail = (event) => setEmail(event.target.value);
 
-  // Función para manejar el inicio de sesión
   const cargar = async () => {
-    const data = await PostUser(email, password); // Enviamos el correo y la contraseña
-    console.log("Soy la respuesta del server:", data);
+    const data = await PostUser(email, password); 
     if (data.access) {
-      // Si la autenticación es exitosa, mostramos el mensaje de éxito
-      Swal.fire({
-        title: 'Has iniciado sesión con éxito!',
-        text: 'Te redirigiremos a la página principal',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 1500
-      });
-      setTimeout(() => {
-        navigate('/Matricula'); // Redirige a la página de cursos
-      }, 2000);
+      const admin = administrators.find(a => a.admin_email === email );
+      if (admin) {
+        Swal.fire({
+          title: 'Has iniciado sesión con éxito!',
+          text: 'Te redirigiremos a la página principal',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 1500
+        });
+        setTimeout(() => {
+          navigate('/Solicitudes'); 
+        }, 2000);
+      } else {
+        Swal.fire({
+          title: 'Has iniciado sesión con éxito!',
+          text: 'Te redirigiremos a la página principal',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 1500
+        });
+        setTimeout(() => {
+          navigate('/PerfilEstudiante'); 
+        }, 2000);
+      }
     } else {
-      // Si la autenticación falla, mostramos un mensaje de error
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -43,17 +60,16 @@ function FormLogin() {
     }
   };
 
-  // Función para prevenir el envío del formulario
   function validacionEspacios(event) {
-    event.preventDefault(); // Previene el comportamiento predeterminado del formulario
+    event.preventDefault();
   }
 
   return (
-    <div className='MainContainer'> {/* Contenedor principal */}
-      <div className='login-container'> {/* Contenedor del formulario de login */}
-        <div className='login-left'></div>
-        <div className='login-right'>
-          <form className='login-form' onSubmit={validacionEspacios}> {/* Formulario de login */}
+    <div className='login-edu-main-container'>
+      <div className='login-edu-container'>
+        <div className='login-edu-left'></div>
+        <div className='login-edu-right'>
+          <form className='login-edu-form' onSubmit={validacionEspacios}>
             <h1>Bienvenido a Edunámica</h1>
             <Typography>Inicia sesión con tu cuenta.</Typography>
             <TextField 
@@ -83,3 +99,4 @@ function FormLogin() {
 }
 
 export default FormLogin;
+

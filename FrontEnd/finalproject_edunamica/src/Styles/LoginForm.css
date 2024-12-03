@@ -1,31 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-.login-container {
+.login-edu-container {
     margin-top: 130px;
     padding: 40px;
     display: flex;
     justify-content: center;
+    align-content: center;
 }
 
-.login-left {
+.login-edu-left {
     flex: 1;
-    background-image: url(../Img/Edunamica_Coworking.jpeg);
+    background-image: url(../Img/edu-foto-12.JPG);
     background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    min-height: 480px;
+    min-height: 430px;
     max-width: 400px;
 }
 
-.login-right {
+.login-edu-right {
+    padding-top: 50px;
     flex: 1;
     font-family: "Bebas Neue", sans-serif;
     font-size: 15px;
-    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
-    background-color: #e6e4e4; /* Gris claro */
+    color: #043368;
+    background-color: #e6e4e4;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,34 +35,34 @@
     max-width: 400px;
 }
 
-.login-form {
+.login-edu-form {
     width: 80%;
     max-width: 400px;
     text-align: center;
 }
 
-.login-form h1 {
+.login-edu-form h1 {
     margin-bottom: 20px;
 }
 
-.login-form p {
+.login-edu-form p {
     margin-bottom: 20px;
     color: #666;
 }
 
-.login-form label {
+.login-edu-form label {
     display: block;
     margin-bottom: 5px;
     color: #555;
 }
 
-.login-form input {
+.login-edu-form input {
     width: 100%;
     border-radius: 5px;
     background-color: #ffffffd0;
 }
 
-.login-form button {
+.login-edu-form button {
     background-color: #f8940c;
     color: #fff;
     border: none;
@@ -71,18 +73,17 @@
     margin-top: 30px;
 }
 
-.login-form button:hover {
+.login-edu-form button:hover {
     transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
-  .login-left {
+  .login-edu-left {
       display: none; 
   }
 
-  .login-right {
+  .login-edu-right {
       max-width: 100%; 
       padding: 20px;
   }
 }
-  

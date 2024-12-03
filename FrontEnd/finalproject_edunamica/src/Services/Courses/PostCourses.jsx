@@ -20,9 +20,11 @@ export const uploadImageToS3 = async (file) => {
     return s3.upload(params).promise();
   };
 
-async function PostCourse(course_image_url, course_name, course_description, course_price, course_schedule, begins, ends, course_duration, course_category_fk) {
+async function PostCourse(course_image_url, course_name, course_description, course_price, course_schedule, begins, ends, course_duration,is_free, obligatory_requirements, course_category_fk, payment_modality_fk) {
  //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
-  let imagenUrl=''; 
+ console.log(course_image_url);
+
+ let imagenUrl=''; 
   
      
     if (course_image_url) {
@@ -47,6 +49,7 @@ async function PostCourse(course_image_url, course_name, course_description, cou
       
     course_image_url = imagenUrl /// Asigna el valor de la url de la imagen 
 
+
     const courseData = {
         course_image_url,
         course_name,
@@ -56,8 +59,16 @@ async function PostCourse(course_image_url, course_name, course_description, cou
         begins,
         ends,
         course_duration,
-        course_category_fk
+        is_free,
+        obligatory_requirements,
+        course_category_fk,
+        payment_modality_fk,
     };
+
+    
+
+    console.log(courseData);
+    
     
     try {
         const response = await fetch('http://localhost:8000/api/courses/', {

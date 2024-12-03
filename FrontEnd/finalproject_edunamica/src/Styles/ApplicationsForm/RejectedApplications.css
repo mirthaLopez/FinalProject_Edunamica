@@ -1,0 +1,21 @@
+.applications-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .applications-table th,
+  .applications-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .applications-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .applications-table td img {
+    cursor: pointer;
+  }
+  

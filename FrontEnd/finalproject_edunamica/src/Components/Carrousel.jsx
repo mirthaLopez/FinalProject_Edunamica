@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import '../Styles/Carrousel.css';
-import fotoCarrousel2 from '../Img/foto2.png';
-import fotoCarrousel1 from '../Img/image.png';
+import fotoCarrousel2 from '../Img/edu-foto-14.jpg';
+import fotoCarrousel1 from '../Img/edu-foto-13.jpg';
+import fotoCarrousel3 from '../Img/edu-foto-16.jpg';
 import yellowCircle from '../Img/yellow_circle-.svg';
 import blueCircle from '../Img/blue_circle.svg';
 
@@ -27,7 +28,7 @@ function ControlledCarousel() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src={fotoCarrousel1}
+          src={fotoCarrousel3}
           alt="Second slide"
         />
       </Carousel.Item>
