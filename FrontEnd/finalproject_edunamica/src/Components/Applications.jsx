@@ -43,15 +43,18 @@ function Applications() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // Filtrar las solicitudes según el término de búsqueda
-  const filteredApplications = applications.filter((data) => {
-    const course1 = courses.find(course => course.id == data.course_fk);
-    const courseName = course1 ? course1.course_name : '';
-    return (
-      data.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      courseName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+// Filtrar las solicitudes según el término de búsqueda y el estado (student_status_fk === 1)
+const filteredApplications = applications.filter((data) => {
+  const course1 = courses.find(course => course.id == data.course_fk);
+  const courseName = course1 ? course1.course_name : '';
+  
+  return (
+    data.student_status_fk === 1 &&  // Solo mostrar solicitudes con student_status_fk igual a 1
+    (data.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    courseName.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+});
+
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -261,5 +264,3 @@ function Applications() {
 }
 
 export default Applications;
-
-

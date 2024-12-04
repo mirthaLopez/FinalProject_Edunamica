@@ -1,15 +1,48 @@
-/* Styles/CourseForm.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Variables CSS */
+:root {
+  --primary-color: #f39c12;
+  --secondary-color: #043368;
+  --font-family: 'Bebas Neue', sans-serif;
+  --border-radius: 5px;
+}
 
 /* Estilos generales para el contenedor principal */
 .create-course-main-div {
-    margin-left: 300px;
-    margin-top: 100px;
+  margin-left: 430px;
+  margin-top: 100px;
 }
 
-@media (max-width: 768px) {
-    .create-course-main-div {
-        margin-left: 10px;
-    }
+.course-form__button {
+  background-color: var(--primary-color);
+  color: white;
+  width: 150px;
+  font-size: 25px;
+  font-family: var(--font-family);
+  border: none;
+  border-radius: var(--border-radius);
+  margin-top: 20px; /* Consolidado aquí */
+}
+
+.course-form__group {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Consolidado aquí */
+}
+
+.title-div-course-form {
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-family);
+  color: var(--secondary-color);
+}
+
+.main-course-form-div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  justify-content: center;
 }
 
 .course-form {
@@ -20,10 +53,7 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   box-sizing: border-box;
-}
-
-.course-form__group {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .course-form__input,
@@ -35,10 +65,6 @@
 
 .course-form__textarea {
   resize: vertical;
-}
-
-.course-form__button {
-  margin-top: 20px;
 }
 
 .course-form__radio-group {
@@ -64,8 +90,8 @@ input[type="file"]:focus {
 /* Media query para pantallas más pequeñas (menos de 768px) */
 @media (max-width: 768px) {
   .create-course-main-div {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 70px;
+    width: 400px;
   }
 
   .course-form {
@@ -73,29 +99,29 @@ input[type="file"]:focus {
     padding: 15px;
   }
 
-  .course-form__group {
-    margin-bottom: 15px;
-  }
-
   .course-form__button {
     padding: 12px 0;
     font-size: 16px;
   }
 
-  .course-form__input, .course-form__textarea, .course-form__select {
+  .course-form__input,
+  .course-form__textarea,
+  .course-form__select {
     font-size: 14px;
   }
 
-  .course-form__radio-group {
-    flex-direction: column;
-    gap: 10px;
+  .main-course-form-div {
+    grid-template-columns: 1fr;
+    padding: 20px;
   }
 }
 
 /* Media query para pantallas más pequeñas (menos de 600px) */
 @media (max-width: 600px) {
   .create-course-main-div {
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-left: 30px;
+    max-width: 350px;
   }
 
   .course-form {
@@ -103,22 +129,19 @@ input[type="file"]:focus {
     max-width: 100%;
   }
 
-  .course-form__group {
-    margin-bottom: 10px;
-  }
-
-  .course-form__input, .course-form__textarea, .course-form__select {
-    font-size: 12px;
-  }
-
   .course-form__button {
     font-size: 14px;
     padding: 10px 0;
   }
 
+  .course-form__input,
+  .course-form__textarea,
+  .course-form__select {
+    font-size: 12px;
+  }
+
   .course-form__image-preview {
     max-width: 100px;
-    margin-top: 10px;
   }
 
   input[type="file"] {
@@ -146,6 +169,13 @@ input[type="file"]:focus {
 
   .course-form__image-preview {
     max-width: 80px;
-    margin-top: 10px;
   }
 }
+
+
+
+
+
+
+
+

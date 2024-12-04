@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../Styles/Register.css'
 import logo from '../Img/OIP.jpg'
 import { Link } from 'react-router-dom'; // Importar Link para la navegación
+import { useLocation } from 'react-router-dom';
 
 
 import emailjs from '@emailjs/browser';
@@ -120,6 +121,19 @@ function Register() {
           setPaymentImg(file);
         }
       };  
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    const location = useLocation();
+    const [isOption4Disabled, setIsOption4Disabled] = useState(true);
+  
+    useEffect(() => {
+      if (location.pathname === '/Registro') {
+        setIsOption4Disabled(false);
+      } else {
+        setIsOption4Disabled(false);
+      }
+    }, [location.pathname]);
       
      // Generar la URL de vista previa para la imagen del comprobante de pago
     const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
@@ -448,7 +462,6 @@ function Register() {
     printWindow.print();
   };
 
-
   return (
     <div className='steps-container'>
       <div className='div-title-register'><h1 className='text-form-register'>Formulario de Prematrícula</h1></div>
@@ -763,138 +776,119 @@ function Register() {
 
 
 {activeStep === 1 && (
- <div className='container_second_step'>
- {/* Solo renderiza los métodos de pago si el curso no es gratuito */}
- {chosen_course.is_free === false && (
-   <div className="payment-methods-grid">
-     {/* Columna izquierda: Selección de método de pago */}
-     <div className="payment-methods-container">
-       {/* Selección del método de pago */}
-       <FormControl component="fieldset" className="payment-methods-form">
-         <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
-         <RadioGroup value={selectedPaymentMethod} onChange={handleChange} name="payment-methods" className="payment-methods-group">
-           {paymentMethods.map((method) => (
-             <FormControlLabel
-               key={method.id}
-               value={method.id.toString()}
-               control={<Radio />}
-               label={method.payment_method_name}
-               className="payment-method-option"
-             />
-           ))}
-           <FormControlLabel
-             value="disabled"
-             disabled
-             control={<Radio />}
-             label="Pagos en Efectivo, únicamente matrícula presencial"
-             className="payment-method-option-disabled"
-           />
-         </RadioGroup>
-       </FormControl>
+        <div className='container_second_step'>
+          {/* Solo renderiza los métodos de pago si el curso no es gratuito */}
+          {chosen_course.is_free === false && (
+            <div className="payment-methods-grid">
+              {/* Columna izquierda: Selección de método de pago */}
+              <div className="payment-methods-container">
+                {/* Selección del método de pago */}
+                <FormControl component="fieldset" className="payment-methods-form">
+                  <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
+                  <RadioGroup value={selectedPaymentMethod} onChange={handleChange} name="payment-methods" className="payment-methods-group">
+                    {paymentMethods.map((method, index) => (
+                      <FormControlLabel
+                        key={method.id}
+                        value={method.id.toString()}
+                        control={<Radio />}
+                        label={method.payment_method_name}
+                        className="payment-method-option"
+                        disabled={index === 3 ? isOption4Disabled : false} // Deshabilitar opción 4
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
 
+                {/* Mostrar input para número de comprobante si el método de pago es 1 o 2 */}
+                {(selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (
+                  <div className="comprobante-container">
+                    <label htmlFor="comprobante-number">Número de Comprobante de Pago:</label>
+                    <input
+                      type="text"
+                      id="comprobante-number"
+                      placeholder="Ingresa el número de comprobante"
+                      value={receiptNumber} // Vinculamos el estado receiptNumber
+                      onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
+                      className="comprobante-input"
+                    />
+                  </div>
+                )}
 
-           {/* Mostrar input para número de comprobante si el método de pago es 1 o 2 */}
-           {(selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (
-              <div className="comprobante-container">
-                <label htmlFor="comprobante-number">Número de Comprobante de Pago:</label>
-                <input
-                  type="text"
-                  id="comprobante-number"
-                  placeholder="Ingresa el número de comprobante"
-                  value={receiptNumber} // Vinculamos el estado receiptNumber
-                  onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
-                  className="comprobante-input"
-                />
+                {/* Modal de PayPal */}
+                <Modal
+                  open={isModalOpen}
+                  onClose={handleCloseModal}
+                  aria-labelledby="paypal-payment-modal"
+                  aria-describedby="modal-para-realizar-pago-con-paypal"
+                >
+                  <div className="paypal-modal__content">
+                    <h2 className="paypal-modal__title">Pago con PayPal</h2>
+                    <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
+
+                    {selectedPaymentMethod === '3' && (
+                      <PayPalScriptProvider options={initialOptions}>
+                        <PayPalButtons
+                          style={{
+                            layout: "horizontal",
+                            color: "blue",
+                            shape: "rect",
+                            label: "paypal",
+                          }}
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onCancel={onCancel}
+                          className="paypal-modal__paypal-btn" // Clase añadida aquí
+                        />
+                      </PayPalScriptProvider>
+                    )}
+
+                    <button 
+                      onClick={handleCloseModal} 
+                      className="paypal-modal__cancel-btn"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </Modal>
               </div>
-            )}
 
+              {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
+              {selectedPaymentMethod === '3' && (
+                <div className="payment-info-container">
+                  <h3>Valores del Dólar</h3>
+                  <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
+                  <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
+                </div>
+              )}
 
-
-       {/* Modal de PayPal */}
-       <Modal
-      open={isModalOpen}
-      onClose={handleCloseModal}
-      aria-labelledby="paypal-payment-modal"
-      aria-describedby="modal-para-realizar-pago-con-paypal"
-    >
-      <div className="paypal-modal__content">
-        <h2 className="paypal-modal__title">Pago con PayPal</h2>
-        <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
-
-        {selectedPaymentMethod === '3' && (
-          <PayPalScriptProvider options={initialOptions}>
-            <PayPalButtons
-              style={{
-                layout: "horizontal",
-                color: "blue",
-                shape: "rect",
-                label: "paypal",
-              }}
-              createOrder={createOrder}
-              onApprove={onApprove}
-              onCancel={onCancel}
-              className="paypal-modal__paypal-btn" // Clase añadida aquí
-            />
-          </PayPalScriptProvider>
-        )}
-
-        <button 
-          onClick={handleCloseModal} 
-          className="paypal-modal__cancel-btn"
-        >
-          Cancelar
-        </button>
-      </div>
-    </Modal>
-       
-     </div>
-
-
-      {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
-{selectedPaymentMethod === '3' && (
-  <div className="payment-info-container">
-    <h3>Valores del Dólar</h3>
-    <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
-    <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
-
-  </div>
-)}
-
-     {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
-     <div className="payment-info-container">
-      
-       {/* Subir imagen del comprobante de pago */}
-       <div className="upload-container">
-        <label>Foto o captura de comprobante de pago:</label>
-        <input
-          type="file"
-          onChange={handlePaymentImg}
-          accept="image/*"
-          required
-          className="payment-img-input"
-        />
-        {paymentImgPreviewUrl && (
-          <div className="preview">
-            <img src={paymentImgPreviewUrl} alt="Comprobante de pago" width="100" />
+              {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
+              <div className="payment-info-container">
+                {/* Subir imagen del comprobante de pago */}
+                <div className="upload-container">
+                  <label>Foto o captura de comprobante de pago:</label>
+                  <input
+                    type="file"
+                    onChange={handlePaymentImg}
+                    accept="image/*"
+                    required
+                    className="payment-img-input"
+                  />
+                  {paymentImgPreviewUrl && (
+                    <div className="preview">
+                      <img src={paymentImgPreviewUrl} alt="Comprobante de pago" width="100" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          <div className='container-payment-btn'>
+            <div>
+              <button onClick={PaymentButton} className="payment-btn">Confirmar pago</button>
+            </div>
           </div>
-        )}
-      </div>
-
-     
-     </div>
-
-
-
-   </div>
- )}
-  <div className='container-payment-btn'>
-      <div>
-     <button onClick={PaymentButton} className="payment-btn">Confirmar pago</button>
-     </div>
-     </div>
-</div>
-)}
-
+        </div>
+      )}
 
 
 

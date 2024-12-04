@@ -1,12 +1,15 @@
 import React from 'react';
 import RejectedApplications from '../../Components/ApplicationsForm/RejectedApplications';
+import NavAdministration from '../../Components/NavAdministration'
 import SidebarAdmin from '../../Components/SidebarAdmin';
 
 function SolicitudesRechazadas() {
   return (
     <div>
-        <RejectedApplications />
         <SidebarAdmin /> 
+        <NavAdministration />
+        <RejectedApplications />
+
     </div>
   )
 }

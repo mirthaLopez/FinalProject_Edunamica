@@ -68,13 +68,12 @@ function SidebarAdmin() {
                         onClick={() => handleToggle('preenrollment')}
                         aria-expanded={openSection === 'preenrollment'}
                     >
-                        <ChecklistIcon />
-                        Prematrícula
+                        <ChecklistIcon />  
+                        Solicitudes
                     </Button>
                     <Collapse in={openSection === 'preenrollment'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="/Solicitudes" className="submenu-item link-dark rounded"><p className="large-text">Historial</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Pendientes</p></Link></li>
+                            <li><Link to="/Solicitudes" className="submenu-item link-dark rounded"><p className="large-text">Pendientes</p></Link></li>
                             <li><Link to="/SolicitudesAceptadas" className="submenu-item link-dark rounded"><p className="large-text">Aceptadas</p></Link></li>
                             <li><Link to="/SolicitudesRechazadas" className="submenu-item link-dark rounded"><p className="large-text">Denegadas</p></Link></li>
                         </ul>
@@ -93,7 +92,7 @@ function SidebarAdmin() {
                     <Collapse in={openSection === 'students'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
                             <li><Link to="/Registro" className="submenu-item link-dark rounded"><p className="large-text">Nuevo Estudiante</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Estudiantes</p></Link></li>
+                            <li><Link to="/Estudiantes" className="submenu-item link-dark rounded"><p className="large-text">Ver Estudiantes</p></Link></li>
                         </ul>
                     </Collapse>
                 </li>

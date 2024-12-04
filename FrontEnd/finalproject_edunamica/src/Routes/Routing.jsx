@@ -17,6 +17,7 @@ import CursosAdmin from "../Pages/CursosAdmin"
 import PerfilEstudiante from "../Pages/PerfilEstudiante";
 import SolicitudesRechazadas from "../Pages/Solicitudes/SolicitudesRechazadas";
 import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
+import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
@@ -44,6 +45,7 @@ const Routing = () => {
                 <Route path="/PerfilEstudiante" element={<PerfilEstudiante />} /> 
                 <Route path="/SolicitudesRechazadas" element={<SolicitudesRechazadas />} /> 
                 <Route path="/SolicitudesAceptadas" element={<SolicitudesAceptadas />} /> 
+                <Route path="/Estudiantes" element={<Estudiantes />} /> 
             </Routes>
         </Router>
     );

@@ -1,21 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Contenedor principal */
+.rejected-applications-container {
+  margin-left: 310px;
+  margin-right: 20px;
+  margin-top: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Título */
+.titleRejected {
+  font-family: "Bebas Neue", sans-serif;
+  color: rgb(0, 43, 100);
+  font-size: xx-large;
+  padding: 10px;
+}
+
+/* Estilos del acordeón */
+.applications-accordion {
+  margin-top: 20px;
+}
+
+.accordion-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Estilos generales de la tabla */
 .applications-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-label {
+  font-weight: bold;
+  padding: 8px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  text-align: left;
+  width: 200px;
+}
+
+.table-cell {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table-image {
+  width: 50px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Estilos del modal */
+.modal-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+/* Responsividad: Pantallas pequeñas */
+@media (max-width: 768px) {
+  .rejected-applications-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .accordion-title {
+    font-size: 16px;
+  }
+
+  .applications-table {
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
   }
-  
-  .applications-table th,
-  .applications-table td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
+
+  .table-label,
+  .table-cell {
+    font-size: 14px;
+    padding: 6px;
   }
-  
-  .applications-table th {
-    background-color: #f4f4f4;
+
+  .table-label {
+    width: 150px;
   }
-  
-  .applications-table td img {
-    cursor: pointer;
+
+  .table-image {
+    width: 40px;
   }
-  
+}
+
+/* Responsividad: Pantallas muy pequeñas (móviles) */
+@media (max-width: 480px) {
+  .rejected-applications-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 30px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .accordion-title {
+    font-size: 14px;
+  }
+
+  .applications-table {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .table-label,
+  .table-cell {
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .table-label {
+    width: 120px;
+  }
+
+  .table-image {
+    width: 35px;
+  }
+}
+
+/* Responsividad: Pantallas grandes */
+@media (min-width: 1200px) {
+  .rejected-applications-container {
+    margin-left: 350px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .accordion-title {
+    font-size: 20px;
+  }
+
+  .table-label {
+    width: 250px;
+  }
+}

@@ -4,8 +4,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import '../Styles/CoursesShow.css';
 import DeleteCourse from '../Services/Courses/DeleteCourses';
 import UpdateCourse from '../Services/Courses/UpdateCourses';
+import GetCategory from '../Services/Categories/GetCategories';
+import GetPaymentModality from '../Services/Payments/GetPaymentModalities';
 import Swal from 'sweetalert2';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControlLabel, RadioGroup, Radio } from '@mui/material';
 
 function CoursesShow() {
   const [courses, setCourses] = useState([]);
@@ -13,12 +15,23 @@ function CoursesShow() {
   const [openModal, setOpenModal] = useState(false);
   const [currentCourse, setCurrentCourse] = useState(null);
   const [newImage, setNewImage] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [modalities, setModalities] = useState([]);
+  const [isFreeCourse, setIsFreeCourse] = useState(false);  // Añadido para controlar si el curso es gratuito
+  const [paymentModality, setPaymentModality] = useState(""); // Modalidad de pago seleccionada
+  const [courseObligatoryRequirements, setCourseObligatoryRequirements] = useState(""); // Requisitos del curso
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const coursesData = await GetCourses();
         setCourses(coursesData);
+
+        const data = await GetCategory();
+        setCategories(data);
+
+        const dataModality = await GetPaymentModality();
+        setModalities(dataModality);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
@@ -71,6 +84,9 @@ function CoursesShow() {
   const handleEditClick = (course) => {
     setCurrentCourse(course);
     setNewImage(null);
+    setIsFreeCourse(course.is_free); // Establece el estado de si es gratis
+    setPaymentModality(course.payment_modality_fk || ""); // Establece la modalidad de pago seleccionada
+    setCourseObligatoryRequirements(course.obligatory_requirements || ""); // Establece los requisitos obligatorios
     setOpenModal(true);
   };
 
@@ -95,26 +111,14 @@ function CoursesShow() {
 
   const handleSaveChanges = async () => {
     try {
-      // Usar la imagen actual si no hay nueva imagen seleccionada
       let updatedImageUrl = currentCourse.course_image_url;
 
-      if (newImage) {
-        const result = await UpdateCourse.uploadImageToS3(newImage);
-        updatedImageUrl = result.Location;
-      }
+    
+      console.log(currentCourse);
+      
+      const updatedCourse = await UpdateCourse(currentCourse,newImage);
 
-      const updatedCourse = await UpdateCourse(
-        currentCourse.id,
-        updatedImageUrl,  // Usar la URL de la imagen (nueva o actual)
-        currentCourse.course_name,
-        currentCourse.course_description,
-        currentCourse.course_price,
-        currentCourse.course_schedule,
-        currentCourse.begins,
-        currentCourse.ends,
-        currentCourse.course_duration,
-        currentCourse.course_category
-      );
+
 
       if (updatedCourse) {
         Swal.fire({
@@ -143,6 +147,18 @@ function CoursesShow() {
     }
 
     handleCloseModal();
+  };
+
+  const handleFreeCourseChange = (e) => {
+    setIsFreeCourse(e.target.value === 'true');
+  };
+
+  const handleSelectChange = (e) => {
+    setPaymentModality(e.target.value);
+  };
+
+  const handleChangeCourseObligatoryRequirements = (e) => {
+    setCourseObligatoryRequirements(e.target.value);
   };
 
   return (
@@ -235,14 +251,6 @@ function CoursesShow() {
                 margin="normal"
               />
               <TextField
-                label="Duración"
-                name="course_duration"
-                value={currentCourse.course_duration || ''}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
                 label="Fecha de inicio"
                 name="begins"
                 value={currentCourse.begins || ''}
@@ -258,6 +266,67 @@ function CoursesShow() {
                 fullWidth
                 margin="normal"
               />
+              <TextField
+                label="Duración"
+                name="course_duration"
+                value={currentCourse.course_duration || ''}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+              />
+
+              <div className="course-form__group">
+                <RadioGroup
+                  value={isFreeCourse ? 'true' : 'false'}
+                  onChange={handleFreeCourseChange}
+                >
+                  <FormControlLabel value="true" control={<Radio />} label="Curso Gratis" />
+                  <FormControlLabel value="false" control={<Radio />} label="Curso de Pago" />
+                </RadioGroup>
+              </div>
+
+              <TextField
+                label="Añade los requisitos separados por coma"
+                variant="outlined"
+                value={courseObligatoryRequirements}
+                onChange={handleChangeCourseObligatoryRequirements}
+                fullWidth
+                margin="normal"
+              />
+
+              <InputLabel>Selecciona una categoría</InputLabel>
+              <Select
+                value={currentCourse.course_category_fk || ''}
+                onChange={handleInputChange}
+                fullWidth
+              >
+                <MenuItem value="">
+                  <em>Selecciona una categoría</em>
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.category_name}
+                  </MenuItem>
+                ))}
+              </Select>
+
+              {!isFreeCourse && (
+                <div className="course-form__group1">
+                  <InputLabel>Modalidad de pago</InputLabel>
+                  <Select
+                    value={paymentModality}
+                    onChange={handleSelectChange}
+                    fullWidth
+                  >
+                    <MenuItem value="">Selecciona una modalidad</MenuItem>
+                    {modalities.map((modality) => (
+                      <MenuItem key={modality.id} value={modality.id}>
+                        {modality.payment_modality_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              )}
             </div>
           </DialogContent>
           <DialogActions>

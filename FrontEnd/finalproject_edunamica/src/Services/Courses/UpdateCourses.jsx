@@ -21,28 +21,44 @@ export const uploadImageToS3 = async (file) => {
   return s3.upload(params).promise();
 };
 
-async function UpdateCourse(
-  courseId, 
-  courseImageUrl,  // URL de la imagen actual o nueva
-  course_name,
-  course_description,
-  course_price,
-  course_schedule,
-  begins,
-  ends,
-  course_duration,
-  is_free,
-  obligatory_requirements,
-  course_category_fk,
-  payment_modality_fk,
-) {
-  let imagenUrl = courseImageUrl;  // Inicializa con la imagen actual
+async function UpdateCourse(CourseObject,updatedImageUrl) {
+      
+
+
+      const nombreImagen =updatedImageUrl.name
+
+      console.log(nombreImagen);
+
+      
+      const filename = CourseObject.course_image_url.split('/').pop();
+      console.log(filename);
+      
+
+
+      function renameFile(newName,file) {
+          const newFileName = `${newName}`; 
+          return new File([file], newFileName, { type: file.type });
+      }
+
+
+      const renamedImage = renameFile(filename,updatedImageUrl);
+      console.log("Nombre del archivo renombrado:", renamedImage);
+            
+
+      
+      
+
+    
+
+
+  let imagenUrl = '';   
 
   // Verificar si la URL de la imagen es un archivo nuevo
-  if (courseImageUrl && courseImageUrl instanceof File) {
+  if ( renamedImage) {
     try {
-      const result = await uploadImageToS3(courseImageUrl);  // Subir la nueva imagen
+      const result = await uploadImageToS3(renamedImage);  // Subir la nueva imagen
       imagenUrl = result.Location;  // Obtener la URL de la nueva imagen
+      console.log(imagenUrl); 
     } catch (error) {
       console.error('Error uploading image to S3:', error);
       throw new Error('Could not upload image to S3');
@@ -57,21 +73,7 @@ async function UpdateCourse(
 
   const validation_token = "Bearer " + token;
 
-  /**    const courseData = {
-        course_image_url,
-        course_name,
-        course_description,
-        course_price,
-        course_schedule,
-        begins,
-        ends,
-        course_duration,
-        is_free,
-        obligatory_requirements,
-        course_category_fk,
-        payment_modality_fk,
-    };
- */
+
 
   const dataPut = {
     courseImageUrl: imagenUrl,  // Usar la URL de la imagen (nueva o actual)
