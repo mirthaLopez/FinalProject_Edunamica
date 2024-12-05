@@ -22,6 +22,7 @@ export const uploadImageToS3 = async (file) => {
 
 async function PostPayment( payment_date, payment_amount, payment_receipt_url,
     payment_receipt_number,payment_method_fk) {
+    
  //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
   let imagenUrl='';    
     if (payment_receipt_url) {

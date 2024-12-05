@@ -4,7 +4,7 @@ async function PostStudent(student_name, student_first_last_name, student_second
         student_name,
         student_first_last_name,
         student_second_last_name,
-        student_second_last_name,
+        student_birth_date,
         student_phone_number,
         student_email,
         student_id_url,

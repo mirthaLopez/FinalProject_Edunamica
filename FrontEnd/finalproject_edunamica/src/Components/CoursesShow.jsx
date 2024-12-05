@@ -8,7 +8,7 @@ import GetCategory from '../Services/Categories/GetCategories';
 import GetPaymentModality from '../Services/Payments/GetPaymentModalities';
 import Swal from 'sweetalert2';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControlLabel, RadioGroup, Radio } from '@mui/material';
-
+  
 function CoursesShow() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -98,10 +98,12 @@ function CoursesShow() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCurrentCourse({
-      ...currentCourse,
-      [name]: value
-    });
+    if (currentCourse) {
+      setCurrentCourse({
+        ...currentCourse,
+        [name]: value
+      });
+    }
   };
 
   const handleImageChange = (e) => {
@@ -111,25 +113,40 @@ function CoursesShow() {
 
   const handleSaveChanges = async () => {
     try {
-      let updatedImageUrl = currentCourse.course_image_url;
-
-    
-      console.log(currentCourse);
+      // Validación de que currentCourse y newImage están presentes
+      if (!currentCourse) {
+        console.log("faltan datos");
+        Swal.fire({
+          title: "Error!",
+          text: "Faltan datos para actualizar el curso.",
+          icon: "error"
+        });
+        return;
+        
+      }
+  
+      // Opcional: Actualiza la URL de la imagen si es necesario
+      let updatedImageUrl = newImage ? newImage : currentCourse.course_image_url;
+  
+      console.log(currentCourse.id);
+      console.log(currentCourse.course_image_url);
       
-      const updatedCourse = await UpdateCourse(currentCourse,newImage);
 
-
-
+      // Llamada a la función de actualización
+      const updatedCourse = await UpdateCourse(currentCourse.id, currentCourse, updatedImageUrl);
+  
       if (updatedCourse) {
         Swal.fire({
           title: "Curso actualizado!",
           text: "Los cambios se han guardado con éxito.",
           icon: "success"
         });
-
+  
+        // Actualiza la lista de cursos
         setCourses(courses.map(course => 
           course.id === updatedCourse.id ? updatedCourse : course
         ));
+
       } else {
         Swal.fire({
           title: "Error!",
@@ -145,9 +162,11 @@ function CoursesShow() {
         icon: "error"
       });
     }
-
+  
+    // Cierra el modal
     handleCloseModal();
   };
+  
 
   const handleFreeCourseChange = (e) => {
     setIsFreeCourse(e.target.value === 'true');
@@ -188,9 +207,9 @@ function CoursesShow() {
                 <span className="show-course-duration">Duración: {course.course_duration}</span>
                 <span className="show-course-dates">Inicio: {course.begins} - Fin: {course.ends}</span>
 
-                <div>
-                  <button onClick={() => handleEditClick(course)}>EDITAR</button>
-                  <button onClick={() => deleteCourse(course.id)}>ELIMINAR</button>
+                <div className='divEditButtons'>
+                <button className="btn-edit" onClick={() => handleEditClick(course)}>EDITAR</button>
+                <button className="btn-delete" onClick={() => deleteCourse(course.id)}>ELIMINAR</button>
                 </div>
               </div>
             </div>
@@ -330,10 +349,10 @@ function CoursesShow() {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseModal} color="primary">
+          <Button onClick={handleCloseModal} color="primary" className="cancel-button">
               Cancelar
             </Button>
-            <Button onClick={handleSaveChanges} color="primary">
+            <Button onClick={handleSaveChanges} color="primary" className="save-button">
               Guardar
             </Button>
           </DialogActions>
@@ -341,6 +360,7 @@ function CoursesShow() {
       )}
     </div>
   );
+  
 }
 
 export default CoursesShow;

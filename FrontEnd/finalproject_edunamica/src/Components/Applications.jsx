@@ -74,10 +74,20 @@ const filteredApplications = applications.filter((data) => {
       const application = applications.find(value => value.id === applicationId);
       if (!application) return;
 
+      console.log(application);
+      
+
       const generateRandomPassword = () => Math.floor(10000000 + Math.random() * 90000000).toString();
       const username = application.email;
       const email = application.email;
       const password = generateRandomPassword();
+
+      console.log('soy el username:', username);
+      console.log('soy el email:', email);
+      
+      console.log('soy el password:', password);
+      
+      
 
       const auth_user = await PostAuthStudentUser(username, email, password);
 
@@ -97,6 +107,9 @@ const filteredApplications = applications.filter((data) => {
           student_auth_user_fk,
           application.neighborhood_fk,
         );
+
+        console.log(NewStudent);
+        
 
         notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
 

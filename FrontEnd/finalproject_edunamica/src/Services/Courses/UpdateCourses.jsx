@@ -21,48 +21,41 @@ export const uploadImageToS3 = async (file) => {
   return s3.upload(params).promise();
 };
 
-async function UpdateCourse(CourseObject,updatedImageUrl) {
-      
+async function UpdateCourse(id, CourseObject, updatedImageUrl) {
+  let imagenUrl = ''; 
 
+  if (!CourseObject) {
+    throw new Error("El curso no puede ser null o undefined");
+  }
 
-      const nombreImagen =updatedImageUrl.name
+  if (updatedImageUrl instanceof File) {
+    const nombreImagen = updatedImageUrl.name;
+    console.log(nombreImagen);
 
-      console.log(nombreImagen);
+    const filename = CourseObject.course_image_url.split('/').pop();
+    console.log(filename);
 
-      
-      const filename = CourseObject.course_image_url.split('/').pop();
-      console.log(filename);
-      
-
-
-      function renameFile(newName,file) {
-          const newFileName = `${newName}`; 
-          return new File([file], newFileName, { type: file.type });
-      }
-
-
-      const renamedImage = renameFile(filename,updatedImageUrl);
-      console.log("Nombre del archivo renombrado:", renamedImage);
-            
-
-      
-      
-
-    
-
-
-  let imagenUrl = '';   
-
-  // Verificar si la URL de la imagen es un archivo nuevo
-  if ( renamedImage) {
-    try {
-      const result = await uploadImageToS3(renamedImage);  // Subir la nueva imagen
-      imagenUrl = result.Location;  // Obtener la URL de la nueva imagen
-      console.log(imagenUrl); 
-    } catch (error) {
-      console.error('Error uploading image to S3:', error);
-      throw new Error('Could not upload image to S3');
+    function renameFile(newName, file) {
+      const newFileName = `${newName}`; 
+      return new File([file], newFileName, { type: file.type });
     }
+
+    const renamedImage = renameFile(filename, updatedImageUrl);
+    console.log("Nombre del archivo renombrado:", renamedImage);
+
+    // Verificar si la URL de la imagen es un archivo nuevo
+    if (renamedImage) {
+      try {
+        const result = await uploadImageToS3(renamedImage);  // Subir la nueva imagen
+        imagenUrl = result.Location;  // Obtener la URL de la nueva imagen
+        console.log(imagenUrl);
+      } catch (error) {
+        console.error('Error uploading image to S3:', error);
+        throw new Error('Could not upload image to S3');
+      }
+    }
+  } else {
+    imagenUrl = updatedImageUrl;
   }
 
   const token = localStorage.getItem('access_token');
@@ -73,28 +66,28 @@ async function UpdateCourse(CourseObject,updatedImageUrl) {
 
   const validation_token = "Bearer " + token;
 
-
+  console.log(CourseObject);
+  console.log(CourseObject.course_name);
 
   const dataPut = {
-    courseImageUrl: imagenUrl,  // Usar la URL de la imagen (nueva o actual)
-    course_name,
-    course_description,
-    course_price,
-    course_schedule,
-    begins,
-    ends,
-    course_duration,
-    is_free,
-    obligatory_requirements,
-    course_category_fk,
-    payment_modality_fk,
+    course_image_url: imagenUrl,  
+    course_name: CourseObject.course_name,  
+    course_description: CourseObject.course_description,  
+    course_price: CourseObject.course_price,
+    course_schedule: CourseObject.course_schedule,
+    begins: CourseObject.begins,
+    ends: CourseObject.ends,
+    course_duration: CourseObject.course_duration,
+    is_free: CourseObject.is_free,
+    obligatory_requirements: CourseObject.obligatory_requirements,
+    course_category_fk: CourseObject.course_category_fk,
+    payment_modality_fk: CourseObject.payment_modality_fk,
   };
 
   console.log(dataPut);
-  
 
   try {
-    const response = await fetch(`http://localhost:8000/api/courses/${courseId}/`, {
+    const response = await fetch(`http://localhost:8000/api/courses/${id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../Styles/Register.css'
 import logo from '../Img/OIP.jpg'
 import { Link } from 'react-router-dom'; // Importar Link para la navegación
-import { useLocation } from 'react-router-dom';
-
 
 import emailjs from '@emailjs/browser';
 import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';
@@ -121,19 +119,6 @@ function Register() {
           setPaymentImg(file);
         }
       };  
-
-
-    /////////////////////////////////////////////////////////////////////////////
-    const location = useLocation();
-    const [isOption4Disabled, setIsOption4Disabled] = useState(true);
-  
-    useEffect(() => {
-      if (location.pathname === '/Registro') {
-        setIsOption4Disabled(false);
-      } else {
-        setIsOption4Disabled(false);
-      }
-    }, [location.pathname]);
       
      // Generar la URL de vista previa para la imagen del comprobante de pago
     const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
@@ -461,6 +446,7 @@ function Register() {
     printWindow.document.close();
     printWindow.print();
   };
+
 
   return (
     <div className='steps-container'>
@@ -793,7 +779,7 @@ function Register() {
                         control={<Radio />}
                         label={method.payment_method_name}
                         className="payment-method-option"
-                        disabled={index === 3 ? isOption4Disabled : false} // Deshabilitar opción 4
+                        disabled={index === 3 } // Deshabilitar opción 4
                       />
                     ))}
                   </RadioGroup>

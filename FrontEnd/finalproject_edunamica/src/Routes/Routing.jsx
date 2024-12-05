@@ -18,10 +18,9 @@ import PerfilEstudiante from "../Pages/PerfilEstudiante";
 import SolicitudesRechazadas from "../Pages/Solicitudes/SolicitudesRechazadas";
 import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
 import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
-
+import RegistrarEstudiante from "../Pages/RegistrarEstudiante";
 //import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
-//<ScrollToTop /> PONER ESTA ENTRE <Router><Routes>
 
 const Routing = () => {
     return (
@@ -46,6 +45,7 @@ const Routing = () => {
                 <Route path="/SolicitudesRechazadas" element={<SolicitudesRechazadas />} /> 
                 <Route path="/SolicitudesAceptadas" element={<SolicitudesAceptadas />} /> 
                 <Route path="/Estudiantes" element={<Estudiantes />} /> 
+                <Route path="/RegistrarEstudiante" element={<RegistrarEstudiante />} /> 
             </Routes>
         </Router>
     );

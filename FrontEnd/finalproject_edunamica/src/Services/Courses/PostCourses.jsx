@@ -24,12 +24,33 @@ async function PostCourse(course_image_url, course_name, course_description, cou
  //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
  console.log(course_image_url);
 
+ const generateRandomPassword = (length) => {
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    password += Math.floor(Math.random() * 10);
+  }
+  return password;
+};
+
+ const numeroAle= generateRandomPassword(8);
+ function renameFile(newName,file) {
+  const newFileName = `${newName}`; 
+  return new File([file], newFileName, { type: file.type });
+}
+
+const renamedImage = renameFile(numeroAle,course_image_url);
+console.log("Nombre del archivo renombrado:", renamedImage);
+
+
+
+
+
  let imagenUrl=''; 
   
      
-    if (course_image_url) {
+    if (renamedImage) {
         try {
-          const result = await uploadImageToS3(course_image_url);
+          const result = await uploadImageToS3(renamedImage);
           imagenUrl = result.Location; // Obtén la URL de la imagen subida
           console.log(imagenUrl); 
         } catch (error) {

@@ -8,7 +8,9 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
 import GetPayments from '../../Services/Payments/GetPayments';
 import '../../Styles/ApplicationsForm/AcceptedApplications.css';
@@ -19,6 +21,7 @@ function AcceptedApplications() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');  // Estado para el término de búsqueda
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,30 +39,71 @@ function AcceptedApplications() {
   // Filtro para mostrar solo las solicitudes con student_status_fk === 2 (aceptadas)
   const acceptedApplications = applications.filter(application => application.student_status_fk === 2);
 
-  const handleImageClick = (url) => {
-    setSelectedImage(url);
-    setOpenModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const filteredApplications = acceptedApplications.filter((application) =>
+    application.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    application.identification_number.includes(searchTerm)
+  );
 
-  // Función para obtener el pago asociado a la solicitud
-  const getPaymentForApplication = (id) => {
-    return payments.find(payment => payment.id === id);
-  };
+    // Función para obtener el pago asociado a la solicitud
+    const getPaymentForApplication = (id) => {
+      return payments.find(payment => payment.id === id);
+    };
 
-  const handleAccordionChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+    };
+
+    const handleImageClick = (url) => {
+      setSelectedImage(url);
+      setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setOpenModal(false);
+    };
+
+
+    const handleAccordionChange = (panel) => (event, isExpanded) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   return (
-    <div className="divAccepted">
-      <h1 className="titleAccepted">Solicitudes Aceptadas</h1>
-      
-      {/* Acordeón para mostrar solo las solicitudes aceptadas */}
-      {acceptedApplications.map((application) => {
+    <div className="accepted-applications-container">
+
+      <h1 
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              color: 'rgb(0, 43, 100)',
+              fontSize: '40px',  // Tamaño de fuente más grande
+              padding: '10px',
+              textAlign: 'center'
+            }}
+          >
+            Solicitudes Aceptadas
+      </h1>
+
+      {/* Campo de búsqueda con icono */}
+      <div className="search-container">
+          <TextField
+            label="Buscar por nombre o identificación"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            variant="outlined"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            className="search-input"
+          />
+        </div>
+
+      {/* Acordeón para mostrar solo las solicitudes aceptadas filtradas */}
+      {filteredApplications.map((application) => {
         const payment = getPaymentForApplication(application.id); // Obtener el pago correspondiente
 
         return (
@@ -157,4 +201,3 @@ function AcceptedApplications() {
 }
 
 export default AcceptedApplications;
-

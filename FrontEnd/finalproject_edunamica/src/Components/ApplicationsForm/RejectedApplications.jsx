@@ -8,35 +8,45 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm'; // Ensure this is the correct path
-import GetPayments from '../../Services/Payments/GetPayments'; // Import GetPayments
+import SearchIcon from '@mui/icons-material/Search'; // Icono de búsqueda
+import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
+import GetPayments from '../../Services/Payments/GetPayments';
+import { TextField, InputAdornment } from '@mui/material'; // Importar TextField e InputAdornment
 import '../../Styles/ApplicationsForm/RejectedApplications.css';
 
 function RejectedApplications() {
   const [applications, setApplications] = useState([]);
-  const [payments, setPayments] = useState([]); // To store the payment data
+  const [payments, setPayments] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
   useEffect(() => {
     const fetchData = async () => {
       const rejectedData = await GetRegisterForm();
       setApplications(rejectedData);
 
-      const paymentData = await GetPayments(); // Fetch the payment data
+      const paymentData = await GetPayments();
       setPayments(paymentData);
     };
     fetchData();
   }, []);
 
-  // Filter rejected applications (student_status_fk === 3)
   const rejectedApplications = applications.filter(application => application.student_status_fk === 3);
 
-  // Function to find the payment associated with an application
+  const filteredApplications = rejectedApplications.filter((application) =>
+    application.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    application.identification_number.includes(searchTerm)
+  );
+
   const getPaymentForApplication = (id) => {
     const payment = payments.find(payment => payment.id === id);
-    return payment; // Return null if no payment is found
+    return payment;
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleImageClick = (url) => {
@@ -45,8 +55,7 @@ function RejectedApplications() {
   };
 
   const handleCloseModal = () => {
-    console.log("Cerrando el modal"); // Log for debugging
-    setOpenModal(false);  // Close the modal by setting the state to false
+    setOpenModal(false);
   };
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
@@ -55,12 +64,41 @@ function RejectedApplications() {
 
   return (
     <div className="rejected-applications-container">
-      <h1 className="titleRejected">Solicitudes Rechazadas</h1>
+      <h1 
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              color: 'rgb(0, 43, 100)',
+              fontSize: '40px',  // Tamaño de fuente más grande
+              padding: '10px',
+              textAlign: 'center'
+            }}
+          >
+            Solicitudes Rechazadas
+      </h1>
 
-      {/* Accordion to show rejected applications */}
-      {rejectedApplications.map((application) => {
-        const payment = getPaymentForApplication(application.id); // Get payment details for each application
-        console.log(payment); // Debugging to see payment data for each application
+
+      {/* Campo de búsqueda con icono */}
+      <div className="search-container">
+        <TextField
+          label="Buscar por nombre o identificación"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          variant="outlined"
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          className="search-input"
+        />
+      </div>
+
+      {/* Accordion para mostrar las solicitudes rechazadas filtradas */}
+      {filteredApplications.map((application) => {
+        const payment = getPaymentForApplication(application.id);
 
         return (
           <Accordion
@@ -136,7 +174,7 @@ function RejectedApplications() {
         );
       })}
 
-      {/* Modal to view image in detail */}
+      {/* Modal para ver imágenes detalladas */}
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogTitle>Imagen de Identificación o Recibo</DialogTitle>
         <DialogContent>
@@ -157,4 +195,3 @@ function RejectedApplications() {
 }
 
 export default RejectedApplications;
-

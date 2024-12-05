@@ -83,6 +83,89 @@
     color: #333;
   }
   
+
+
+/* Estilos específicos para los botones */
+.cancel-button, .save-button {
+  font-family: "Bebas Neue", sans-serif; /* Asegura que la fuente sea la correcta */
+  font-size: 16px; /* Ajusta el tamaño de la fuente */
+  padding: 10px 20px; /* Espaciado dentro del botón */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor a puntero cuando pasa sobre el botón */
+  transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
+}
+
+/* Estilo del botón de Cancelar */
+.cancel-button {
+  background-color: #f44336; /* Rojo */
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #ff0000; /* Rojo oscuro */
+  color: white;
+}
+
+/* Estilo del botón de Guardar */
+.save-button {
+  background-color: #043368; /* Verde */
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #036ce4; /* Verde oscuro */
+  color: white;
+}
+
+
+.divEditButtons{
+  padding: 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* Estilos para el botón de editar */
+.btn-edit {
+  background-color: #043368; /* Verde */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+  background-color: #036ce4; /* Color verde más oscuro al pasar el ratón */
+}
+
+/* Estilos para el botón de eliminar */
+.btn-delete {
+  background-color: #eb392c; /* Rojo */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #ff0000; /* Rojo más oscuro al pasar el ratón */
+}
+
+
+  
   /* Media Queries para dispositivos pequeños */
   @media (max-width: 768px) {
     .show-course-search input {

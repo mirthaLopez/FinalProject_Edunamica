@@ -1,116 +1,114 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 /* Contenedor principal */
-.divAccepted{
+.accepted-applications-container {
   margin-left: 310px;
   margin-right: 20px;
   margin-top: 50px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.application-container {
-  margin: 20px;
-  font-family: Arial, sans-serif;
+/* Contenedor de la barra de búsqueda */
+.search-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-input {
+  width: 300px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del acordeón */
+.applications-accordion {
+  margin-top: 20px;
+}
+
+.accordion-title {
+  font-size: 18px;
+  font-weight: bold;
   color: #333;
 }
 
-.titleAccepted{
-  font-family: "Bebas Neue", sans-serif;
-  color: rgb(0, 43, 100);
-  font-size: xx-large;
+.accordion-summary {
+  background-color: #f5f5f5;
+}
+
+.accordion-details {
+  background-color: #f9f9f9;
+  padding: 15px;
 }
 
 /* Estilos generales de la tabla */
-.application-table {
-  width: 100%;
+.applications-table {
+  width: 100%; /* Ajusta la tabla al 100% del contenedor */
   border-collapse: collapse;
 }
 
-/* Bordes de las celdas y filas */
+.table-label {
+  font-weight: bold;
+  padding: 8px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  text-align: left;
+  width: 200px;
+}
+
 .table-cell {
-  padding: 12px 15px;
-  border: 1px solid black;
+  padding: 8px;
+  border: 1px solid #ddd;
   text-align: left;
 }
 
-/* Estilo de las filas alternadas */
-.application-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* Resaltar la fila al pasar el mouse */
-.application-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Estilos de la imagen */
 .table-image {
   width: 50px;
   height: auto;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 4px;
+  transition: transform 0.3s;
 }
 
-/* Estilos para texto dentro de celdas */
-p {
-  margin: 5px 0;
+.table-image:hover {
+  transform: scale(1.1);
 }
 
-/* Media queries para responsividad */
-
-/* Pantallas muy pequeñas (por debajo de 400px) */
-@media (max-width: 400px) {
-  .divAccepted {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 15px;
-  }
-
-  .application-container {
-    margin: 5px;
-  }
-
-  .titleAccepted {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .application-table {
-    font-size: 12px;
-  }
-
-  .table-cell {
-    padding: 6px;
-  }
-
-  .table-image {
-    width: 30px;
-  }
+/* Estilos del modal */
+.modal-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
 }
 
-/* Pantallas pequeñas (móviles) */
-@media (max-width: 600px) {
-  .divAccepted {
+/* Responsividad: Pantallas pequeñas */
+@media (max-width: 768px) {
+  .accepted-applications-container {
     margin-left: 20px;
     margin-right: 20px;
+  }
+
+  .accordion-title {
+    font-size: 16px;
+  }
+
+  .applications-table {
+    width: 100%;
     margin-top: 20px;
   }
 
-  .application-container {
-    margin: 10px;
-  }
-
-  .titleAccepted {
-    font-size: 20px;
-    text-align: center;
-  }
-
-  .application-table {
-    width: 100%;
-    font-size: 14px;
-  }
-
+  .table-label,
   .table-cell {
-    padding: 8px;
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .table-label {
+    width: 150px;
   }
 
   .table-image {
@@ -118,29 +116,49 @@ p {
   }
 }
 
-/* Pantallas medianas (tabletas) */
-@media (max-width: 768px) {
-  .divAccepted {
-    margin-left: 1px;
-    margin-right: 20px;
+/* Responsividad: Pantallas muy pequeñas (móviles) */
+@media (max-width: 480px) {
+  .accepted-applications-container {
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 30px;
   }
 
-  .titleAccepted {
-    font-size: 24px;
-    text-align: center;
+  .accordion-title {
+    font-size: 14px;
   }
 
-  .application-table {
-    width: 90%;
-    font-size: 15px;
+  .applications-table {
+    width: 100%;
+    margin-top: 15px;
   }
 
+  .table-label,
   .table-cell {
-    padding: 10px;
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .table-label {
+    width: 120px;
   }
 
   .table-image {
-    width: 45px;
+    width: 35px;
+  }
+}
+
+/* Responsividad: Pantallas grandes */
+@media (min-width: 1200px) {
+  .accepted-applications-container {
+    margin-left: 350px;
+  }
+
+  .accordion-title {
+    font-size: 20px;
+  }
+
+  .table-label {
+    width: 250px;
   }
 }

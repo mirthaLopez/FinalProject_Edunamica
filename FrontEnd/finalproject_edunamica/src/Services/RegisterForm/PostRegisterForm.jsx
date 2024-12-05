@@ -20,27 +20,30 @@ export const uploadImageToS3 = async (file) => {
     return s3.upload(params).promise();
   };
 
-async function PostRegisterForm(identification_number,
-  name,
-  first_last_name,
-  second_last_name,
-  birth_date,
-  phone_number,
-  email,
-  identification_image_url, 
-  address, 
-  identification_fk,
-  genre_fk,
-  course_fk,
-  student_status_fk, 
-  neighborhood_fk, 
-  payment_fk) {
+async function PostRegisterForm(identification_number, name, first_last_name, second_last_name, birth_date, phone_number, email, identification_image_url, address, identification_fk, genre_fk, course_fk, student_status_fk, neighborhood_fk, payment_fk){
+    /////Aleatorio para evitar conflictos en Amazon Web Service/////
+    const generateRandomPassword = (length) => {
+      let password = '';
+      for (let i = 0; i < length; i++) {
+        password += Math.floor(Math.random() * 10);
+      }
+      return password;
+    };
+
+    const numeroAle= generateRandomPassword(8);
+    function renameFile(newName,file) {
+     const newFileName = `${newName}`; 
+     return new File([file], newFileName, { type: file.type });
+   }
+   
+   const renamedImage = renameFile(numeroAle,identification_image_url);
+   console.log("Nombre del archivo renombrado:", renamedImage);
  
   //////////////////////////////////Guarda imagen en Amazon WS//////////////////////////////////////////////////////////////
   let imagenUrl='';    
-    if (identification_image_url) {
+    if (renamedImage) {
         try {
-          const result = await uploadImageToS3(identification_image_url);
+          const result = await uploadImageToS3(renamedImage);
           imagenUrl = result.Location; // Obtén la URL de la imagen subida
         } catch (error) {
           console.error('Error al subir la imagen a S3:', error);

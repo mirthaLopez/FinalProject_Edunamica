@@ -1,0 +1,109 @@
+/* Contenedor principal */
+.view-students-container {
+    background-color: coral;
+    margin-left: 300px;
+    padding: 20px;
+}
+
+/* Estilo para el contenedor de la tabla */
+.view-students-table-container {
+    max-width: 100%;
+    overflow-x: auto; /* Hace la tabla desplazable en pantallas pequeñas */
+}
+
+/* Estilo de la tabla */
+.view-students-table {
+    width: 100%;
+    table-layout: auto; /* Hace que las celdas se ajusten al contenido */
+}
+
+.view-students-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.view-students-search-input {
+    width: 300px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabecera de la tabla */
+.view-students-table-header {
+    font-weight: bold;
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Fila de la tabla */
+.view-students-table-row {
+    transition: background-color 0.3s ease;
+}
+
+.view-students-table-row:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsividad para pantallas pequeñas (tabletas y teléfonos) */
+@media (max-width: 1024px) {
+    .view-students-container {
+        width: 85%; /* Ajusta el ancho del contenedor para pantallas medianas */
+        margin-left: 15px; /* Ajusta el margen */
+    }
+
+    .view-students-search-input {
+        width: 100%; /* El input de búsqueda ocupa todo el ancho */
+        margin-bottom: 15px; /* Ajusta el margen en pantallas medianas */
+    }
+
+    .view-students-table-header,
+    .view-students-table-row {
+        font-size: 16px; /* Disminuye ligeramente el tamaño de la fuente para pantallas medianas */
+    }
+
+    .view-students-table {
+        display: block;
+        overflow-x: scroll; /* Habilita el desplazamiento horizontal */
+        white-space: nowrap; /* Evita que la tabla se rompa en varias líneas */
+    }
+
+    .view-students-table-cell {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Responsividad para teléfonos pequeños */
+@media (max-width: 600px) {
+    .view-students-container {
+        width: 100%; /* El contenedor ocupa todo el ancho disponible */
+        margin-left: 10px; /* Ajusta el margen a 10px para dispositivos pequeños */
+    }
+
+    .view-students-search-input {
+        width: 100%; /* El input de búsqueda ocupa todo el ancho */
+        padding: 10px; /* Da un poco de relleno al input */
+        margin-bottom: 15px; /* Ajusta el margen */
+    }
+
+    .view-students-table-header,
+    .view-students-table-row {
+        font-size: 14px; /* Disminuye el tamaño de la fuente para teléfonos */
+    }
+
+    .view-students-table {
+        display: block;
+        overflow-x: scroll; /* Habilita el desplazamiento horizontal */
+        white-space: nowrap; /* Evita que la tabla se rompa en varias líneas */
+    }
+
+    .view-students-table-cell {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
