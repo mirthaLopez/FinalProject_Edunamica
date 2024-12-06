@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import GetStudent from '../../Services/Students/GetStudents';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+
+//SERVICIOS
+import GetStudent from '../../Services/Students/GetStudents'; // obtenemos a los estudiantes 
+
+//ESTILOS CSS
 import '../../Styles/Students/ViewStudents.css';
+
+//IMPORT DE LIBRERIA XLSX
+import * as XLSX from 'xlsx';
+
+//IMPORTS DE LIBRERIA MUI 
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import Button from '@mui/material/Button'; 
+
 
 function ViewStudents() {
   const [students, setStudents] = useState([]);
@@ -26,46 +37,35 @@ function ViewStudents() {
     setSearchTerm(event.target.value);
   };
 
-  return (
-<div
-  className="view-students-container"
-  style={{
-    margin: '20px',
-    padding: '10px',
-    width: '78%',
-    marginLeft: '310px',
-    ...(window.innerWidth <= 768 && {
-      marginLeft: '20px',  // Ajuste para pantallas pequeñas
-      width: '100%'        // Ajuste para pantallas pequeñas
-    })
-  }}
->
-      {/* Campo de búsqueda */}
-      <TextField
-  label="Buscar por nombre o identificación"
-  value={searchTerm}
-  onChange={handleSearchChange}
-  variant="outlined"
-  fullWidth
-  InputProps={{
-    startAdornment: (
-      <InputAdornment position="start">
-        <SearchIcon />
-      </InputAdornment>
-    ),
-  }}
-  className="view-students-search-input"
-  sx={{
-    padding: '20px',
-    width: '70%',
-    marginBottom: '20px',
-    backgroundColor: 'white',
-    borderRadius: '4px',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-    marginRight: '350px'
-  }}
-/>
+    // Función para exportar la tabla a Excel
+    const exportToExcel = () => {
+      const ws = XLSX.utils.json_to_sheet(students);   // Convierte los datos a una hoja de Excel
+      const wb = XLSX.utils.book_new();               // Crea un nuevo libro de trabajo
+      XLSX.utils.book_append_sheet(wb, ws, 'Datos');  // Agrega la hoja de datos al libro de trabajo
+  
+      // Exporta el libro de trabajo a un archivo Excel
+      XLSX.writeFile(wb, 'tabla_de_datos.xlsx');
+    };
 
+  return (
+  <div className="view-students-container">
+        {/* Campo de búsqueda */}
+        <TextField
+            label="Buscar por nombre o identificación"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            variant="outlined"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            className="view-students-search-input"
+            
+          />
 
       {/* Tabla de estudiantes */}
       <TableContainer component={Paper} className="view-students-table-container">
@@ -98,9 +98,18 @@ function ViewStudents() {
           </TableBody>
         </Table>
       </TableContainer>
+
+            {/* Botón de MUI para exportar a Excel */}
+        <Button 
+        variant="contained" 
+        color="primary" 
+        onClick={exportToExcel}
+      >
+        Exportar a Excel
+      </Button>
+
     </div>
   );
 }
 
 export default ViewStudents;
-

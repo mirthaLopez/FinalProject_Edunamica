@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
+//SERVICIOS
+import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm'; // obtenemos datos de prematrícula 
+import GetPayments from '../../Services/Payments/GetPayments'; // obtenemos informacion de pago 
+
+//ESTILOS CSS
+import '../../Styles/ApplicationsForm/AcceptedApplications.css';
+
+//IMPORTS DE LIBRERIA MUI 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,9 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
-import GetPayments from '../../Services/Payments/GetPayments';
-import '../../Styles/ApplicationsForm/AcceptedApplications.css';
+
 
 function AcceptedApplications() {
   const [applications, setApplications] = useState([]);

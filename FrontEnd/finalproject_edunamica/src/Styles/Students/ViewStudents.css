@@ -1,33 +1,32 @@
 /* Contenedor principal */
 .view-students-container {
-    background-color: coral;
-    margin-left: 300px;
+    margin: 20px 0;
+    text-align: center;
+    margin-left: 310px;
     padding: 20px;
+    max-width: 1200px;
+    width: 75%;
 }
 
 /* Estilo para el contenedor de la tabla */
 .view-students-table-container {
     max-width: 100%;
     overflow-x: auto; /* Hace la tabla desplazable en pantallas pequeñas */
+    margin-top: 20px;
 }
 
 /* Estilo de la tabla */
 .view-students-table {
     width: 100%;
     table-layout: auto; /* Hace que las celdas se ajusten al contenido */
+    border-collapse: collapse; /* Hace que los bordes de la tabla no se dupliquen */
 }
 
-.view-students-container {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.view-students-search-input {
-    width: 300px;
-    margin-bottom: 20px;
-    background-color: white;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.view-students-table,
+.view-students-table th,
+.view-students-table td {
+    border: 1px solid #ddd; /* Bordes ligeros */
+    padding: 8px 15px; /* Espaciado dentro de las celdas */
 }
 
 /* Cabecera de la tabla */
@@ -36,74 +35,111 @@
     background-color: #f0f0f0;
     text-align: center;
     padding: 10px;
+    font-size: 16px;
 }
 
 /* Fila de la tabla */
 .view-students-table-row {
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
 }
 
 .view-students-table-row:hover {
     background-color: #f1f1f1;
+    transform: scale(1.02); /* Efecto de aumento en el tamaño */
 }
 
-/* Responsividad para pantallas pequeñas (tabletas y teléfonos) */
-@media (max-width: 1024px) {
-    .view-students-container {
-        width: 85%; /* Ajusta el ancho del contenedor para pantallas medianas */
-        margin-left: 15px; /* Ajusta el margen */
-    }
+/* Estilo para los enlaces o botones dentro de la tabla */
+.view-students-table a,
+.view-students-table button {
+    color: #007bff; /* Color de texto azul */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
 
+.view-students-table a:hover,
+.view-students-table button:hover {
+    color: #0056b3; /* Cambia el color al pasar el cursor */
+    cursor: pointer; /* Cambia el cursor a mano */
+}
+
+.view-students-table a:active,
+.view-students-table button:active {
+    color: #003d7a; /* Color al hacer clic */
+}
+
+/* Estilo para el campo de búsqueda */
+.view-students-search-input {
+    width: 300px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    border: 1px solid #ccc; /* Bordes suaves */
+    font-size: 16px;
+    transition: box-shadow 0.3s ease-in-out; /* Animación suave */
+}
+
+.view-students-search-input:focus {
+    border-color: #4A90E2; /* Color azul al enfocar el input */
+    outline: none; /* Elimina el contorno por defecto */
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.5); /* Sombra sutil alrededor del input */
+}
+
+/* Estilo para el botón de exportar */
+button.MuiButton-root {
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #4A90E2; /* Azul */
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button.MuiButton-root:hover {
+    background-color: #357ABD; /* Azul más oscuro al pasar el ratón */
+}
+
+/* Estilos Responsivos para pantallas de hasta 480px */
+@media (max-width: 480px) {
+    /* Ajuste de la caja de búsqueda */
     .view-students-search-input {
-        width: 100%; /* El input de búsqueda ocupa todo el ancho */
-        margin-bottom: 15px; /* Ajusta el margen en pantallas medianas */
+        width: 100%; /* Aumenta el tamaño del input en pantallas pequeñas */
+        margin-bottom: 15px;
+        font-size: 14px;
     }
 
-    .view-students-table-header,
-    .view-students-table-row {
-        font-size: 16px; /* Disminuye ligeramente el tamaño de la fuente para pantallas medianas */
-    }
-
-    .view-students-table {
-        display: block;
-        overflow-x: scroll; /* Habilita el desplazamiento horizontal */
-        white-space: nowrap; /* Evita que la tabla se rompa en varias líneas */
-    }
-
-    .view-students-table-cell {
-        display: block;
+    /* Estilo de la tabla en pantallas pequeñas */
+    .view-students-table-container {
         width: 100%;
-        box-sizing: border-box;
+        padding: 0 20px;
     }
-}
 
-/* Responsividad para teléfonos pequeños */
-@media (max-width: 600px) {
+    /* Ajuste de los encabezados de la tabla */
+    .view-students-table-header {
+        font-size: 12px;  /* Reducir tamaño en pantallas pequeñas */
+        padding: 8px;
+    }
+
+    /* Estilo de las filas de la tabla */
+    .view-students-table-row {
+        font-size: 12px;  /* Reducir el tamaño del texto en las filas */
+    }
+
+    /* Ajuste en el tamaño del botón de exportación */
+    button.MuiButton-root {
+        font-size: 14px;
+        padding: 8px 16px;
+        margin-top: 15px;
+    }
+
+    /* Contenedor principal ajustado */
     .view-students-container {
-        width: 100%; /* El contenedor ocupa todo el ancho disponible */
-        margin-left: 10px; /* Ajusta el margen a 10px para dispositivos pequeños */
-    }
-
-    .view-students-search-input {
-        width: 100%; /* El input de búsqueda ocupa todo el ancho */
-        padding: 10px; /* Da un poco de relleno al input */
-        margin-bottom: 15px; /* Ajusta el margen */
-    }
-
-    .view-students-table-header,
-    .view-students-table-row {
-        font-size: 14px; /* Disminuye el tamaño de la fuente para teléfonos */
-    }
-
-    .view-students-table {
-        display: block;
-        overflow-x: scroll; /* Habilita el desplazamiento horizontal */
-        white-space: nowrap; /* Evita que la tabla se rompa en varias líneas */
-    }
-
-    .view-students-table-cell {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
+        margin-left: 10px; /* Ajusta el margen para pantallas pequeñas */
+        margin-right: 10px;
+        padding: 15px;
+        width: 95%;
     }
 }
+
+

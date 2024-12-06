@@ -7,6 +7,10 @@ import PostAdmin from '../Services/Administrators/postAdmin';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 
+//ESTILOS CSS
+import '../../src/Styles/Administration/NewAdmin.css';
+
+
 function NewAdmin() {
   // Estados del formulario
   const [admin_name, setName] = useState('');
@@ -110,59 +114,68 @@ function NewAdmin() {
   };
 
   return (
-    <div>
-      <h1>Registrar Nuevo Administrador</h1>
+<div className="admin-registration">
+  <h1 className="admin-registration__title">Registrar Nuevo Administrador</h1>
 
-      <TextField
-        value={admin_name}
-        onChange={(e) => setName(e.target.value)}
-        label="Nombre"
-        name="name"
-      />
-      <br />
-      <br />
-      <TextField
-        value={admin_first_last_name}
-        onChange={(e) => setFirstLastName(e.target.value)}
-        label="Primer Apellido"
-        name="firstLastName"
-      />
-      <br />
-      <br />
-      <TextField
-        value={admin_second_last_name}
-        onChange={(e) => setSecondLastName(e.target.value)}
-        label="Segundo Apellido"
-        name="secondLastName"
-      />
-      <br />
-      <br />
-      <TextField
-        value={admin_phone_number}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        type="number"
-        label="Número de Teléfono"
-        name="phoneNumber"
-      />
-      <br />
-      <br />
-      <TextField
-        value={admin_email}
-        onChange={(e) => setEmail(e.target.value)}
-        label="Correo Electrónico"
-        name="email"
-      />
-      <br />
-      <br />
-      <Button
-        onClick={AddNewAdminButton}
-        type="submit"
-        variant="contained"
-        color="success"
-      >
-        Registrar Administrador
-      </Button>
-    </div>
+  <TextField
+    value={admin_name}
+    onChange={(e) => setName(e.target.value)}
+    label="Nombre"
+    name="name"
+    className="admin-registration__input admin-registration__input--name"
+  />
+  <br />
+  <br />
+  <TextField
+    value={admin_first_last_name}
+    onChange={(e) => setFirstLastName(e.target.value)}
+    label="Primer Apellido"
+    name="firstLastName"
+    className="admin-registration__input admin-registration__input--first-last-name"
+  />
+  <br />
+  <br />
+  <TextField
+    value={admin_second_last_name}
+    onChange={(e) => setSecondLastName(e.target.value)}
+    label="Segundo Apellido"
+    name="secondLastName"
+    className="admin-registration__input admin-registration__input--second-last-name"
+  />
+  <br />
+  <br />
+  <TextField
+    value={admin_phone_number}
+    onChange={(e) => setPhoneNumber(e.target.value)}
+    type="number"
+    label="Número de Teléfono"
+    name="phoneNumber"
+    className="admin-registration__input admin-registration__input--phone-number"
+  />
+  <br />
+  <br />
+  <TextField
+    value={admin_email}
+    onChange={(e) => setEmail(e.target.value)}
+    label="Correo Electrónico"
+    name="email"
+    className="admin-registration__input admin-registration__input--email"
+  />
+  <br />
+  <br />
+  <div className="divButtonNewAdmin">
+  <Button
+    onClick={AddNewAdminButton}
+    type="submit"
+    variant="contained"
+    color="success"
+    className="admin-registration__button"
+  >
+    Registrar Administrador
+  </Button>
+  </div>
+</div>
+
   );
 }
 

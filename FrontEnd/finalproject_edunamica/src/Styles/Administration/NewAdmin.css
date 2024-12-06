@@ -1,0 +1,126 @@
+/* Estilo principal para todo el formulario */
+.admin-registration {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 500px;
+    margin-top: 40px;
+  }
+
+  .divButtonNewAdmin{
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Estilo para el título */
+  .admin-registration__title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Estilo común para todos los campos de entrada */
+  .admin-registration__input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+  }
+  
+  /* Estilo cuando el campo de entrada está en foco (activo) */
+  .admin-registration__input:focus {
+    border-color: #00796b;
+    outline: none;
+  }
+  
+  /* Modificadores específicos para cada campo */
+  .admin-registration__input--name,
+  .admin-registration__input--first-last-name,
+  .admin-registration__input--second-last-name {
+    background-color: #f1f1f1;
+  
+  }
+  
+  .admin-registration__input--phone-number {
+    background-color: #f1f1f1;
+  }
+  
+  .admin-registration__input--email {
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilo para el botón */
+  .admin-registration__button {
+    width: 50%;
+    padding: 12px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Cambio de color del botón al pasar el cursor sobre él */
+  .admin-registration__button:hover {
+    background-color: #45a049;
+  }
+
+/* Estilos generales para pantallas pequeñas (móviles con max-width 480px) */
+@media (max-width: 480px) {
+    /* Ajusta el ancho del formulario */
+    .admin-registration {
+      width: 90%; /* El formulario ocupará el 90% del ancho de la pantalla */
+      margin-left: 25px; /* Elimina el margen izquierdo */
+      margin-top: 30px; /* Reduce el margen superior */
+      padding: 15px; /* Reduce el padding para evitar que se vea muy lleno */
+    }
+  
+    /* Estilo para el título */
+    .admin-registration__title {
+      font-size: 18px; /* Reduce el tamaño de la fuente */
+      margin-bottom: 15px; /* Reduce el margen inferior */
+      
+    }
+  
+    /* Estilo para los campos de entrada */
+    .admin-registration__input {
+      font-size: 14px; /* Reduce el tamaño de la fuente de los inputs */
+      padding: 10px; /* Reduce el padding de los inputs */
+      margin-bottom: 12px; /* Reduce el margen inferior */
+    }
+  
+    /* Modificadores específicos para los campos */
+    .admin-registration__input--name,
+    .admin-registration__input--first-last-name,
+    .admin-registration__input--second-last-name,
+    .admin-registration__input--phone-number,
+    .admin-registration__input--email {
+      background-color: #fff; /* Mantener fondo blanco en los inputs */
+    }
+  
+    /* Estilo para el botón */
+    .admin-registration__button {
+      width: 70%; /* El botón ocupará el 100% del ancho de la pantalla */
+      font-size: 16px; /* Reduce el tamaño de la fuente del botón */
+      padding: 12px; /* Reduce el padding para hacerlo más accesible */
+    }
+  
+    /* Ajuste del diseño de los campos de entrada */
+    .admin-registration__input:focus {
+      border-color: #00796b;
+      outline: none;
+    }
+  }
+  

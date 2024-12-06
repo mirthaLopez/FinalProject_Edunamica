@@ -8,7 +8,7 @@ import GetCategory from '../Services/Categories/GetCategories';
 import GetPaymentModality from '../Services/Payments/GetPaymentModalities';
 import Swal from 'sweetalert2';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControlLabel, RadioGroup, Radio } from '@mui/material';
-  
+
 function CoursesShow() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,26 +122,21 @@ function CoursesShow() {
           icon: "error"
         });
         return;
-        
       }
-  
+
       // Opcional: Actualiza la URL de la imagen si es necesario
       let updatedImageUrl = newImage ? newImage : currentCourse.course_image_url;
-  
-      console.log(currentCourse.id);
-      console.log(currentCourse.course_image_url);
-      
 
       // Llamada a la función de actualización
       const updatedCourse = await UpdateCourse(currentCourse.id, currentCourse, updatedImageUrl);
-  
+
       if (updatedCourse) {
         Swal.fire({
           title: "Curso actualizado!",
           text: "Los cambios se han guardado con éxito.",
           icon: "success"
         });
-  
+
         // Actualiza la lista de cursos
         setCourses(courses.map(course => 
           course.id === updatedCourse.id ? updatedCourse : course
@@ -162,22 +157,39 @@ function CoursesShow() {
         icon: "error"
       });
     }
-  
+
     // Cierra el modal
     handleCloseModal();
   };
-  
 
   const handleFreeCourseChange = (e) => {
     setIsFreeCourse(e.target.value === 'true');
   };
 
-  const handleSelectChange = (e) => {
-    setPaymentModality(e.target.value);
+  const handleCategoryChange = (e) => {
+    const { value } = e.target;
+    setCurrentCourse({
+      ...currentCourse,
+      course_category_fk: value,
+    });
   };
 
-  const handleChangeCourseObligatoryRequirements = (e) => {
-    setCourseObligatoryRequirements(e.target.value);
+  const handlePaymentModalityChange = (e) => {
+    const { value } = e.target;
+    setPaymentModality(value);
+    setCurrentCourse({
+      ...currentCourse,
+      payment_modality_fk: value,  // Actualiza el estado para el curso
+    });
+  };
+
+  const handleRequirementsChange = (e) => {
+    const { value } = e.target;
+    setCourseObligatoryRequirements(value);
+    setCurrentCourse({
+      ...currentCourse,
+      obligatory_requirements: value,  // Actualiza los requisitos
+    });
   };
 
   return (
@@ -208,8 +220,8 @@ function CoursesShow() {
                 <span className="show-course-dates">Inicio: {course.begins} - Fin: {course.ends}</span>
 
                 <div className='divEditButtons'>
-                <button className="btn-edit" onClick={() => handleEditClick(course)}>EDITAR</button>
-                <button className="btn-delete" onClick={() => deleteCourse(course.id)}>ELIMINAR</button>
+                  <button className="btn-edit" onClick={() => handleEditClick(course)}>EDITAR</button>
+                  <button className="btn-delete" onClick={() => deleteCourse(course.id)}>ELIMINAR</button>
                 </div>
               </div>
             </div>
@@ -254,7 +266,7 @@ function CoursesShow() {
                 margin="normal"
               />
               <TextField
-                label="Precio"
+                label="Precio del curso"
                 name="course_price"
                 value={currentCourse.course_price || ''}
                 onChange={handleInputChange}
@@ -270,22 +282,6 @@ function CoursesShow() {
                 margin="normal"
               />
               <TextField
-                label="Fecha de inicio"
-                name="begins"
-                value={currentCourse.begins || ''}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
-                label="Fecha de fin"
-                name="ends"
-                value={currentCourse.ends || ''}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
                 label="Duración"
                 name="course_duration"
                 value={currentCourse.course_duration || ''}
@@ -293,52 +289,47 @@ function CoursesShow() {
                 fullWidth
                 margin="normal"
               />
-
-              <div className="course-form__group">
-                <RadioGroup
-                  value={isFreeCourse ? 'true' : 'false'}
-                  onChange={handleFreeCourseChange}
-                >
-                  <FormControlLabel value="true" control={<Radio />} label="Curso Gratis" />
-                  <FormControlLabel value="false" control={<Radio />} label="Curso de Pago" />
-                </RadioGroup>
-              </div>
-
               <TextField
-                label="Añade los requisitos separados por coma"
-                variant="outlined"
-                value={courseObligatoryRequirements}
-                onChange={handleChangeCourseObligatoryRequirements}
+                label="Requisitos Obligatorios"
+                value={courseObligatoryRequirements || ''}
+                onChange={handleRequirementsChange}
                 fullWidth
                 margin="normal"
               />
-
               <InputLabel>Selecciona una categoría</InputLabel>
               <Select
                 value={currentCourse.course_category_fk || ''}
-                onChange={handleInputChange}
+                onChange={handleCategoryChange}
                 fullWidth
               >
                 <MenuItem value="">
                   <em>Selecciona una categoría</em>
                 </MenuItem>
-                {categories.map((category) => (
+                {categories.map(category => (
                   <MenuItem key={category.id} value={category.id}>
                     {category.category_name}
                   </MenuItem>
                 ))}
               </Select>
 
+              <RadioGroup
+                value={isFreeCourse ? 'true' : 'false'}
+                onChange={handleFreeCourseChange}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="Curso Gratis" />
+                <FormControlLabel value="false" control={<Radio />} label="Curso de Pago" />
+              </RadioGroup>
+
               {!isFreeCourse && (
                 <div className="course-form__group1">
                   <InputLabel>Modalidad de pago</InputLabel>
                   <Select
-                    value={paymentModality}
-                    onChange={handleSelectChange}
+                    value={paymentModality || ''}
+                    onChange={handlePaymentModalityChange}
                     fullWidth
                   >
                     <MenuItem value="">Selecciona una modalidad</MenuItem>
-                    {modalities.map((modality) => (
+                    {modalities.map(modality => (
                       <MenuItem key={modality.id} value={modality.id}>
                         {modality.payment_modality_name}
                       </MenuItem>
@@ -349,18 +340,17 @@ function CoursesShow() {
             </div>
           </DialogContent>
           <DialogActions>
-          <Button onClick={handleCloseModal} color="primary" className="cancel-button">
+            <Button onClick={handleCloseModal} color="primary">
               Cancelar
             </Button>
-            <Button onClick={handleSaveChanges} color="primary" className="save-button">
-              Guardar
+            <Button onClick={handleSaveChanges} color="primary">
+              Guardar cambios
             </Button>
           </DialogActions>
         </Dialog>
       )}
     </div>
   );
-  
 }
 
 export default CoursesShow;

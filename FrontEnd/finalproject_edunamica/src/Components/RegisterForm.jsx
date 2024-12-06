@@ -449,8 +449,8 @@ function RegisterForm() {
 
 
   return (
-    <div className='steps-container'>
-      <div className='div-title-register'><h1 className='text-form-register'>Formulario de Prematrícula</h1></div>
+    <div className='steps-container-2'>
+      <div className='div-title-register-2'><h1 className='text-form-register-2'>Formulario de Prematrícula</h1></div>
 
          <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label, index) => (
@@ -462,12 +462,12 @@ function RegisterForm() {
 
             
             {activeStep === 0 && (
-  <div className='container_first_step'>
+  <div className='container_first_step-2'>
     <form ref={form} onSubmit={sendEmail}>
-      <div className='form-row'>
+      <div className='form-row-2'>
         {/* Columna 1: Identificación */}
-        <div className='form-column'>
-        <FormControl fullWidth margin="normal">
+        <div className='form-column-2'>
+        <FormControl fullWidth margin="normal-2">
               <InputLabel>Tipo de Identificación:</InputLabel>
               <Select
                 value={identificationFk}
@@ -497,7 +497,7 @@ function RegisterForm() {
               </Button>
             )}
 
-  <div className="file-upload">
+  <div className="file-upload-2">
           <input
             type="file"
             onChange={cargaImagen}
@@ -515,7 +515,7 @@ function RegisterForm() {
           </div>
 
         {/* Columna 2: Nombre, Apellidos y Fecha de Nacimiento */}
-        <div className='form-column'>
+        <div className='form-column-2'>
         <TextField
               label="Nombre"
               value={firstName}
@@ -556,7 +556,7 @@ function RegisterForm() {
           </div>
 
         {/* Columna 3: Curso, Email, Teléfono y Género */}
-        <div className='form-column'>
+        <div className='form-column-2'>
         <FormControl fullWidth margin="normal">
               <InputLabel>Curso</InputLabel>
               <Select
@@ -612,7 +612,7 @@ function RegisterForm() {
         </div>
 
         {/* Columna 4: Dirección */}
-        <div className='form-column'>
+        <div className='form-column-2'>
         <FormControl fullWidth margin="normal">
               <InputLabel>Provincia</InputLabel>
               <Select
@@ -698,8 +698,8 @@ function RegisterForm() {
           </div>
       </div>
 
-      <div className='form-row'>
-        <div className='form-column'>
+      <div className='form-row-2'>
+        <div className='form-column-2'>
         <Button 
             className='btn-send' 
             type="submit"  // Cambiado a 'submit' para que dispare el formulario
@@ -779,7 +779,7 @@ function RegisterForm() {
                         control={<Radio />}
                         label={method.payment_method_name}
                         className="payment-method-option"
-                        disabled={index === 0 || index === 1 || index === 2} 
+                        disabled={index === 2} 
                       />
                     ))}
                   </RadioGroup>
@@ -797,58 +797,7 @@ function RegisterForm() {
                       onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
                       className="comprobante-input"
                     />
-                  </div>
-                )}
-
-                {/* Modal de PayPal */}
-                <Modal
-                  open={isModalOpen}
-                  onClose={handleCloseModal}
-                  aria-labelledby="paypal-payment-modal"
-                  aria-describedby="modal-para-realizar-pago-con-paypal"
-                >
-                  <div className="paypal-modal__content">
-                    <h2 className="paypal-modal__title">Pago con PayPal</h2>
-                    <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
-
-                    {selectedPaymentMethod === '3' && (
-                      <PayPalScriptProvider options={initialOptions}>
-                        <PayPalButtons
-                          style={{
-                            layout: "horizontal",
-                            color: "blue",
-                            shape: "rect",
-                            label: "paypal",
-                          }}
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onCancel={onCancel}
-                          className="paypal-modal__paypal-btn" // Clase añadida aquí
-                        />
-                      </PayPalScriptProvider>
-                    )}
-
-                    <button 
-                      onClick={handleCloseModal} 
-                      className="paypal-modal__cancel-btn"
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </Modal>
-              </div>
-
-              {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
-              {selectedPaymentMethod === '3' && (
-                <div className="payment-info-container">
-                  <h3>Valores del Dólar</h3>
-                  <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
-                  <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
-                </div>
-              )}
-
-              {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
-              <div className="payment-info-container">
+                                  <div className="payment-info-container">
                 {/* Subir imagen del comprobante de pago */}
                 <div className="upload-container">
                   <label>Foto o captura de comprobante de pago:</label>
@@ -866,6 +815,9 @@ function RegisterForm() {
                   )}
                 </div>
               </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
           <div className='container-payment-btn'>
@@ -875,8 +827,6 @@ function RegisterForm() {
           </div>
         </div>
       )}
-
-
 
 {activeStep === 2 && (
   <div className="receipt-step-three-container">
@@ -933,9 +883,6 @@ function RegisterForm() {
                 ) : (
                     <>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '50%' }}>
-
-
-
 
                             <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }} variant="outlined">
                                 Atrás

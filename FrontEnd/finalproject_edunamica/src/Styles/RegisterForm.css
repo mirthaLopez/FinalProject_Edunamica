@@ -1,0 +1,616 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.div-title-register-2{
+  display: flex;
+  justify-content: center;
+}
+
+.steps-container-2{
+  margin-top: 30px;
+  margin-bottom: 60px;
+  margin-left: 280px;
+}
+
+.text-form-register-2{
+  font-family: "Bebas Neue", sans-serif;
+  color: #f8940c;
+  font-size: 40px;
+}
+
+.container_first_step-2 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #e9e9e9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-height: fit-content;
+}
+
+.form-row-2{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.form-column-2 {
+  width: 30%; /* Cuatro columnas */
+  min-width: 240px; /* Evita que se hagan demasiado pequeños */
+  max-width: 290px; /* Límite máximo para que no se estiren demasiado */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="file"],
+select {
+  width: 100%;
+}
+
+
+.file-upload-2 {
+  margin-top: 10px;
+}
+
+.preview-2 img {
+  margin-top: 5px;
+  max-width: 100px;
+  border-radius: 5px;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+input[type="file"] {
+  padding: 3px;
+}
+
+.btn-send-2{
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    height: 40px;  
+}
+
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 1200px) {
+  .form-column-2 {
+    width: 48%; /* En pantallas pequeñas, las columnas ocuparán casi la mitad del ancho */
+  }
+  .container_first_step-2 {
+    min-height: fit-content;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+    
+.steps-container-2{
+    margin-top: 30px;
+    margin-bottom: 60px;
+    margin-left: 0%;
+  }
+
+  .form-column-2 {
+    width: 48%; /* En pantallas pequeñas, las columnas ocuparán casi la mitad del ancho */
+  }
+  .container_first_step-2 {
+    min-height: fit-content;
+  }
+  .btn-send{
+    width: 50px;
+    left: 1%;  
+  }
+  .text-form-register-2{
+    font-size: 35px;
+    font-weight: bold;
+  }
+}
+
+.form-row-2 {
+  justify-content: center; /* Centra las columnas dentro de la fila */
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .form-column-2 {
+    width: 100%; /* En pantallas muy pequeñas, las columnas ocuparán todo el ancho */
+  }
+  button[type="button"].small-button {
+    font-size: 12px; /* Ajustar tamaño del botón */
+  }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Aseguramos que el modal se superponga a otros elementos */
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .modal-content input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .modal-content button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-content button:hover {
+    background-color: #003f7f;
+  }
+  
+  .close-modal {
+    background-color: #f44336;
+    margin-top: 15px;
+  }
+  
+  .close-modal:hover {
+    background-color: #d32f2f;
+  }
+
+  .container_second_step {
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #e9e9e9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: auto; /* Cambié a auto para que se ajuste dinámicamente al contenido */
+  }
+  
+  .payment-methods-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas para pantallas grandes */
+    gap: 6rem;
+  }
+  
+  .payment-methods-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .payment-methods-form {
+    margin-bottom: 20px;
+  }
+  
+  .payment-methods-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .payment-method-option {
+    margin-bottom: 10px;
+  }
+  
+  .payment-method-option-disabled {
+    color: #ccc;
+  }
+  
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .upload-container {
+    margin-top: 20px;
+  }
+  
+  .upload-container label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .payment-img-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+  }
+  
+  .comprobante-container {
+    margin-top: 20px;
+  }
+  
+  .comprobante-container label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .comprobante-input {
+    width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+  }
+  
+  .container-payment-btn {
+    display: flex;
+    justify-content: center;  /* Centra horizontalmente */
+    align-items: center;      /* Centra verticalmente */
+    margin-top: 20px; /* Espacio superior */
+  }
+  
+  .payment-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    width: 100%; /* El botón ocupa el 100% del ancho en pantallas pequeñas */
+    max-width: 300px; /* Limita el ancho máximo en pantallas grandes */
+  }
+  
+  .payment-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .payment-methods-grid {
+      grid-template-columns: 1fr; /* Columna única en pantallas pequeñas */
+      gap: 15px;
+    }
+  
+    .payment-methods-container {
+      flex-direction: column;
+    }
+  
+    .payment-img-input {
+      width: 100%;
+    }
+  
+    .container_second_step {
+      padding: 10px; /* Ajustamos el padding para pantallas pequeñas */
+    }
+  
+    .payment-btn {
+      width: 100%; /* El botón ocupa el 100% del ancho en móviles */
+    }
+  
+    /* Ajustes para el input de comprobante */
+    .comprobante-input {
+      width: 100%;
+    }
+  }
+  
+  .MuiModal-root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Modal sobre otros elementos */
+  }
+  
+  .paypal-modal__content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px; /* Ancho del modal */
+    max-width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .paypal-modal__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .paypal-modal__text {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .paypal-modal__cancel-btn,
+  .paypal-modal__paypal-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .paypal-modal__cancel-btn:hover,
+  .paypal-modal__paypal-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+  }
+  
+  .paypal-buttons__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Contenedor principal */
+.step-three-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e9e9e9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 650px;
+}
+
+/* Indicador de paso */
+.step-three-indicator {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Títulos principales */
+.step-three-section-title {
+  font-size: 1.5em;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Párrafos con los datos ingresados */
+.step-three-data-item {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Resaltar los campos */
+.step-three-data-item strong {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Estilo para los campos con un valor no ingresado */
+.step-three-data-item:contains("No ingresado"), 
+.step-three-data-item:contains("No seleccionado"), 
+.step-three-data-item:contains("No especificado") {
+  color: #999;
+  font-style: italic;
+}
+
+/* Estilos para la sección de detalles del pago */
+.step-three-payment-details {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fcfcfc;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.step-three-payment-details .step-three-section-title {
+  color: #f39c12;
+  border-bottom: 2px solid #f39c12;
+}
+
+.step-three-payment-item {
+  margin: 8px 0;
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
+
+
+
+/* Estilos generales del contenedor */
+.receipt-step-three-container {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto; /* Centrar el contenedor */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 800px; /* Reducir el ancho máximo del contenedor */
+}
+
+/* Estilo del logo de la empresa */
+.receipt-company-logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 150px;
+}
+
+/* Estilo del título de la sección */
+.receipt-step-three-section-title {
+  text-align: center;
+  font-size: 20px;
+  color: #2c5c92;
+  margin-bottom: 20px;
+}
+
+/* Estilo del contenido en columnas */
+.receipt-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Estilo de las columnas */
+.receipt-column {
+  width: 48%;
+}
+
+/* Estilo del título de las columnas */
+.receipt-column-title {
+  font-size: 18px;
+  color: #2c5c92;
+  margin-bottom: 10px;
+}
+
+/* Estilo de los ítems de datos */
+.receipt-step-three-data-item,
+.receipt-step-three-payment-item {
+  font-size: 16px;
+  color: #444444;
+  margin-bottom: 10px;
+}
+
+/* Estilo de los ítems de pago */
+.receipt-step-three-payment-details {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #dddddd;
+}
+
+/* Estilo del botón de imprimir */
+.receipt-print-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #2c5c92;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.receipt-print-button:hover {
+  background-color: #1a3b6e;
+}
+
+/* Estilos del contenedor */
+.completion-container {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto; /* Centrar el contenedor */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 600px; /* Reducir el ancho máximo del contenedor */
+  text-align: center; /* Centrar el texto */
+}
+
+/* Estilo del título */
+.completion-title {
+  font-size: 24px;
+  color: #2c5c92;
+  margin-bottom: 10px;
+}
+
+/* Estilo del mensaje */
+.completion-message {
+  font-size: 16px;
+  color: #444444;
+  margin-bottom: 20px;
+}
+
+/* Estilo del enlace */
+.completion-link {
+  text-decoration: none; /* Quitar subrayado del enlace */
+}
+
+/* Estilo del botón */
+.completion-link .MuiButton-contained {
+  background-color: #2c5c92;
+  color: #ffffff;
+}
+
+.completion-link .MuiButton-contained:hover {
+  background-color: #1a3b6e;
+}

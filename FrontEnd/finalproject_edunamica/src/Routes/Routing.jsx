@@ -17,8 +17,10 @@ import CursosAdmin from "../Pages/CursosAdmin"
 import PerfilEstudiante from "../Pages/PerfilEstudiante";
 import SolicitudesRechazadas from "../Pages/Solicitudes/SolicitudesRechazadas";
 import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
-import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
 import RegistrarEstudiante from "../Pages/RegistrarEstudiante";
+import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
+import Administracion from "../../src/Pages/Admistracion/Administracion";
+
 //import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
 
@@ -46,6 +48,7 @@ const Routing = () => {
                 <Route path="/SolicitudesAceptadas" element={<SolicitudesAceptadas />} /> 
                 <Route path="/Estudiantes" element={<Estudiantes />} /> 
                 <Route path="/RegistrarEstudiante" element={<RegistrarEstudiante />} /> 
+                <Route path="/Administracion" element={<Administracion />} /> 
             </Routes>
         </Router>
     );

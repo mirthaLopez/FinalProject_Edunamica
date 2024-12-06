@@ -797,6 +797,24 @@ function Register() {
                       onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
                       className="comprobante-input"
                     />
+                         <div className="payment-info-container">
+                {/* Subir imagen del comprobante de pago */}
+                <div className="upload-container">
+                  <label>Foto o captura de comprobante de pago:</label>
+                  <input
+                    type="file"
+                    onChange={handlePaymentImg}
+                    accept="image/*"
+                    required
+                    className="payment-img-input"
+                  />
+                  {paymentImgPreviewUrl && (
+                    <div className="preview">
+                      <img src={paymentImgPreviewUrl} alt="Comprobante de pago" width="100" />
+                    </div>
+                  )}
+                </div>
+              </div>
                   </div>
                 )}
 
@@ -846,26 +864,6 @@ function Register() {
                   <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
                 </div>
               )}
-
-              {/* Columna derecha: Valores del tipo de cambio y carga de imagen */}
-              <div className="payment-info-container">
-                {/* Subir imagen del comprobante de pago */}
-                <div className="upload-container">
-                  <label>Foto o captura de comprobante de pago:</label>
-                  <input
-                    type="file"
-                    onChange={handlePaymentImg}
-                    accept="image/*"
-                    required
-                    className="payment-img-input"
-                  />
-                  {paymentImgPreviewUrl && (
-                    <div className="preview">
-                      <img src={paymentImgPreviewUrl} alt="Comprobante de pago" width="100" />
-                    </div>
-                  )}
-                </div>
-              </div>
             </div>
           )}
           <div className='container-payment-btn'>

@@ -59,6 +59,14 @@ function CoursesCards() {
             <div className="course-info">
               <h3 className="course-title">{course.course_name}</h3>
               <p className="course-description">{course.course_description}</p>
+
+              {/* Aquí agregamos el campo obligatorio de requisitos */}
+              {course.obligatory_requirements && (
+                <p className="course-obligatory-requirements">
+                  Requisitos obligatorios: {course.obligatory_requirements}
+                </p>
+              )}
+
               <div className="course-meta">
                 <span className="course-price">
                   Precio del curso: {formatPrice(course.course_price)}
