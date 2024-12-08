@@ -1,16 +1,16 @@
 import React from 'react'
-import AcceptedApplications from '../../Components/ApplicationsForm/AcceptedApplications';
 import NavAdministration from '../../Components/AdminComponents/NavAdministration';
 import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
+import CoursesShow from '../../Components/Courses/CoursesShow'
 
-function SolicitudesAceptadas() {
+function CursosAdmin() {
   return (
     <div>
-        <SidebarAdmin /> 
+        <SidebarAdmin />
         <NavAdministration />
-        <AcceptedApplications />
+        <CoursesShow />
     </div>
   )
 }
 
-export default SolicitudesAceptadas
+export default CursosAdmin

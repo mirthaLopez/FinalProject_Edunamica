@@ -1,9 +1,9 @@
 import React from 'react'
-import Footer from '../Components/Footer'
-import HeaderNav from '../Components/Header'
-import ControlledCarousel from '../Components/Carrousel'
-import CoursesCards from '../Components/CoursesCards'
-import Partnerships from '../Components/Partnerships'
+import Footer from '../Components/MainComponents/Footer'
+import HeaderNav from '../Components/MainComponents/Header'
+import ControlledCarousel from '../Components/MainComponents/Carrousel'
+import CoursesCards from '../Components/Courses/CoursesCards'
+import Partnerships from '../Components/Partners/Partnerships'
 import EventSlider from '../Components/SliderEvents'
 
 

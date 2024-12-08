@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 //SERVICIOS
 import GetAdmin from '../../Services/Administrators/GetAdministrators';
@@ -7,9 +7,10 @@ import GetAdmin from '../../Services/Administrators/GetAdministrators';
 import '../../Styles/Administration/ViewAdmin.css';
 
 //IMPORTS DE LIBRERIA MUI
-import { TextField, InputAdornment, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton } from '@mui/material';
+import {TextField, InputAdornment, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function ViewAdmin() {
 

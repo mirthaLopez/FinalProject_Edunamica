@@ -1,25 +1,46 @@
 import React from "react";
+
+//IMPORT DE REACT ROUTER DOM
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from "../Pages/Login";
-import Contacto from "../Pages/Contacto";
-import Inicio from "../Pages/Inicio";
-import Curso from "../Pages/CrearCurso";
-import Registro from "../Pages/Registro";
-import Solicitudes from "../Pages/Solicitudes";
-import Administradores from "../Pages/Administradores";
-import Pago from "../Pages/Pago";
-import Matricula from "../Pages/Matricula";
-import Alianzas from "../Pages/Alianzas";
-import VerCurso from "../Pages/VerCurso"
-import Prueba from "../Pages/Prueba"
-import Principal from "../Pages/Principal"
-import CursosAdmin from "../Pages/CursosAdmin"
-import PerfilEstudiante from "../Pages/PerfilEstudiante";
+
+//IMPORTS DE SOLICITUDES
+import Solicitudes from "../Pages/Solicitudes/Solicitudes";
 import SolicitudesRechazadas from "../Pages/Solicitudes/SolicitudesRechazadas";
 import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
-import RegistrarEstudiante from "../Pages/RegistrarEstudiante";
-import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
+
+//IMPORTS DE ADMINISTRACIÓN
+import Administradores from "../../src/Pages/Admistracion/Administradores";
 import Administracion from "../../src/Pages/Admistracion/Administracion";
+
+//IMPORT DE ALIANZAS (AGREGAR ALIANZA)
+import Alianzas from "../Pages/Alianzas/Alianzas";
+
+//IMPORTS DE CURSOS
+import VerCurso from "../Pages/Cursos/VerCurso";
+import CursosAdmin from "../Pages/Cursos/CursosAdmin";
+import Curso from "../Pages/Cursos/CrearCurso";
+
+//IMPORTS DE REGISTRO (FORM)
+import RegistrarEstudiante from "../Pages/Registro/RegistrarEstudiante";
+import Registro from "../Pages/Registro/Registro";
+
+//IMPORT CONTACTO
+import Contacto from "../Pages/Contacto/Contacto";
+
+//IMPORT DE MATRÍCULA
+import Matricula from "../Pages/Matricula/Matricula";
+
+//IMPORT DE LOGIN
+import Login from "../Pages/Login/Login";
+
+//IMPORT DE ESTUDIANTE
+import PerfilEstudiante from "../Pages/PerfilEstudiante";
+import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
+
+
+import Inicio from "../Pages/Inicio";
+import Principal from "../Pages/Principal"
+
 
 //import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
@@ -29,7 +50,6 @@ const Routing = () => {
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/Prueba" element={<Prueba />} /> 
                 <Route path="/" element={<Inicio />} /> 
                 <Route path="/Login" element={<Login />} /> 
                 <Route path="/Contacto" element={<Contacto />} /> 
@@ -37,7 +57,6 @@ const Routing = () => {
                 <Route path="/Registro" element={<Registro />} /> 
                 <Route path="/Solicitudes" element={<Solicitudes />} /> 
                 <Route path="/Administradores" element={<Administradores />} /> 
-                <Route path="/Pago" element={<Pago />} /> 
                 <Route path="/Matricula" element={<Matricula />} /> 
                 <Route path="/Alianzas" element={<Alianzas />} /> 
                 <Route path="/Cursos" element={<VerCurso />} /> 

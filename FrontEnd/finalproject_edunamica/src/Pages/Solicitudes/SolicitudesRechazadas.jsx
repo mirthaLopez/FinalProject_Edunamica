@@ -1,7 +1,7 @@
 import React from 'react';
 import RejectedApplications from '../../Components/ApplicationsForm/RejectedApplications';
-import NavAdministration from '../../Components/NavAdministration'
-import SidebarAdmin from '../../Components/SidebarAdmin';
+import NavAdministration from '../../Components/AdminComponents/NavAdministration';
+import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
 
 function SolicitudesRechazadas() {
   return (
