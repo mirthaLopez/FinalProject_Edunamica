@@ -1,14 +1,15 @@
 import React from 'react';
 import Routing from "./Routes/Routing";
-//import { AuthProvider } from './Components/AuthContext'; // Importa AuthProvider
+import { AdminProvider } from '../src/Components/Administration/AdminContext'; // Importa AdminContext
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
-    //<AuthProvider> {/* Envuelve tu aplicación en AuthProvider */}
+    <AdminProvider> {/* Asegúrate de envolver la aplicación solo una vez */}
       <div>
         <Routing />
       </div>
-    //</AuthProvider>
+    </AdminProvider>
   );
 }
 

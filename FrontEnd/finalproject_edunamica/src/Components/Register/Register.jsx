@@ -389,62 +389,81 @@ function Register() {
         handleCloseModal(); // Cerrar el modal en caso de cancelación
       };
 
+
       const PaymentButton = async () => {
-        console.log("Boton pagar");
+        console.log("Botón presionado");
+      
+        // Si el curso es gratuito, solo enviamos el formulario de registro
+        if (chosen_course.is_free) {
+          try {
+            // Enviar solo el formulario de registro sin información de pago
+            const studentStatusFk = "1"; // Esto hay que arreglarlo (estudiante activo)
+            const data = await PostRegisterForm(
+              identificationNumber, firstName, lastName, secondLastName,
+              birthDate, phoneNumber, email, idImageUrl, address, identificationFk, genreFk, courseFk,
+              studentStatusFk, neighborhoodFk, null // Enviar null en lugar de payment_fk
+            );
+            console.log(data);
+            notyf.success('Formulario de registro enviado de manera exitosa!');
+            setIsFormSent(true);
+          } catch (error) {
+            console.error("Error al enviar el formulario de registro sin pago", error);
+            notyf.error(`Error al enviar el formulario`);
+          }
+          return; // No ejecutamos la lógica de pago si es gratuito
+        }
+      
+        // Si el curso no es gratuito, ejecutamos la lógica de pago
         const paymentDate = (selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && new Date().toLocaleDateString('en-CA');
         
         try {
           const dataPayment = await PostPayment(
             paymentDate,
-            price, //////PRECIO DEL CURSO, RELACIONADO A LA TABLA DE MATRICULA
+            price,
             paymentImg,
             receiptNumber,
             selectedPaymentMethod
           );
-  
           console.log(paymentDate);
           console.log(receiptNumber);
-          
           console.log(dataPayment);
-  
-            if (dataPayment) {
-              const PaymentId = dataPayment.id /////Agregar payment id al modelado FK
-              const payment_fk = PaymentId
-              
-
-              const studentStatusFk = "1"; //// ESto hay que arreglarlo 
-                   const data = await PostRegisterForm(
-                    identificationNumber, firstName, lastName, secondLastName,
-                    birthDate, phoneNumber, email, idImageUrl, address, identificationFk, genreFk, courseFk, 
-                    studentStatusFk, neighborhoodFk, payment_fk);
-
-                    console.log(data);
-                    notyf.success('Pago registrado de manera exitosa!');
-                    setIsFormSent(true);
-                    
-                    
-
-            }else{
-              console.log("No se pudo obtener el id del pago");
-            }
-          
+      
+          if (dataPayment) {
+            const PaymentId = dataPayment.id;
+            const payment_fk = PaymentId;
+            const studentStatusFk = "1"; // Esto hay que arreglarlo (estudiante activo)
+      
+            // Enviar el formulario de registro con los datos del pago
+            const data = await PostRegisterForm(
+              identificationNumber, firstName, lastName, secondLastName,
+              birthDate, phoneNumber, email, idImageUrl, address, identificationFk, genreFk, courseFk,
+              studentStatusFk, neighborhoodFk, payment_fk
+            );
+            console.log(data);
+            notyf.success('Pago registrado y formulario de registro enviado de manera exitosa!');
+            setIsFormSent(true);
+          } else {
+            console.log("No se pudo obtener el id del pago");
+            notyf.error(`Error al procesar el pago`);
+          }
         } catch (error) {
           console.error("Error al agregar el payment", error);
           notyf.error(`Error al ejecutar el pago`);
-        } 
-      }
+        }
+      };
+
 
        // Función para manejar la carga del archivo
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFileContent(reader.result); // Guarda el contenido del archivo
+      const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            setFileContent(reader.result); // Guarda el contenido del archivo
+          };
+          reader.readAsText(file); // Lee el archivo como texto
+        }
       };
-      reader.readAsText(file); // Lee el archivo como texto
-    }
-  };
 
   // Función para imprimir los datos
   const handlePrint = () => {
@@ -771,44 +790,52 @@ function Register() {
 )}
 
 
+// Renderización del formulario y el botón
 {activeStep === 1 && (
-        <div className='container_second_step'>
-          {/* Solo renderiza los métodos de pago si el curso no es gratuito */}
-          {chosen_course.is_free === false && (
-            <div className="payment-methods-grid">
-              {/* Columna izquierda: Selección de método de pago */}
-              <div className="payment-methods-container">
-                {/* Selección del método de pago */}
-                <FormControl component="fieldset" className="payment-methods-form">
-                  <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
-                  <RadioGroup value={selectedPaymentMethod} onChange={handleChange} name="payment-methods" className="payment-methods-group">
-                    {paymentMethods.map((method, index) => (
-                      <FormControlLabel
-                        key={method.id}
-                        value={method.id.toString()}
-                        control={<Radio />}
-                        label={method.payment_method_name}
-                        className="payment-method-option"
-                        disabled={index === 3 } // Deshabilitar opción 4
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
+  <div className='container_second_step'>
+    {/* Mostrar el mensaje si el curso es gratuito */}
+    {chosen_course.is_free ? (
+      <div className="no-payment-required-message">
+        <p>No tienes que pagar. Este curso es gratuito.</p>
+      </div>
+    ) : (
+      // Si el curso no es gratuito, mostrar la sección de métodos de pago
+      <div className="payment-methods-grid">
+        <div className="payment-methods-container">
+          <FormControl component="fieldset" className="payment-methods-form">
+            <FormLabel component="legend">Selecciona un Método de Pago</FormLabel>
+            <RadioGroup
+              value={selectedPaymentMethod}
+              onChange={handleChange}
+              name="payment-methods"
+              className="payment-methods-group"
+            >
+              {paymentMethods.map((method, index) => (
+                <FormControlLabel
+                  key={method.id}
+                  value={method.id.toString()}
+                  control={<Radio />}
+                  label={method.payment_method_name}
+                  className="payment-method-option"
+                  disabled={index === 3} // Deshabilitar opción 4
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
 
-                {/* Mostrar input para número de comprobante si el método de pago es 1 o 2 */}
-                {(selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (
-                  <div className="comprobante-container">
-                    <label htmlFor="comprobante-number">Número de Comprobante de Pago:</label>
-                    <input
-                      type="text"
-                      id="comprobante-number"
-                      placeholder="Ingresa el número de comprobante"
-                      value={receiptNumber} // Vinculamos el estado receiptNumber
-                      onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
-                      className="comprobante-input"
-                    />
-                         <div className="payment-info-container">
-                {/* Subir imagen del comprobante de pago */}
+          {/* Mostrar input para número de comprobante si el método de pago es 1 o 2 */}
+          {(selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (
+            <div className="comprobante-container">
+              <label htmlFor="comprobante-number">Número de Comprobante de Pago:</label>
+              <input
+                type="text"
+                id="comprobante-number"
+                placeholder="Ingresa el número de comprobante"
+                value={receiptNumber} // Vinculamos el estado receiptNumber
+                onChange={(e) => setReceiptNumber(e.target.value)} // Actualizamos el estado cuando el valor cambie
+                className="comprobante-input"
+              />
+              <div className="payment-info-container">
                 <div className="upload-container">
                   <label>Foto o captura de comprobante de pago:</label>
                   <input
@@ -825,64 +852,68 @@ function Register() {
                   )}
                 </div>
               </div>
-                  </div>
-                )}
-
-                {/* Modal de PayPal */}
-                <Modal
-                  open={isModalOpen}
-                  onClose={handleCloseModal}
-                  aria-labelledby="paypal-payment-modal"
-                  aria-describedby="modal-para-realizar-pago-con-paypal"
-                >
-                  <div className="paypal-modal__content">
-                    <h2 className="paypal-modal__title">Pago con PayPal</h2>
-                    <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
-
-                    {selectedPaymentMethod === '3' && (
-                      <PayPalScriptProvider options={initialOptions}>
-                        <PayPalButtons
-                          style={{
-                            layout: "horizontal",
-                            color: "blue",
-                            shape: "rect",
-                            label: "paypal",
-                          }}
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onCancel={onCancel}
-                          className="paypal-modal__paypal-btn" // Clase añadida aquí
-                        />
-                      </PayPalScriptProvider>
-                    )}
-
-                    <button 
-                      onClick={handleCloseModal} 
-                      className="paypal-modal__cancel-btn"
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </Modal>
-              </div>
-
-              {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
-              {selectedPaymentMethod === '3' && (
-                <div className="payment-info-container">
-                  <h3>Valores del Dólar</h3>
-                  <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
-                  <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
-                </div>
-              )}
             </div>
           )}
-          <div className='container-payment-btn'>
-            <div>
-              <button onClick={PaymentButton} className="payment-btn">Confirmar pago</button>
+
+          {/* Modal de PayPal */}
+          <Modal
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            aria-labelledby="paypal-payment-modal"
+            aria-describedby="modal-para-realizar-pago-con-paypal"
+          >
+            <div className="paypal-modal__content">
+              <h2 className="paypal-modal__title">Pago con PayPal</h2>
+              <p className="paypal-modal__text">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
+
+              {selectedPaymentMethod === '3' && (
+                <PayPalScriptProvider options={initialOptions}>
+                  <PayPalButtons
+                    style={{
+                      layout: 'horizontal',
+                      color: 'blue',
+                      shape: 'rect',
+                      label: 'paypal',
+                    }}
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    onCancel={onCancel}
+                    className="paypal-modal__paypal-btn" // Clase añadida aquí
+                  />
+                </PayPalScriptProvider>
+              )}
+
+              <button onClick={handleCloseModal} className="paypal-modal__cancel-btn">
+                Cancelar
+              </button>
             </div>
-          </div>
+          </Modal>
         </div>
-      )}
+
+        {/* Mostrar valores del tipo de cambio solo si el método de pago es PayPal (id 3) */}
+        {selectedPaymentMethod === '3' && (
+          <div className="payment-info-container">
+            <h3>Valores del Dólar</h3>
+            <p>Compra: {valores.compra ? valores.compra : 'Cargando...'}</p>
+            <p>Venta: {valores.venta ? valores.venta : 'Cargando...'}</p>
+          </div>
+        )}
+      </div>
+    )}
+
+    {/* Botón de pago o enviar dependiendo si el curso es gratuito o no */}
+    <div className='container-payment-btn'>
+      <div>
+        <button 
+          onClick={PaymentButton} // Siempre ejecuta PaymentButton
+          className="payment-btn"
+        >
+          {chosen_course.is_free ? 'Enviar' : 'Pagar'}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
 
 

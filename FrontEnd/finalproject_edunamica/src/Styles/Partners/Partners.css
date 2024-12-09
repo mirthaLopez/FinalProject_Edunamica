@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Contenedor principal */
+.partners-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 600px; /* Mejor control de la anchura máxima */
+    background-color: #e9e9e9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Añadido para una apariencia más moderna */
+    margin-top: 30px;
+  }
+  
+  /* Título de la página */
+  .partners-title {
+    font-size: 2.8rem; /* Aumento de tamaño en pantallas grandes */
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    font-family: "Bebas Neue", sans-serif;
+  }
+  
+  /* Estilos para el campo de texto (nombre de la alianza) */
+  .partner-name-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  /* Contenedor del logo */
+  .partner-logo-container {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Estilos para la etiqueta del logo */
+  .partner-logo-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  /* Estilo para el input de tipo archivo (logo) */
+  .partner-logo-input {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el botón de registrar alianza */
+  .register-partner-button {
+    width: 50%;
+    padding: 14px 24px;
+    font-size: 1.2rem;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: "Bebas Neue", sans-serif;
+  }
+  
+  .register-partner-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05); /* Efecto de escala para interactividad */
+  }
+  
+  .register-partner-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Mejorar accesibilidad al enfoque */
+  }
+
+  .image-preview-container{
+    background-color: #45a049;
+  }
+  
+  .image-preview{
+    width: 100px;
+    height: 120px;
+  }
+
+  /* Medios de consulta (Media Queries) */
+  @media (max-width: 1024px) {
+    .partners-container {
+      width: 80%; /* Se ajusta la anchura en tabletas y pantallas más pequeñas */
+      padding: 15px;
+    }
+  
+    .partners-title {
+      font-size: 2.4rem;
+    }
+  
+    .partner-name-input,
+    .partner-logo-input,
+    .register-partner-button {
+      max-width: 100%;
+    }
+  
+    .partner-logo-label {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .partners-container {
+      padding: 15px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    .partners-title {
+      font-size: 2rem;
+    }
+  
+    .partner-name-input,
+    .partner-logo-input,
+    .register-partner-button {
+      padding: 10px;
+      max-width: 100%;
+    }
+  
+    .partner-logo-label {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .partners-title {
+      font-size: 1.8rem;
+    }
+  
+    .partner-name-input {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  
+    .partner-logo-label {
+      font-size: 1rem;
+    }
+  
+    .partner-logo-input {
+      font-size: 1rem;
+    }
+  
+    .register-partner-button {
+      font-size: 1.1rem;
+      padding: 12px 18px;
+    }
+  }
+  

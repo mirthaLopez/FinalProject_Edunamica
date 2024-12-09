@@ -1,17 +1,18 @@
 import React from 'react'
-import Partners from '../../Components/Partners/Partners'
+import ViewPartners from '../../Components/Partners/ViewPartners'
 import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
 import NavAdministration from '../../Components/AdminComponents/NavAdministration';
 
 
-function Alianzas() {
+
+function VerAlianza() {
   return (
     <div>
         <SidebarAdmin /> 
         <NavAdministration />
-        <Partners />
+        <ViewPartners />
     </div>
   )
 }
 
-export default Alianzas
+export default VerAlianza

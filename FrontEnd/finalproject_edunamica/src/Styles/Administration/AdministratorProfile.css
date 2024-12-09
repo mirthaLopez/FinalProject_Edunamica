@@ -1,0 +1,134 @@
+/* Contenedor principal del perfil del administrador */
+.admin-profile-container {
+    margin-top: 50px;
+    margin-left: 300px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+  }
+  
+  /* Título principal del perfil */
+  .admin-profile-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Elementos de la lista de perfil */
+  .admin-profile-item {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  /* Estilo del botón para editar los datos */
+  .admin-profile-edit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-profile-edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Modal de edición */
+  .admin-profile-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .admin-profile-modal-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Estilos de los campos del formulario */
+  .admin-profile-form-field {
+    margin-bottom: 15px;
+  }
+  
+  .admin-profile-save-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-profile-save-button:hover {
+    background-color: #218838;
+  }
+  
+  /* Estilos para el contenedor de la contraseña */
+  .admin-profile-password-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .admin-profile-enable-password-button {
+    background-color: #ffc107;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-profile-enable-password-button:hover {
+    background-color: #e0a800;
+  }
+  
+  /* Estilo para el campo de la nueva contraseña */
+  .admin-profile-save-password-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-profile-save-password-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos del modal de contraseña */
+  .admin-profile-password-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  /* Resaltar el error */
+  .swal2-popup {
+    font-family: 'Arial', sans-serif;
+  }
+  

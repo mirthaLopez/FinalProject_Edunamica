@@ -16,12 +16,17 @@ import Swal from 'sweetalert2';
 //IMPORT DE USE NAVIGATE
 import {useNavigate} from 'react-router-dom'; 
 
+import { useAdmin } from '../Administration/AdminContext';
+
+
 
 function FormLogin() {
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState(''); 
   const navigate = useNavigate(); 
   const [administrators, setAdministrators] = useState([]); 
+  const { setAdminData } = useAdmin(); // Usamos AdminContext
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +44,7 @@ function FormLogin() {
     if (data.access) {
       const admin = administrators.find(a => a.admin_email === email );
       if (admin) {
+        setAdminData(admin); // Guarda los datos del admin en el AdminContext
         Swal.fire({
           title: 'Has iniciado sesión con éxito!',
           text: 'Te redirigiremos a la página principal',

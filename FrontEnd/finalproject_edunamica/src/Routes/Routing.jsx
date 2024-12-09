@@ -11,9 +11,11 @@ import SolicitudesAceptadas from "../Pages/Solicitudes/SolicitudesAceptadas";
 //IMPORTS DE ADMINISTRACIÓN
 import Administradores from "../../src/Pages/Admistracion/Administradores";
 import Administracion from "../../src/Pages/Admistracion/Administracion";
+import PerfilAdministrador from "../Pages/Admistracion/PerfilAdministrador";
 
 //IMPORT DE ALIANZAS (AGREGAR ALIANZA)
 import Alianzas from "../Pages/Alianzas/Alianzas";
+import VerAlianzas from "../Pages/Alianzas/VerAlianza"
 
 //IMPORTS DE CURSOS
 import VerCurso from "../Pages/Cursos/VerCurso";
@@ -68,6 +70,8 @@ const Routing = () => {
                 <Route path="/Estudiantes" element={<Estudiantes />} /> 
                 <Route path="/RegistrarEstudiante" element={<RegistrarEstudiante />} /> 
                 <Route path="/Administracion" element={<Administracion />} /> 
+                <Route path="/PerfilAdministrador" element={<PerfilAdministrador />} /> 
+                <Route path="/VerAlianzas" element={<VerAlianzas />} /> 
             </Routes>
         </Router>
     );

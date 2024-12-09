@@ -1,17 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
 /* Estilos generales */
 .accordion-details {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #f1f1f1; /* Gris claro */
-}
-
-.div-icon-mui .MuiSvgIcon-root {
-  color: white;
-  height: 80px;
-  margin-right: 30px;
+  background-color: #f1f1f1;
 }
 
 .divApplication {
@@ -38,36 +30,21 @@
 }
 
 .input-search-applications {
-  padding: 10px 15px; /* Espaciado interno para darle espacio al texto */
-  font-size: 16px; /* Tamaño de la fuente */
-  border: 2px solid #ccc; /* Borde gris claro */
-  border-radius: 25px; /* Bordes redondeados */
-  background-color: #f9f9f9; /* Fondo blanco suave */
-  color: #333; /* Color del texto */
-  outline: none; /* Quita el contorno por defecto al hacer foco */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto de foco */
 .input-search-applications:focus {
-  border-color: #007BFF; /* Borde azul claro cuando se hace foco */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra alrededor del campo cuando está enfocado */
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Estilo del ícono de búsqueda dentro del input */
-.input-search-applications::-webkit-search-cancel-button {
-  -webkit-appearance: none; /* Elimina el botón de cancelar en navegadores basados en Webkit */
-}
-
-.input-search-applications::-webkit-search-decoration {
-  display: none; /* Elimina la decoración predeterminada */
-}
-
-.input-search-applications::-webkit-search-results-button {
-  display: none; /* Elimina el botón de resultados si está presente */
-}
-
-/* Título de la sección de solicitudes */
 .applications-title {
   font-size: 34px;
   margin: 0;
@@ -77,7 +54,7 @@
 
 .applications-title {
   font-family: "Bebas Neue", sans-serif;
-  color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
+  color: #043368;
 }
 
 .header-admin {
@@ -137,122 +114,104 @@
 .div-icon-mui .MuiSvgIcon-root {
   color: white;
   transition: transform 0.3s ease, color 0.3s ease;
-  cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+  cursor: pointer;
 }
 
-/* Efecto hover */
 .div-icon-mui .MuiSvgIcon-root:hover {
-  transform: scale(1.2); /* Aumenta el tamaño del icono */
-  color: #e6840a; /* Cambia el color cuando se pasa el cursor */
+  transform: scale(1.2);
+  color: #e6840a;
 }
 
+/* Estilos Responsivos */
 
-/* Consultas de medios (media queries) para pantallas pequeñas */
-@media (max-width: 768px) {
-  .div-logo-header{
-    margin-left: 70px;
-    padding-left: 80px;
-    padding-top: 10px;
-  }
-  /* Ajustes en el header de solicitudes */
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 600px) {
   .applications-header {
-    grid-template-columns: 1fr; /* Una sola columna para el header */
-    gap: 1rem; /* Menor espacio entre los elementos */
+    display: block;
+    text-align: center;
+    gap: 0;
   }
 
   .input-search-applications {
-    width: 100%; /* El campo de búsqueda ocupa todo el ancho */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
-    padding: 8px 12px; /* Reducir los espacios internos */
-  }
-
-  .divApplication {
-    margin-left: 0; /* Eliminar el margen izquierdo */
-    margin-right: 10px; /* Ajustar margen derecho */
+    width: 100%;
+    margin-bottom: 20px;
   }
 
   .applications-title {
-    font-size: 20px; /* Reducir el tamaño del título */
-    text-align: center; /* Centrar el título */
-  }
-
-
-  .header-admin {
-    min-height: 90px;
-  }
-
-  .div-logo-header {
-    margin-left: 0; /* Eliminar el margen izquierdo */
-    text-align: center; /* Centrar el logo */
-  }
-
-  /* Ajustar el tamaño de los botones */
-  .accept-button, .reject-button {
-    width: 100%; /* Los botones ocuparán todo el ancho disponible */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
-    padding: 12px; /* Ajustar el padding */
-  }
-
-  .div-icon-mui{
-    margin-top: 10px;
-  }
-
-  /* Hacer que los iconos sean más pequeños */
-  .div-icon-mui .MuiSvgIcon-root {
-    height: 50px; /* Reducir el tamaño de los iconos */
-    margin-right: 20px; /* Reducir el margen entre icono y texto */
+    margin-left: 20px;
   }
 
   .accordion-details {
-    flex-direction: column; /* Los elementos de la acordeón se apilan verticalmente */
-  }
-
-  .input-search-applications {
-    font-size: 15px; /* Reducir ligeramente el tamaño de la fuente */
-    padding: 9px 14px; /* Ajustar el espaciado */
-    width: 200px; /* Hacer que el campo de entrada ocupe todo el ancho disponible */
-  }
-}
-
-@media (max-width: 480px) {
-  .div-logo-header{
-    margin-left: 70px;
-    padding-left: 10px;
-  }
-
-  .applications-title {
-    font-size: 26px; /* Reducir aún más el tamaño del título */
-  }
-
-  .input-search-applications {
-    font-size: 14px; /* Reducir el tamaño de la fuente */
-    padding: 8px 12px; /* Ajustar el espaciado */
-    width: 200px; /* Hacer que el campo de entrada ocupe todo el ancho disponible */
-  }
-
-
-  .input-search-applications {
-    font-size: 12px; /* Reducir el tamaño de la fuente */
-    padding: 6px 10px; /* Ajustar padding */
-  }
-
-  .accept-button, .reject-button {
-    font-size: 12px; /* Reducir el tamaño de la fuente */
-    padding: 10px; /* Ajustar el padding */
+    flex-direction: column;
+    align-items: center;
   }
 
   .divApplication {
-    margin-left: 0; /* Eliminar el margen izquierdo */
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   .header-admin {
-    min-height: 85px; /* Reducir la altura del header */
+    flex-direction: column;
+    align-items: center;
+    height: auto;
   }
 
-  .logo-header-admin {
-    height: 40px; /* Reducir tamaño del logo */
-  }
-  .div-icon-mui{
+  .div-logo-header {
+    margin-left: 0;
     margin-top: 10px;
   }
+
+  .accept-button, .reject-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+  }
+
+
 }
+
+/* Pantallas medianas (tabletas) */
+@media (max-width: 1024px) {
+  .applications-header {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+
+  .divApplication {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .applications-title {
+    font-size: 30px;
+  }
+
+  .accept-button, .reject-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+/* Pantallas grandes (escritorios) */
+@media (min-width: 1025px) {
+  .applications-header {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10rem;
+  }
+
+  .input-search-applications {
+    width: 300px;
+  }
+
+  .accordion-details {
+    flex-direction: row;
+  }
+
+  .accept-button, .reject-button {
+    width: auto;
+  }
+}
+
+

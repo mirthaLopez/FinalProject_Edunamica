@@ -1,14 +1,25 @@
-async function patchStatusApplication(applicationId, student_status_fk) {
-    
-    const data = {
-      student_status_fk
+async function PatchAdminEmail(id, email) {
+    const data = { 
+      username: email,
+      email: email
     };
-  
+
+    console.log("Estoy en el servicio");
+    
+
+    const token = localStorage.getItem('access_token');    
+    if (!token) {
+        console.error("No token found");
+        return; 
+    }
+    const validation_token = "Bearer " + token;
+
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/form/${applicationId}/`, {
+      const response = await fetch(`http://localhost:8000/api/users_admin/${id}/`, {
         method: 'PATCH', // Usamos PATCH para actualizar solo un campo
         headers: {
           'Content-Type': 'application/json', // Especificamos que los datos son JSON
+          'Authorization': validation_token,
         },
         body: JSON.stringify(data) // Solo enviamos el campo a actualizar
       });
@@ -28,4 +39,4 @@ async function patchStatusApplication(applicationId, student_status_fk) {
     }
   }
   
-  export default patchStatusApplication;
+  export default PatchAdminEmail;

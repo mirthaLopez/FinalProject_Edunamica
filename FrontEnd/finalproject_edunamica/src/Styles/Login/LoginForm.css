@@ -10,7 +10,7 @@
 
 .login-edu-left {
     flex: 1;
-    background-image: url(../Img/edu-foto-12.JPG);
+    background-image: url(../../Img/edu-foto-12.JPG);
     background-size: cover;
     display: flex;
     flex-direction: column;

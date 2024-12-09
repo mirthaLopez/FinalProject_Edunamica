@@ -1,15 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
 //SERVICIOS
-//ESTILOS CSS
-//IMPORTS DE LIBRERIA MUI
-//IMPORT DE LIBRERIA EMAIL JS
-//IMPORT DE IMÁGENES
-//IMPORT DE LIBRERIA NOTYF
-//IMPORT DE LIBRERIA SWEET ALERT
-//IMPORT DE LINK TO
-
-//SERVICIOS
 import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
 import GetPayments from '../../Services/Payments/GetPayments';
 import PostAuthStudentUser from '../../Services/Users/PostStudentUser';
@@ -214,7 +205,6 @@ const filteredApplications = applications.filter((data) => {
                   value={searchTerm} 
                   onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado de búsqueda
                 />
-                <SearchIcon className="icon-search" />
             </div>
           </div>
         </div>

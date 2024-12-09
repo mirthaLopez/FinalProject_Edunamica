@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-//SERVICIOS
+// SERVICIOS
 import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm'; // obtenemos datos de prematrícula 
 import GetPayments from '../../Services/Payments/GetPayments'; // obtenemos informacion de pago 
 
-//ESTILOS CSS
+// ESTILOS CSS
 import '../../Styles/ApplicationsForm/AcceptedApplications.css';
 
-//IMPORTS DE LIBRERIA MUI 
+// IMPORTS DE LIBRERÍA MUI 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,14 +21,13 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
-
 function AcceptedApplications() {
   const [applications, setApplications] = useState([]);
-  const [payments, setPayments] = useState([]);  
+  const [payments, setPayments] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [expanded, setExpanded] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');  // Estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,68 +45,66 @@ function AcceptedApplications() {
   // Filtro para mostrar solo las solicitudes con student_status_fk === 2 (aceptadas)
   const acceptedApplications = applications.filter(application => application.student_status_fk === 2);
 
-
   const filteredApplications = acceptedApplications.filter((application) =>
     application.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     application.identification_number.includes(searchTerm)
   );
 
-    // Función para obtener el pago asociado a la solicitud
-    const getPaymentForApplication = (id) => {
-      return payments.find(payment => payment.id === id);
-    };
+  // Función para obtener el pago asociado a la solicitud
+  const getPaymentForApplication = (id) => {
+    return payments.find(payment => payment.id === id);
+  };
 
-    const handleSearchChange = (event) => {
-      setSearchTerm(event.target.value);
-    };
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
-    const handleImageClick = (url) => {
-      setSelectedImage(url);
-      setOpenModal(true);
-    };
+  const handleImageClick = (url) => {
+    setSelectedImage(url);
+    setOpenModal(true);
+  };
 
-    const handleCloseModal = () => {
-      setOpenModal(false);
-    };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
-
-    const handleAccordionChange = (panel) => (event, isExpanded) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  const handleAccordionChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   return (
     <div className="accepted-applications-container">
 
       <h1 
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              color: 'rgb(0, 43, 100)',
-              fontSize: '40px',  // Tamaño de fuente más grande
-              padding: '10px',
-              textAlign: 'center'
-            }}
-          >
-            Solicitudes Aceptadas
+        style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          color: 'rgb(0, 43, 100)',
+          fontSize: '40px',  // Tamaño de fuente más grande
+          padding: '10px',
+          textAlign: 'center'
+        }}
+      >
+        Solicitudes Aceptadas
       </h1>
 
       {/* Campo de búsqueda con icono */}
       <div className="search-container">
-          <TextField
-            label="Buscar por nombre o identificación"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            variant="outlined"
-            fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            className="search-input"
-          />
-        </div>
+        <TextField
+          label="Buscar por nombre o identificación"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          variant="outlined"
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          className="search-input"
+        />
+      </div>
 
       {/* Acordeón para mostrar solo las solicitudes aceptadas filtradas */}
       {filteredApplications.map((application) => {

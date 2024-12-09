@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo_edunamica from "../../Img/edunamica_logo.svg"
 
 //IMPORT DE LINK TO
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function SidebarAdmin() {
     const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar la visibilidad del sidebar
@@ -29,6 +29,16 @@ function SidebarAdmin() {
     const handleToggle = (section) => {
         // Si la sección está ya abierta, la cerramos, sino la abrimos
         setOpenSection(openSection === section ? null : section);
+    };
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+      // Elimina el token de localStorage
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      // Redirige al usuario a la página de login
+      window.location.href = '/Login'; // Esto redirige a la página de login
     };
     
     return (
@@ -265,9 +275,8 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'partners'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ver Alianzas</p></Link></li>
                             <li><Link to="/Alianzas" className="submenu-item link-dark rounded"><p className="large-text">Añadir Alianza</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Modificar / Eliminar Alianza</p></Link></li>
+                            <li><Link to="/VerAlianzas" className="submenu-item link-dark rounded"><p className="large-text">Ver / Eliminar Alianza</p></Link></li>
                         </ul>
                     </Collapse>
                 </li>
@@ -303,9 +312,11 @@ function SidebarAdmin() {
                     </Button>
                     <Collapse in={openSection === 'account'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Mi Perfil</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Ajustes</p></Link></li>
-                            <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Cerrar Sesión</p></Link></li>
+                            <li><Link to="/PerfilAdministrador" className="submenu-item link-dark rounded"><p className="large-text">Mi Perfil</p></Link></li>
+                            <li> <Link to="#" className="submenu-item link-dark rounded" onClick={handleLogout}>
+                             <p className="large-text">Cerrar Sesión</p>
+                                 </Link>
+                            </li>
                         </ul>
                     </Collapse>
                 </li>
