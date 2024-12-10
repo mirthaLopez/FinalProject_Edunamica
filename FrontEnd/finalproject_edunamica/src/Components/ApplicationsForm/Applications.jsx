@@ -7,6 +7,7 @@ import PostAuthStudentUser from '../../Services/Users/PostStudentUser';
 import PostStudent from '../../Services/Students/PostStudents';
 import patchStatusApplication from '../../Services/RegisterForm/PatchStudentStatus';
 import GetCourses from '../../Services/Courses/GetCourses';
+import PostStudentCourses from '../../Services/RegisterForm/PostStudentCourses';
 
 //ESTILOS CSS
 import '../../Styles/ApplicationsForm/Applications.css';
@@ -14,10 +15,8 @@ import '../../Styles/ApplicationsForm/Applications.css';
 //IMPORTS DE LIBRERIA MUI
 import {Accordion, AccordionSummary, AccordionDetails, AccordionActions, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-
 
 //IMPORT DE LIBRERIA EMAIL JS
 import emailjs from '@emailjs/browser';
@@ -53,6 +52,7 @@ function Applications() {
     fetchData();
   }, []);
 
+  
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -68,7 +68,6 @@ const filteredApplications = applications.filter((data) => {
     courseName.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 });
-
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -120,14 +119,19 @@ const filteredApplications = applications.filter((data) => {
           application.address,
           student_auth_user_fk,
           application.neighborhood_fk,
-        );
-
-        console.log(NewStudent);
-        
+        );        
 
         notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
 
         if (NewStudent) {
+          console.log(application.course_fk);
+          console.log(NewStudent.id);
+          
+          
+          const studentCourse = await PostStudentCourses(application.course_fk, NewStudent.id);
+          console.log(studentCourse);
+          
+
           const templateParams = {
             user_name: application.name,
             to_email: application.email,
@@ -146,11 +150,9 @@ const filteredApplications = applications.filter((data) => {
             );
         } else {
           console.error('No se pudo crear el estudiante');
-          notyf.error(`Error no se pudo crear el estudiante`);
         }
       } else {
         console.error('No se pudo crear el auth_user');
-        notyf.error(`Error no se pudo crear la autorización para el estudiante`);
       }
     } catch (error) {
       console.error('Error al aceptar la solicitud pendiente', error);

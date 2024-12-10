@@ -412,7 +412,13 @@ function Register() {
           }
           return; // No ejecutamos la lógica de pago si es gratuito
         }
-      
+
+                // Si el curso no es gratuito, ejecutamos la lógica de pago
+        if ((selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && (!paymentImg || !receiptNumber)) {
+          notyf.error("Para los métodos de pago 1 o 2, ambos campos de imagen de pago y número de recibo son obligatorios.");
+          return; // No continuar si falta la imagen de pago o el número de recibo
+        }
+            
         // Si el curso no es gratuito, ejecutamos la lógica de pago
         const paymentDate = (selectedPaymentMethod === '1' || selectedPaymentMethod === '2') && new Date().toLocaleDateString('en-CA');
         
@@ -972,10 +978,6 @@ function Register() {
                 ) : (
                     <>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '50%' }}>
-
-
-
-
                             <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }} variant="outlined">
                                 Atrás
                             </Button>

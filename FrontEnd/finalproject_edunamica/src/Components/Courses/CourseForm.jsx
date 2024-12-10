@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 //SERVICIOS
 import PostCourse from '../../Services/Courses/PostCourses';
@@ -78,9 +78,9 @@ const CourseForm = () => {
 
       notyf.success('Curso agregado exitosamente!');
 
-      // Limpiar el formulario
-      setCourseImageUrl(null);
-      setCourseImageFile(null);
+    // Limpiar el formulario
+    setCourseImageUrl(null);  // Limpiar la URL de la imagen (previsualización)
+    setCourseImageFile(null); // Limpiar el archivo de la imagen
       setCourseName('');
       setCourseDescription('');
       setCoursePrice('');
@@ -92,6 +92,9 @@ const CourseForm = () => {
       setCourseObligatoryRequirements('');
       setPaymentModality('');
       setIsFreeCourse(false);
+
+
+
     } catch (error) {
       console.error("Error en el proceso:", error);
       notyf.error(`Error al agregar el curso`);
@@ -266,15 +269,15 @@ const CourseForm = () => {
 
        {/* Campo para cargar imagen */}
        {courseImageUrl && <img src={courseImageUrl} alt="Imagen previsualización" style={{ maxWidth: '200px', marginTop: '10px' }} />}
-<div className="course-form__group">
-  <input
-    type="file"
-    onChange={cargarimagen}
-    required
-    className="course-form__input"
-    accept="image/*"
-  />
-</div>
+        <div className="course-form__group">
+          <input
+            type="file"
+            onChange={cargarimagen}
+            required
+            className="course-form__input"
+            accept="image/*"
+          />
+        </div>
         </div>
         </div>
 

@@ -140,14 +140,14 @@
 /* Estilo del hover en los submenús */
 .submenu-item:hover {
     background-color: #e9ecefb0;
-    color: #000705;
+    color: white !important;
 }
 
 /* Cambiar el color de los enlaces del submenu cuando son activos */
 .submenu-item:focus, 
 .submenu-item:active {
     background-color: #e9ecefb0;
-    color: #000705;
+    color: white !important;
 }
 
 /* Cambiar visibilidad de los submenús cuando se expanda */

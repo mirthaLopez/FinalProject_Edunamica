@@ -1,25 +1,27 @@
-// AdminContext.js
+// UserContext.js
 import React, { createContext, useContext, useState } from 'react';
 
-// Crea el contexto para los datos del administrador
-const AdminContext = createContext();
+// Crea el contexto para los datos del usuario (admin o estudiante)
+const UserContext = createContext();
 
 // Hook para consumir el contexto
-export const useAdmin = () => {
-  return useContext(AdminContext);
+export const useUser = () => {
+  return useContext(UserContext);
 };
 
 // Proveedor del contexto
-export const AdminProvider = ({ children }) => {
-  const [admin, setAdmin] = useState(null);
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null); // El usuario puede ser admin o estudiante
+  const [userType, setUserType] = useState(null); // 'admin' o 'student'
 
-  const setAdminData = (adminData) => {
-    setAdmin(adminData);
+  const setUserData = (userData, type) => {
+    setUser(userData);
+    setUserType(type); // Establece el tipo de usuario (admin o student)
   };
 
   return (
-    <AdminContext.Provider value={{ admin, setAdminData }}>
+    <UserContext.Provider value={{ user, userType, setUserData }}>
       {children}
-    </AdminContext.Provider>
+    </UserContext.Provider>
   );
 };

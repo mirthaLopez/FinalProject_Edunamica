@@ -40,17 +40,15 @@ function RejectedApplications() {
     fetchData();
   }, []);
 
-  const rejectedApplications = applications.filter(application => application.student_status_fk === 3);
 
-  const filteredApplications = rejectedApplications.filter((application) =>
-    application.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    application.identification_number.includes(searchTerm)
-  );
-
-  const getPaymentForApplication = (id) => {
-    const payment = payments.find(payment => payment.id === id);
-    return payment;
-  };
+  // Filtrar solicitudes aceptadas
+  const filteredApplications = applications
+    .filter((application) => application.student_status_fk === 3) // Solo solicitudes aceptadas
+    .map((application) => {
+      // Buscar el pago correspondiente (si existe) comparando el payment_fk de la solicitud con el id del pago
+      const payment = payments.find(payment => payment.id === application.payment_fk);
+      return { ...application, payment };  // Incluir el pago en la solicitud
+    });
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -103,16 +101,19 @@ function RejectedApplications() {
         />
       </div>
 
-      {/* Accordion para mostrar las solicitudes rechazadas filtradas */}
-      {filteredApplications.map((application) => {
-        const payment = getPaymentForApplication(application.id);
-
-        return (
-          <Accordion
-            key={application.id}
-            expanded={expanded === application.id}
-            onChange={handleAccordionChange(application.id)}
-          >
+ {/* Acordeón para mostrar las solicitudes aceptadas filtradas */}
+ {filteredApplications.length > 0 ? (
+        filteredApplications
+          .filter((application) =>
+            application.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            application.identification_number.toLowerCase().includes(searchTerm.toLowerCase())
+          ) // Filtrar por nombre o identificación
+          .map((application) => (
+            <Accordion
+              key={application.id}
+              expanded={expanded === application.id}
+              onChange={handleAccordionChange(application.id)}
+            >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls={`panel${application.id}-content`}
@@ -124,52 +125,52 @@ function RejectedApplications() {
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="application-container">
-                <table className="application-table">
-                  <tbody>
-                    <tr>
-                      <td className="table-cell"><strong>Dirección:</strong></td>
-                      <td className="table-cell">{application.address}</td>
-                    </tr>
-                    <tr>
-                      <td className="table-cell"><strong>Fecha de Nacimiento:</strong></td>
-                      <td className="table-cell">{application.birth_date}</td>
-                    </tr>
-                    <tr>
-                      <td className="table-cell"><strong>Correo:</strong></td>
-                      <td className="table-cell">{application.email}</td>
-                    </tr>
-                    <tr>
-                      <td className="table-cell"><strong>Teléfono:</strong></td>
-                      <td className="table-cell">{application.phone_number}</td>
-                    </tr>
-                    <tr>
-                      <td className="table-cell"><strong>Identificación:</strong></td>
-                      <td className="table-cell">
-                        <img
-                          src={application.identification_image_url}
-                          alt="Imagen de Identificación"
-                          className="table-image"
-                          onClick={() => handleImageClick(application.identification_image_url)}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="table-cell"><strong>Pago Realizado:</strong></td>
-                      <td className="table-cell">
-                        {payment ? (
-                          <>
-                            <p><strong>Fecha:</strong> {payment.payment_date}</p>
-                            <p><strong>Monto:</strong> ₡{payment.payment_amount}</p>
-                            <img
-                              src={payment.payment_receipt_url}
-                              alt="Recibo de Pago"
-                              className="table-image"
-                              onClick={() => handleImageClick(payment.payment_receipt_url)}
-                            />
-                          </>
+                <div className="application-container">
+                  <table className="application-table">
+                    <tbody>
+                      <tr>
+                        <td className="table-cell"><strong>Dirección:</strong></td>
+                        <td className="table-cell">{application.address}</td>
+                      </tr>
+                      <tr>
+                        <td className="table-cell"><strong>Fecha de Nacimiento:</strong></td>
+                        <td className="table-cell">{application.birth_date}</td>
+                      </tr>
+                      <tr>
+                        <td className="table-cell"><strong>Correo:</strong></td>
+                        <td className="table-cell">{application.email}</td>
+                      </tr>
+                      <tr>
+                        <td className="table-cell"><strong>Teléfono:</strong></td>
+                        <td className="table-cell">{application.phone_number}</td>
+                      </tr>
+                      <tr>
+                        <td className="table-cell"><strong>Identificación:</strong></td>
+                        <td className="table-cell">
+                          <img
+                            src={application.identification_image_url}
+                            alt="Imagen de Identificación"
+                            className="table-image"
+                            onClick={() => handleImageClick(application.identification_image_url)}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="table-cell"><strong>Pago Realizado:</strong></td>
+                        <td className="table-cell">
+                          {application.payment ? (
+                            <>
+                              <p><strong>Fecha:</strong> {application.payment.payment_date}</p>
+                              <p><strong>Monto:</strong> ₡{application.payment.payment_amount}</p>
+                              <img
+                                src={application.payment.payment_receipt_url}
+                                alt="Recibo de Pago"
+                                className="table-image"
+                                onClick={() => handleImageClick(application.payment.payment_receipt_url)}
+                              />
+                            </>
                         ) : (
-                          <p>No disponible</p>
+                          <p>Curso Gratuito</p>
                         )}
                       </td>
                     </tr>
@@ -177,9 +178,11 @@ function RejectedApplications() {
                 </table>
               </div>
             </AccordionDetails>
-          </Accordion>
-        );
-      })}
+            </Accordion>
+        ))
+      ) : (
+        <p>No se encontraron solicitudes denegadas</p>
+      )}
 
       {/* Modal para ver imágenes detalladas */}
       <Dialog open={openModal} onClose={handleCloseModal}>

@@ -1,8 +1,13 @@
 import React from 'react'
+import SidebarStudent from '../Components/SidebarStudent'
+import StudentProfile from '../Components/Students/StudentProfile'
 
 function PerfilEstudiante() {
   return (
-    <div> Este es el Perfil de Estudiante</div>
+    <div>
+        <SidebarStudent />
+       <StudentProfile />
+    </div>
   )
 }
 

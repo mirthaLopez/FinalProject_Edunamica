@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-import { useAdmin } from '../Administration/AdminContext';
+import { useUser } from '../Administration/AdminContext';
 import { TextField, Button, Modal, Box, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
 import PutAdministrator from '../../Services/Administrators/PutAdministrators'; 
 import PatchAdminPass from '../../Services/Users/PatchAdminPass';
 import PatchAdminEmail from '../../Services/Users/PatchAdminEmail';
+import error from '../../Img/computer.png'
 
 import '../../Styles/Administration/AdministratorProfile.css'
 
 function AdministratorProfile() {
-  const { admin, setAdminData } = useAdmin();
-  console.log(admin);
+  const { user, setUserData } = useUser();  // Cambia admin a user
 
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    admin_name: admin?.admin_name || '',
-    admin_first_last_name: admin?.admin_first_last_name || '',
-    admin_second_last_name: admin?.admin_second_last_name || '',
-    admin_email: admin?.admin_email || '',
-    admin_phone_number: admin?.admin_phone_number || '',
-  });
-
+  const formData = {
+    ...user,  // Los datos del usuario (admin o estudiante)
+    admin_name: user?.admin_name || '',  // Dependiendo del tipo de usuario, las propiedades cambiarán
+    admin_first_last_name: user?.admin_first_last_name || '',
+    admin_second_last_name: user?.admin_second_last_name || '',
+    admin_email: user?.admin_email || '',
+    admin_phone_number: user?.admin_phone_number || '',
+  };
+  
   const [newPassword, setNewPassword] = useState('');
   const [passwordEnabled, setPasswordEnabled] = useState(false); // Controla si el campo de contraseña está habilitado
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -42,26 +43,26 @@ function AdministratorProfile() {
 
     const updatedFormData = {
       ...formData,
-      id: admin.id, 
-      admin_auth_user_fk: admin.admin_auth_user_fk, 
+      id: user.id, 
+      admin_auth_user_fk: user.admin_auth_user_fk, 
     };
 
     // Verificar si el correo electrónico ha cambiado
-    const emailChanged = formData.admin_email !== admin.admin_email;
+    const emailChanged = formData.admin_email !== user.admin_email;
 
     try {
       // Si el correo electrónico ha cambiado, primero se hace el cambio de correo
       if (emailChanged) {
         console.log("email cmabió");
-        console.log(admin.admin_auth_user_fk);
+        console.log(user.admin_auth_user_fk);
         
         console.log(formData.admin_email);
         
-        await PatchAdminEmail(admin.admin_auth_user_fk, formData.admin_email); // Ejecuta PatchAdminEmail
+        await PatchAdminEmail(user.admin_auth_user_fk, formData.admin_email); // Ejecuta PatchAdminEmail
       }
 
       // Después de actualizar el correo (si es necesario), actualiza los demás datos
-      await PutAdministrator(admin.id, updatedFormData); // Ejecuta PutAdministrator
+      await PutAdministrator(user.id, updatedFormData); // Ejecuta PutAdministrator
       setAdminData(updatedFormData); 
       Swal.fire('Éxito', 'Datos actualizados correctamente', 'success');
       handleClose();
@@ -80,7 +81,7 @@ function AdministratorProfile() {
     }
 
     try {
-      await PatchAdminPass(admin.admin_auth_user_fk, newPassword); // Llama al servicio PATCH para actualizar la contraseña
+      await PatchAdminPass(user.admin_auth_user_fk, newPassword); // Llama al servicio PATCH para actualizar la contraseña
       setIsPasswordUpdated(true);
       Swal.fire('Éxito', 'Contraseña actualizada correctamente', 'success');
     } catch (error) {
@@ -95,18 +96,35 @@ function AdministratorProfile() {
 
   return (
     <div className="admin-profile-container">
-      {admin ? (
+      <div>
+      <h1 className="admin-profile-title">Perfil de Administrador</h1>
+      <div className='admin-profile-data-container'>
+      {user ? (
         <div>
-          <h1 className="admin-profile-title">Perfil de Administrador</h1>
-          <p className="admin-profile-item"><strong>Nombre:</strong> {admin.admin_name} {admin.admin_first_last_name} {admin.admin_second_last_name}</p>
-          <p className="admin-profile-item"><strong>Email:</strong> {admin.admin_email}</p>
-          <p className="admin-profile-item"><strong>Teléfono:</strong> {admin.admin_phone_number}</p>
-          <Button variant="contained" className="admin-profile-edit-button" onClick={handleOpen}>
+          <p className="admin-profile-item"><strong>Nombre:</strong> {user.admin_name} {user.admin_first_last_name} {user.admin_second_last_name}</p>
+          <p className="admin-profile-item"><strong>Email:</strong> {user.admin_email}</p>
+          <p className="admin-profile-item"><strong>Teléfono:</strong> {user.admin_phone_number}</p>
+          <button variant="contained" className="admin-profile-edit-button" onClick={handleOpen}>
             Editar datos
-          </Button>
+          </button>
         </div>
       ) : (
-        <p className="admin-profile-item">No se encontraron datos del administrador.</p>
+        <div >
+          <div >
+          <p className="admin-profile-item-2">Inicia sesión nuevamente para poder ver y editar los datos de tu perfil.</p> </div>
+          <div style={{ display: 'flex', justifyItems: 'center', justifyContent: 'center' }}>
+            <img 
+              src={error} 
+              alt="" 
+              className='computer_error' 
+              style={{
+                width: '200px',   // Establece el ancho de la imagen
+                height: 'auto',   // Mantiene la proporción de la imagen
+                margin: '20px'  // Añade un margen alrededor de la imagen
+              }} 
+            />
+          </div>
+        </div>
       )}
 
       {/* Formulario para editar los datos del administrador dentro del Modal */}
@@ -172,29 +190,29 @@ function AdministratorProfile() {
               />
             </div>
 
-            <Button type="submit" className="admin-profile-save-button" fullWidth>
+            <button type="submit" className="admin-profile-save-button" fullWidth>
               Guardar Cambios
-            </Button>
+            </button>
           </form>
         </Box>
       </Modal>
-
+      </div>
       {/* Campo para la contraseña y el botón fuera del modal */}
       <div className="admin-profile-password-container">
-        <Typography variant="h6" gutterBottom>
-          Cambiar Contraseña
-        </Typography>
+        <h3 className='title-change-password'>
+          Cambia tu contraseña
+        </h3>
 
         {/* Botón para habilitar el campo de contraseña */}
         {!passwordEnabled ? (
-          <Button
+          <button
             variant="outlined"
             className="admin-profile-enable-password-button"
             onClick={() => setPasswordEnabled(true)} // Habilitar el campo de contraseña
             fullWidth
           >
             Cambiar Contraseña
-          </Button>
+          </button>
         ) : (
           <>
             {/* Input para la nueva contraseña */}
@@ -211,16 +229,17 @@ function AdministratorProfile() {
             </div>
 
             {/* Botón para guardar la nueva contraseña */}
-            <Button
+            <button
               variant="outlined"
               className="admin-profile-save-password-button"
               onClick={handlePasswordSubmit} // Llamar a la función para actualizar la contraseña
               fullWidth
             >
               Guardar Contraseña
-            </Button>
+            </button>
           </>
         )}
+      </div>
       </div>
     </div>
   );

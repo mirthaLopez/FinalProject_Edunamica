@@ -161,6 +161,11 @@
     justify-content: center;
     padding: 20px;
 }
+.title-change-password{
+    font-size: 1.1rem;
+    font-family: "Bebas Neue", sans-serif;
+    color: #043368; 
+}
 
 /* Estilo del botón "Ver todos los cursos" */
 .btn-view-all {
