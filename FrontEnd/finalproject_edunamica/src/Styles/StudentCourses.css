@@ -64,23 +64,70 @@
   .no-courses-message {
     font-style: italic;
     font-size: 1rem;
-    color: #ff6347; /* Color de advertencia en rojo */
+    color:  #eb392c;
   }
   
-  /* Diseño responsivo */
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
+    .student-courses-container {
+        margin-left: 20px; /* Reducir el margen izquierdo en pantallas más pequeñas */
+    }
+
+    .student-courses-title {
+        font-size: 36px; /* Reducir el tamaño de fuente */
+    }
+
+    .courses-table th, 
+    .courses-table td {
+        padding: 10px; /* Reducir el padding en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 768px) {
+    .student-courses-container {
+        margin-left: 0; /* Eliminar el margen izquierdo */
+        margin-right: 0; /* Eliminar el margen derecho */
+        padding: 15px; /* Reducir el padding */
+    }
+
+    .student-courses-title {
+        font-size: 30px; /* Reducir el tamaño de la fuente */
+    }
+
     .courses-table th,
     .courses-table td {
-      font-size: 0.8rem;
-      padding: 8px;
+        font-size: 0.8rem; /* Reducir el tamaño de fuente de la tabla */
     }
-  
+
+    .detail-name,
+    .detail-value {
+        font-size: 0.8rem; /* Reducir el tamaño de fuente de los detalles */
+    }
+
+    .no-courses-message {
+        font-size: 1rem; /* Reducir el tamaño de la fuente de los mensajes */
+    }
+}
+
+@media (max-width: 480px) {
     .student-courses-title {
-      font-size: 1.5rem;
+        font-size: 24px; /* Reducir aún más el tamaño de la fuente */
     }
-  
-    .student-courses-container {
-      padding: 10px;
+
+    .courses-table th,
+    .courses-table td {
+        padding: 8px; /* Reducir más el padding */
     }
-  }
-  
+
+    .detail-name,
+    .detail-value {
+        font-size: 0.75rem; /* Reducir aún más el tamaño de la fuente de los detalles */
+    }
+
+    .no-courses-message {
+        font-size: 0.9rem; /* Reducir aún más el tamaño de los mensajes */
+    }
+
+    .courses-table {
+        font-size: 0.75rem; /* Ajustar el tamaño de la fuente de la tabla */
+    }
+}

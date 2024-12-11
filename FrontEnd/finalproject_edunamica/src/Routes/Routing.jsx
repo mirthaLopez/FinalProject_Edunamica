@@ -39,6 +39,7 @@ import Login from "../Pages/Login/Login";
 import PerfilEstudiante from "../Pages/PerfilEstudiante";
 import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
 import MisCursos from "../Pages/MisCursos";
+import Matricular from "../Pages/Matricular"
 
 
 import Inicio from "../Pages/Inicio";
@@ -74,6 +75,7 @@ const Routing = () => {
                 <Route path="/PerfilAdministrador" element={<PerfilAdministrador />} /> 
                 <Route path="/VerAlianzas" element={<VerAlianzas />} /> 
                 <Route path="/MisCursos" element={<MisCursos />} /> 
+                <Route path="/Matricular" element={<Matricular />} /> 
             </Routes>
         </Router>
     );

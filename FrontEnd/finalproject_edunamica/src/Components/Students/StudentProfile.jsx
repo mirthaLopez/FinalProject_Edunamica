@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../Administration/AdminContext';
 import { TextField, Button, Modal, Box, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
@@ -6,7 +6,13 @@ import PatchStudentPass from '../../Services/Users/PatchStudentPass';
 import PatchStudentEmail from '../../Services/Users/PatchStudentEmail';
 import PutStudent from '../../Services/Students/PutStudents';
 import error from '../../Img/computer.png';
-import '../../Styles/Administration/AdministratorProfile.css';
+import '../../Styles/Students/StudentProfile.css';
+
+/** Dirección */
+import GetProvinces from '../../Services/Addresses/GetProvinces';
+import GetCantons from '../../Services/Addresses/GetCantons';
+import GetDistricts from '../../Services/Addresses/GetDistricts';
+import GetNeighborhoods from '../../Services/Addresses/GetNeighborhoods';
 
 function StudentProfile() {
   const { user, setUserData } = useUser();  // Obtenemos los datos del estudiante
@@ -19,12 +25,59 @@ function StudentProfile() {
     student_second_last_name: user?.student_second_last_name || '',
     student_email: user?.student_email || '',
     student_phone_number: user?.student_phone_number || '',
-    address: user?.address || ''
+    address: user?.address || '',
+    student_birth_date: user?.student_birth_date || '' // Añadimos la fecha de nacimiento al formulario
   });
 
   const [newPassword, setNewPassword] = useState('');
   const [passwordEnabled, setPasswordEnabled] = useState(false); // Controla si el campo de contraseña está habilitado
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+
+  /** Direcciones */
+  const [provinces, setProvinces] = useState([]);
+  const [cantons, setCantons] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [neighborhoods, setNeighborhoods] = useState([]);
+  const [fullAddress, setFullAddress] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const provincesData = await GetProvinces();
+      setProvinces(provincesData);
+      const cantonsData = await GetCantons();
+      setCantons(cantonsData);      
+      const districtsData = await GetDistricts();
+      setDistricts(districtsData);      
+      const neighborhoodsData = await GetNeighborhoods();
+      setNeighborhoods(neighborhoodsData);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (user?.neighborhood_fk) {
+      const neighborhood = neighborhoods.find(n => n.id === user.neighborhood_fk);
+      const district = districts.find(d => d.id === neighborhood?.district_fk);
+      const canton = cantons.find(c => c.id === district?.canton_fk);
+      const province = provinces.find(p => p.id === canton?.province_fk);
+
+      if (neighborhood && district && canton && province) {
+        setFullAddress(`${neighborhood.neighborhood_name}, ${district.district_name}, ${canton.canton_name}, ${province.province_name}`);
+      }
+    }
+  }, [user, provinces, cantons, districts, neighborhoods]);
+
+  // Función para calcular la edad a partir de la fecha de nacimiento
+  const calculateAge = (birthDate) => {
+    const birthDateObj = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDateObj.getFullYear();
+    const month = today.getMonth() - birthDateObj.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
   // Función para abrir el modal
   const handleOpen = () => setOpen(true);
@@ -45,7 +98,9 @@ function StudentProfile() {
       ...formData,
       id: user.id,
       student_auth_user_fk: user.student_auth_user_fk,
+      student_id_url: user.student_id_url // Mantén la URL de la imagen
     };
+    
 
     // Verificar si el correo electrónico ha cambiado
     const emailChanged = formData.student_email !== user.student_email;
@@ -92,7 +147,8 @@ function StudentProfile() {
 
   return (
     <div className="student-profile-container">
-      <div>
+      <div className='student-profile-container-flex'>
+        <div>
         <h1 className="student-profile-title">Perfil del Estudiante</h1>
         <div className='student-profile-data-container'>
           {user ? (
@@ -100,7 +156,16 @@ function StudentProfile() {
               <p className="student-profile-item"><strong>Nombre:</strong> {user.student_name} {user.student_first_last_name} {user.student_second_last_name}</p>
               <p className="student-profile-item"><strong>Email:</strong> {user.student_email}</p>
               <p className="student-profile-item"><strong>Teléfono:</strong> {user.student_phone_number}</p>
-              <p className="student-profile-item"><strong>Dirección:</strong> {user.address}</p>
+              <p 
+              
+              className="student-profile-item"><strong>Dirección:</strong> {fullAddress}</p> {/* Mostrar la dirección completa aquí */}{/* Mostrar la fecha de nacimiento y la edad */}
+              {user.student_birth_date && (
+                <p className="student-profile-item">
+                  <strong>Fecha de Nacimiento:</strong> {user.student_birth_date} 
+                  <br />
+                  <strong>Edad:</strong> {calculateAge(user.student_birth_date)}
+                </p>
+              )}
 
               {/* Mostrar la imagen con el ID del estudiante */}
               {user.student_id_url && (
@@ -137,87 +202,103 @@ function StudentProfile() {
             </div>
           )}
 
-          {/* Formulario para editar los datos del estudiante dentro del Modal */}
+          {/* Modal y Formulario de edición... */}
           <Modal open={open} onClose={handleClose}>
-            <Box className="student-profile-modal-content">
-              <Typography variant="h6" gutterBottom className="student-profile-modal-title">
-                Editar Datos del Estudiante
-              </Typography>
-              <form onSubmit={handleSubmit}>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Nombre"
-                    name="student_name"
-                    value={formData.student_name}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Primer Apellido"
-                    name="student_first_last_name"
-                    value={formData.student_first_last_name}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Segundo Apellido"
-                    name="student_second_last_name"
-                    value={formData.student_second_last_name}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Correo Electrónico"
-                    name="student_email"
-                    value={formData.student_email}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Teléfono"
-                    name="student_phone_number"
-                    value={formData.student_phone_number}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
-                <div className="student-profile-form-field">
-                  <TextField
-                    label="Dirección"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                  />
-                </div>
+  <Box className="student-profile-modal-content">
+    <h2 className="student-profile-modal-title">
+      Editar Datos del Estudiante
+    </h2>
+    <form onSubmit={handleSubmit} className="student-profile-form">
+      <div className="student-profile-form-field">
+        <TextField
+          label="Nombre"
+          name="student_name"
+          value={formData.student_name}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Primer Apellido"
+          name="student_first_last_name"
+          value={formData.student_first_last_name}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Segundo Apellido"
+          name="student_second_last_name"
+          value={formData.student_second_last_name}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Correo Electrónico"
+          name="student_email"
+          value={formData.student_email}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Teléfono"
+          name="student_phone_number"
+          value={formData.student_phone_number}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Dirección"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
+      <div className="student-profile-form-field">
+        <TextField
+          label="Fecha de Nacimiento"
+          name="student_birth_date"
+          type="date"
+          value={formData.student_birth_date}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+      </div>
 
-                <button type="submit" className="student-profile-save-button" fullWidth>
-                  Guardar Cambios
-                </button>
-              </form>
-            </Box>
-          </Modal>
+      <button type="submit" className="student-profile-save-button" fullWidth>
+        Guardar Cambios
+      </button>
+    </form>
+  </Box>
+</Modal>
         </div>
+
+        </div>
+
+        <div>
 
         {/* Campo para la contraseña y el botón fuera del modal */}
         <div className="student-profile-password-container">
@@ -262,9 +343,11 @@ function StudentProfile() {
             </>
           )}
         </div>
+        </div>
       </div>
     </div>
   );
 }
 
 export default StudentProfile;
+

@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Contenedor principal del formulario */
+.steps-container-student {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 310px;
+    margin-top: 20px;
+}
+
+/* Título */
+.div-title-register-student {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.text-form-register-student {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos para el Stepper */
+.MuiStepLabel-root {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.MuiStep-root.MuiStep-completed .MuiStepLabel-root {
+    color: #4caf50;
+}
+
+.MuiStep-root.MuiStep-active .MuiStepLabel-root {
+    color: #2196f3;
+}
+
+.steps-container-student .MuiStepLabel-iconContainer {
+    width: 40px;
+    height: 40px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-row-student {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Cuatro columnas iguales */
+  gap: 20px;
+  width: 100%;
+}
+
+/* Estilos para cada columna */
+.form-column-student {
+    min-width: 230px; /* Ancho mínimo para cada columna */
+}
+
+/* Estilos para los campos de entrada */
+.textfield-student {
+    margin: 10px 0;
+}
+
+.MuiInputLabel-root {
+    font-size: 1rem;
+    color: #333;
+}
+
+.MuiFormControl-root {
+    margin-bottom: 15px;
+}
+
+.MuiTextField-root {
+    margin-bottom: 15px;
+}
+
+.MuiSelect-root {
+    font-size: 1rem;
+    background-color: #fff;
+    width: 100%; /* Asegura que los selects ocupen todo el ancho disponible */
+}
+
+/* Botones */
+.btn-send-student {
+    background-color: #2196f3;
+    color: white;
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-transform: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 500px;
+}
+
+.botonEnviarStudent{
+  margin-left: 350px;
+  width: 90%;
+}
+
+.btn-send-student:hover {
+    background-color: #1976d2;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Modal */
+.MuiModal-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.paypal-modal__content_student {
+    text-align: center;
+    padding: 20px;
+}
+
+.paypal-modal__title_student {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.paypal-modal__cancel_btn_student {
+    margin-top: 20px;
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.paypal-modal__cancel_btn_student:hover {
+    background-color: #e53935;
+}
+
+.preview-student img {
+    max-width: 100px;
+    margin-top: 10px;
+}
+
+/* Estilos para la visualización de los pagos */
+.payment-methods-grid-student {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.payment-methods-container-student {
+    flex: 1;
+    min-width: 300px;
+}
+
+.payment-methods-group-student {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comprobante-container-student {
+    margin-top: 20px;
+}
+
+.payment-img-input-student {
+    margin-top: 10px;
+}
+
+.comprobante-input-student {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Estilos para la impresión de datos */
+.receipt-step-three-container-student {
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.receipt-company-logo-student {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.receipt-step-three-section-title-student {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.receipt-content-student {
+    display: flex;
+    gap: 30px;
+}
+
+.receipt-column-student {
+    flex: 1;
+    min-width: 250px;
+}
+
+.receipt-column-title-student {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.receipt-step-three-data-item-student {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.receipt-step-three-payment-item-student {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.receipt-print-button-student {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.receipt-print-button-student:hover {
+    background-color: #388e3c;
+}
+
+.completion-container-student {
+    text-align: center;
+}
+
+.completion-title-student {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.completion-message-student {
+    margin-top: 20px;
+    font-size: 1.1rem;
+}
+
+.completion-link-student {
+    text-decoration: none;
+    color: inherit;
+}
+
+.completion-link-student .MuiButton-root {
+    margin-top: 20px;
+}
+
+/* Estilos Responsivos */
+
+/* Pantallas muy pequeñas (telefonos hasta 480px) */
+@media (max-width: 480px) {
+    .steps-container-student {
+        padding: 10px;
+    }
+
+    .text-form-register-student {
+        font-size: 1.4rem;
+    }
+
+    .form-row-student {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-column-student {
+        min-width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+    }
+
+    .MuiStepLabel-root {
+        font-size: 0.8rem;
+    }
+
+    .btn-send-student {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .receipt-content-student {
+        flex-direction: column;
+    }
+
+    .payment-methods-grid-student {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .payment-methods-container-student {
+        min-width: 100%;
+    }
+
+    .paypal-modal__title_student {
+        font-size: 1.2rem;
+    }
+
+    .paypal-modal__cancel_btn_student {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .completion-title-student {
+        font-size: 1.2rem;
+    }
+
+    .completion-message-student {
+        font-size: 1rem;
+    }
+}
+
+/* Pantallas pequeñas (max-width: 767px) */
+@media (max-width: 767px) {
+    .steps-container-student {
+        padding: 15px;
+    }
+
+    .text-form-register-student {
+        font-size: 1.5rem;
+    }
+
+    .form-column-student {
+        min-width: 100%;
+    }
+
+    .MuiStepLabel-root {
+        font-size: 0.9rem;
+    }
+
+    .btn-send-student {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+    .receipt-content-student {
+        flex-direction: column;
+    }
+
+    .payment-methods-grid-student {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .payment-methods-container-student {
+        min-width: 100%;
+    }
+
+    .paypal-modal__title_student {
+        font-size: 1.3rem;
+    }
+}
+
+/* Pantallas medianas (tabletas) */
+@media (max-width: 1024px) {
+    .steps-container-student {
+        padding: 18px;
+        margin-left: 20px;
+    }
+
+    .text-form-register-student {
+        font-size: 1.8rem;
+    }
+
+    .form-column-student {
+        min-width: 45%; /* Las columnas se ajustan a menos de la mitad en tabletas */
+    }
+
+    .btn-send-student {
+        font-size: 1.1rem;
+        padding: 10px 18px;
+    }
+
+    .receipt-content-student {
+        flex-direction: row;
+    }
+
+    .payment-methods-grid-student {
+        flex-direction: row;
+    }
+}

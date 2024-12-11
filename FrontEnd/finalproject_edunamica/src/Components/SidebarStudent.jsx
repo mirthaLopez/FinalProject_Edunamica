@@ -84,8 +84,8 @@ function SidebarStudent() {
                         </Button>
                         <Collapse in={openSection === 'community'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" className="submenu-item link-dark rounded">Boletines Informativos</a></li>
-                                <li><a href="#" className="submenu-item link-dark rounded">Calendario de Actividades</a></li>
+                                <li><Link to="/MisCursos" className="submenu-item link-dark rounded"><p className="large-text">Boletines Informativos</p></Link></li>
+                                <li><Link to="/MisCursos" className="submenu-item link-dark rounded"><p className="large-text">Calendario de Actividades</p></Link></li>
                             </ul>
                         </Collapse>
                     </li>
@@ -122,7 +122,7 @@ function SidebarStudent() {
                         <Collapse in={openSection === 'courses'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
                                 <li><Link to="/MisCursos" className="submenu-item link-dark rounded"><p className="large-text">Mis Cursos</p></Link></li>
-                                <li><a href="#" className="submenu-item link-dark rounded">Matricular</a></li>
+                                <li><Link to="/Matricular" className="submenu-item link-dark rounded"><p className="large-text">Matricular</p></Link></li>
                             </ul>
                         </Collapse>
                     </li>
@@ -158,7 +158,7 @@ function SidebarStudent() {
                         </Button>
                         <Collapse in={openSection === 'payments'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" className="submenu-item link-dark rounded">Historial de Pagos</a></li>
+                                <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Historial de Pago</p></Link></li>
                             </ul>
                         </Collapse>
                     </li>
@@ -195,9 +195,8 @@ function SidebarStudent() {
                         </Button>
                         <Collapse in={openSection === 'account'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" className="submenu-item link-dark rounded">Mi Perfil</a></li>
-                                <li><a href="#" className="submenu-item link-dark rounded">Ajustes</a></li>
-                                <li><a href="#" className="submenu-item link-dark rounded">Cerrar Sesión</a></li>
+                                <li><Link to="/PerfilEstudiante" className="submenu-item link-dark rounded"><p className="large-text">Mi Perfil</p></Link></li>
+                                <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Cerrar Sesión</p></Link></li>
                             </ul>
                         </Collapse>
                     </li>

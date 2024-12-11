@@ -1,5 +1,5 @@
 
-.div-icon-mui .MuiSvgIcon-root {
+.div-icon-mui-2 .MuiSvgIcon-root {
   color: white;
   height: 80px;
   margin-right: 30px;
@@ -8,7 +8,7 @@
 
 
 /* Cabecera de solicitudes */
-.applications-header {
+.applications-header-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10rem;
@@ -16,31 +16,31 @@
   margin-top: 40px;
 }
 
-.header-admin {
+.header-admin-2 {
   background-color: #444444;
   height: 75px;
   display: flex;
   justify-content: space-between;
 }
 
-.logo-header-admin {
+.logo-header-admin-2 {
   height: 40px;
   width: auto;
 }
 
-.div-logo-header {
+.div-logo-header-2 {
   margin-top: 20px;
   margin-left: 70px;
 }
 
-.div-icon-mui .MuiSvgIcon-root {
+.div-icon-mui-2 .MuiSvgIcon-root {
   color: white;
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
 }
 
 /* Efecto hover */
-.div-icon-mui .MuiSvgIcon-root:hover {
+.div-icon-mui-2 .MuiSvgIcon-root:hover {
   transform: scale(1.2); /* Aumenta el tamaño del icono */
   color: #e6840a; /* Cambia el color cuando se pasa el cursor */
 }
@@ -48,54 +48,54 @@
 
 /* Consultas de medios (media queries) para pantallas pequeñas */
 @media (max-width: 768px) {
-  .div-logo-header{
+  .div-logo-header-2{
     margin-left: 70px;
     padding-left: 80px;
     padding-top: 10px;
   }
 
-  .divApplication {
+  .divApplication-2 {
     margin-left: 0; /* Eliminar el margen izquierdo */
     margin-right: 10px; /* Ajustar margen derecho */
   }
 
-  .header-admin {
+  .header-admin-2 {
     min-height: 90px;
   }
 
-  .div-logo-header {
+  .div-logo-header-2 {
     margin-left: 0; /* Eliminar el margen izquierdo */
     text-align: center; /* Centrar el logo */
   }
-  .div-icon-mui{
+  .div-icon-mui-2{
     margin-top: 10px;
   }
 
   /* Hacer que los iconos sean más pequeños */
-  .div-icon-mui .MuiSvgIcon-root {
+  .div-icon-mui-2 .MuiSvgIcon-root {
     height: 50px; /* Reducir el tamaño de los iconos */
     margin-right: 20px; /* Reducir el margen entre icono y texto */
   }
 }
 
 @media (max-width: 480px) {
-  .div-logo-header{
+  .div-logo-header-2{
     margin-left: 70px;
     padding-left: 10px;
   }
 
-  .divApplication {
+  .divApplication-2 {
     margin-left: 0; /* Eliminar el margen izquierdo */
   }
 
-  .header-admin {
+  .header-admin-2 {
     min-height: 85px; /* Reducir la altura del header */
   }
 
-  .logo-header-admin {
+  .logo-header-admin-2 {
     height: 40px; /* Reducir tamaño del logo */
   }
-  .div-icon-mui{
+  .div-icon-mui-2{
     margin-top: 10px;
   }
 }

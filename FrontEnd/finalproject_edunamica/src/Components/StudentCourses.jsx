@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'; // Importando useState y useEffect correctamente
+import React, { useState, useEffect } from 'react';
+
 import GetStudentCourses from '../Services/Students/GetStudentCourses';
 import GetStudent from '../Services/Students/GetStudents';
 import GetCourses from '../Services/Courses/GetCourses';
-import GetCategory from '../Services/Categories/GetCategories';
 import GetModalities from '../Services/Modality/GetModalities';
 import { useUser } from '../Components/Administration/AdminContext';
 
@@ -14,12 +14,9 @@ function StudentCourses() {
   const [studentCourses, setStudentCourses] = useState([]); 
   const [student, setStudent] = useState([]); 
   const [courses, setCourses] = useState([]); 
-  const [modality, setModality] = useState([]); 
-  const [category, setCategory] = useState([]); 
+  const [modalities, setModalities] = useState([]);  // Aquí almacenamos las modalidades de pago
   const [enrolledCourses, setEnrolledCourses] = useState([]);  // Cursos en los que está matriculado el estudiante
-  const [categoryMap, setCategoryMap] = useState({}); // Mapa de categorías
-  const [modalityMap, setModalityMap] = useState({}); // Mapa de modalidades
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,24 +30,7 @@ function StudentCourses() {
         setCourses(CourseData); 
 
         const ModalityData = await GetModalities();
-        setModality(ModalityData); 
-
-        const CategoryData = await GetCategory();
-        setCategory(CategoryData); 
-
-        // Crear mapas de categorías y modalidades para acceso rápido
-        const categoryMap = CategoryData.reduce((map, category) => {
-          map[category.id] = category.name;
-          return map;
-        }, {});
-
-        const modalityMap = ModalityData.reduce((map, modality) => {
-          map[modality.id] = modality.name;
-          return map;
-        }, {});
-
-        setCategoryMap(categoryMap);
-        setModalityMap(modalityMap);
+        setModalities(ModalityData); 
 
       } catch (error) {
         console.error("Error fetching data:", error); 
@@ -71,22 +51,17 @@ function StudentCourses() {
       const enrolledCourseDetails = courses.filter(course => 
         enrolledCourseIds.includes(course.id)
       ); 
-
       // Establecer los cursos en los que el estudiante está matriculado
       setEnrolledCourses(enrolledCourseDetails);
     }
   }, [student, courses, studentCourses, user.id]);  // Esta dependencia se ejecuta cuando los datos cambian
 
-  // Función para obtener la modalidad correspondiente al curso
-  const getModalityName = (modalityId) => {
-    return modalityMap[modalityId] || 'N/A'; // Acceso rápido al mapa
+  // Obtener la modalidad de pago para cada curso
+  const getModalityForCourse = (courseId) => {
+    const courseModality = modalities.find(modality => modality.id === courseId);
+    return courseModality ? courseModality.name : 'No definida'; // Si no encuentra la modalidad, retorna 'No definida'
   };
 
-  // Función para obtener la categoría correspondiente al curso
-  const getCategoryName = (categoryId) => {
-    return categoryMap[categoryId] || 'N/A'; // Acceso rápido al mapa
-  };
-  
   return (
     <div className="student-courses-container">
       <h1 className="student-courses-title">Cursos Matriculados</h1>
@@ -102,7 +77,6 @@ function StudentCourses() {
               <th className="detail-name">Precio</th>
               <th className="detail-name">Horario</th>
               <th className="detail-name">Requisitos</th>
-              <th className="detail-name">Categoría</th>
               <th className="detail-name">Modalidad de pago</th>
             </tr>
           </thead>
@@ -117,8 +91,7 @@ function StudentCourses() {
                 <td className="detail-value">{course.course_price}</td>
                 <td className="detail-value">{course.course_schedule}</td>
                 <td className="detail-value">{course.obligatory_requirements}</td>
-                <td className="detail-value">{getCategoryName(course.category_fk)}</td>
-                <td className="detail-value">{getModalityName(course.modality_fk)}</td>
+                <td className="detail-value">{getModalityForCourse(course.id)}</td> {/* Mostrar modalidad aquí */}
               </tr>
             ))}
           </tbody>
@@ -131,4 +104,3 @@ function StudentCourses() {
 }
 
 export default StudentCourses;
-

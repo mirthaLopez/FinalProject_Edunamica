@@ -69,7 +69,7 @@ function FormLogin() {
           confirmButtonText: 'Ok',
           timer: 1500
         });
-        navigate('/PerfilEstudiante'); // Redirige al perfil del estudiante
+        navigate('/Matricular'); // Redirige al perfil del estudiante
       } else {
         Swal.fire({
           icon: "error",

@@ -21,11 +21,11 @@ function NavAdministration() {
 
   return (
     <div>
-      <div className='header-admin'>
-        <div className='div-logo-header'>
-          <img src={logo_edunamica} className='logo-header-admin' />
+      <div className='header-admin-2'>
+        <div className='div-logo-header-2'>
+          <img src={logo_edunamica} className='logo-header-admin-2' />
         </div>
-        <div className='div-icon-mui'>
+        <div className='div-icon-mui-2'>
           <AccountCircleIcon sx={{ fontSize: 30 }} />
           <LogoutIcon sx={{ fontSize: 30 }} onClick={handleLogout} />
         </div>

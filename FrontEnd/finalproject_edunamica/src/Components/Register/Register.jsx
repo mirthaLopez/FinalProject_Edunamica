@@ -44,8 +44,9 @@ function Register() {
     ///////Stepper 
     const steps = ['Paso 1', 'Paso 2', 'Paso 3'];
     const [activeStep, setActiveStep] = useState(0);
-      // Función que se ejecuta al hacer clic en el botón de "Siguiente"
-  const handleNext = () => {
+    
+    // Función que se ejecuta al hacer clic en el botón de "Siguiente"
+    const handleNext = () => {
     // Primero, se avanza al siguiente paso
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     
@@ -796,7 +797,6 @@ function Register() {
 )}
 
 
-// Renderización del formulario y el botón
 {activeStep === 1 && (
   <div className='container_second_step'>
     {/* Mostrar el mensaje si el curso es gratuito */}

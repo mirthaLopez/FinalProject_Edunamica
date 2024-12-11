@@ -1,0 +1,142 @@
+.student-profile-container{
+    margin-left: 300px;
+}
+
+.student-profile-container-flex{
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  margin-right: 100px;
+  margin-left: 60px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  padding: 40px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.student-profile-modal-content {
+    margin-left: 150px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px; /* Ancho máximo ajustado */
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+  
+  .student-profile-modal-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Bebas Neue", sans-serif;
+    color: #043368;
+  }
+  .student-profile-title{
+    font-family: "Bebas Neue", sans-serif;
+    color: #043368;
+  }
+
+  .student-profile-enable-password-button{
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #ad0f1c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .student-profile-save-password-button{
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #ad0f1c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .student-profile-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual tamaño */
+    gap: 20px; /* Espaciado entre las columnas */
+  }
+  
+  .student-profile-form-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .student-profile-form-field input,
+  .student-profile-form-field textarea {
+    width: 100%;
+  }
+
+  .student-profile-edit-button{
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    width: 50%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #043368;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .student-profile-save-button {
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #043368;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .student-profile-save-button:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 768px) {
+    .student-profile-form {
+      grid-template-columns: 1fr; /* En pantallas pequeñas, los campos se apilan en una sola columna */
+    }
+  
+    .student-profile-form-field {
+      flex: 1 1 100%;
+    }
+    .student-profile-container{
+      margin:20px;
+  }
+  .student-profile-modal-content {
+    margin-left: 0px;}
+
+    .student-profile-container-flex{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-right: 20px;
+      margin-left: 20px;
+      margin-top: 0%;
+      background-color: #f4f4f9;
+      padding: 30px;
+      gap: 4rem;
+    }
+  }
+  

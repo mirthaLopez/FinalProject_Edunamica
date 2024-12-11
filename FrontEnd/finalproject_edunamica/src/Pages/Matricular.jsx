@@ -1,16 +1,16 @@
 import React from 'react'
 import SidebarStudent from '../Components/SidebarStudent'
 import NavAdministration from '../Components/AdminComponents/NavAdministration';
-import StudentProfile from '../Components/Students/StudentProfile'
+import RegisterStudent from '../Components/RegisterStudent'
 
-function PerfilEstudiante() {
+function Matricular() {
   return (
     <div>
         <SidebarStudent />
         <NavAdministration />
-        <StudentProfile />
+        <RegisterStudent />
     </div>
   )
 }
 
-export default PerfilEstudiante
+export default Matricular
