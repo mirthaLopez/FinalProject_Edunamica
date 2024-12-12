@@ -51,16 +51,12 @@ function StudentCourses() {
       const enrolledCourseDetails = courses.filter(course => 
         enrolledCourseIds.includes(course.id)
       ); 
+      
       // Establecer los cursos en los que el estudiante está matriculado
       setEnrolledCourses(enrolledCourseDetails);
     }
   }, [student, courses, studentCourses, user.id]);  // Esta dependencia se ejecuta cuando los datos cambian
 
-  // Obtener la modalidad de pago para cada curso
-  const getModalityForCourse = (courseId) => {
-    const courseModality = modalities.find(modality => modality.id === courseId);
-    return courseModality ? courseModality.name : 'No definida'; // Si no encuentra la modalidad, retorna 'No definida'
-  };
 
   return (
     <div className="student-courses-container">
@@ -77,7 +73,7 @@ function StudentCourses() {
               <th className="detail-name">Precio</th>
               <th className="detail-name">Horario</th>
               <th className="detail-name">Requisitos</th>
-              <th className="detail-name">Modalidad de pago</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -91,7 +87,7 @@ function StudentCourses() {
                 <td className="detail-value">{course.course_price}</td>
                 <td className="detail-value">{course.course_schedule}</td>
                 <td className="detail-value">{course.obligatory_requirements}</td>
-                <td className="detail-value">{getModalityForCourse(course.id)}</td> {/* Mostrar modalidad aquí */}
+                
               </tr>
             ))}
           </tbody>

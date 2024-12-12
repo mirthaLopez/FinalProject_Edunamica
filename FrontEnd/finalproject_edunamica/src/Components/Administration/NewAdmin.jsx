@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetUsers from '../../Services/Users/GetUsers';
@@ -8,16 +9,15 @@ import PostAdmin from '../../Services/Administrators/postAdmin';
 //ESTILOS CSS
 import '../../Styles/Administration/NewAdmin.css';
 
-//IMPORTS DE LIBRERIA MUI
-import {TextField, Button} from '@mui/material';
+//IMPORTS DE LIBRERÍA MUI
+import { TextField, Button } from '@mui/material';
 
-//IMPORT DE LIBRERIA EMAIL JS
+//IMPORT DE LIBRERÍA EMAIL JS
 import emailjs from '@emailjs/browser';
 
-//IMPORT DE LIBRERIA NOTYF
-import {Notyf} from 'notyf';
+//IMPORT DE LIBRERÍA NOTYF
+import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
-
 
 function NewAdmin() {
   // Estados del formulario
@@ -26,12 +26,12 @@ function NewAdmin() {
   const [admin_second_last_name, setSecondLastName] = useState('');
   const [admin_phone_number, setPhoneNumber] = useState('');
   const [admin_email, setEmail] = useState('');
-
-  const [admin, setAdmin] = useState([]);
-  console.log(admin);
-  
+  const [isLoading, setIsLoading] = useState(false); // Estado para manejar el proceso de carga
   const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
-
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  const [admin, setAdmin] = useState([]);
+  
+  console.log(admin);
 
   // Obtener los usuarios autenticados (auth_user)
   useEffect(() => {
@@ -46,10 +46,17 @@ function NewAdmin() {
     fetchUsuarios();
   }, []);
 
-
   // Función para agregar administrador
   const AddNewAdminButton = async () => {
     console.log('Botón agregar new admin user');
+    
+    // Validación de campos
+    if (!admin_name || !admin_first_last_name || !admin_second_last_name || !admin_phone_number || !admin_email) {
+      notyf.error('Por favor, completa todos los campos');
+      return;
+    }
+
+    setIsLoading(true); // Empieza el proceso de carga
 
     try {
       // Función para generar una contraseña aleatoria
@@ -113,77 +120,78 @@ function NewAdmin() {
       } else {
         console.error('No se pudo crear el auth_user');
         notyf.error(`Error no se pudo crear la autorización para el administrador`);
-
       }
     } catch (error) {
       console.error('Error al agregar a un nuevo administrador', error);
       notyf.error(`Error al agregar a un nuevo administrador`);
+    } finally {
+      setIsLoading(false); // Termina el proceso de carga
     }
   };
 
   return (
-<div className="admin-registration">
-  <h1 className="admin-registration__title">Registrar Nuevo Administrador</h1>
+    <div className="admin-registration">
+      <h1 className="admin-registration__title">Registrar Nuevo Administrador</h1>
 
-  <TextField
-    value={admin_name}
-    onChange={(e) => setName(e.target.value)}
-    label="Nombre"
-    name="name"
-    className="admin-registration__input admin-registration__input--name"
-  />
-  <br />
-  <br />
-  <TextField
-    value={admin_first_last_name}
-    onChange={(e) => setFirstLastName(e.target.value)}
-    label="Primer Apellido"
-    name="firstLastName"
-    className="admin-registration__input admin-registration__input--first-last-name"
-  />
-  <br />
-  <br />
-  <TextField
-    value={admin_second_last_name}
-    onChange={(e) => setSecondLastName(e.target.value)}
-    label="Segundo Apellido"
-    name="secondLastName"
-    className="admin-registration__input admin-registration__input--second-last-name"
-  />
-  <br />
-  <br />
-  <TextField
-    value={admin_phone_number}
-    onChange={(e) => setPhoneNumber(e.target.value)}
-    type="number"
-    label="Número de Teléfono"
-    name="phoneNumber"
-    className="admin-registration__input admin-registration__input--phone-number"
-  />
-  <br />
-  <br />
-  <TextField
-    value={admin_email}
-    onChange={(e) => setEmail(e.target.value)}
-    label="Correo Electrónico"
-    name="email"
-    className="admin-registration__input admin-registration__input--email"
-  />
-  <br />
-  <br />
-  <div className="divButtonNewAdmin">
-  <Button
-    onClick={AddNewAdminButton}
-    type="submit"
-    variant="contained"
-    color="success"
-    className="admin-registration__button"
-  >
-    Registrar Administrador
-  </Button>
-  </div>
-</div>
-
+      <TextField
+        value={admin_name}
+        onChange={(e) => setName(e.target.value)}
+        label="Nombre"
+        name="name"
+        className="admin-registration__input admin-registration__input--name"
+      />
+      <br />
+      <br />
+      <TextField
+        value={admin_first_last_name}
+        onChange={(e) => setFirstLastName(e.target.value)}
+        label="Primer Apellido"
+        name="firstLastName"
+        className="admin-registration__input admin-registration__input--first-last-name"
+      />
+      <br />
+      <br />
+      <TextField
+        value={admin_second_last_name}
+        onChange={(e) => setSecondLastName(e.target.value)}
+        label="Segundo Apellido"
+        name="secondLastName"
+        className="admin-registration__input admin-registration__input--second-last-name"
+      />
+      <br />
+      <br />
+      <TextField
+        value={admin_phone_number}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+        type="number"
+        label="Número de Teléfono"
+        name="phoneNumber"
+        className="admin-registration__input admin-registration__input--phone-number"
+      />
+      <br />
+      <br />
+      <TextField
+        value={admin_email}
+        onChange={(e) => setEmail(e.target.value)}
+        label="Correo Electrónico"
+        name="email"
+        className="admin-registration__input admin-registration__input--email"
+      />
+      <br />
+      <br />
+      <div className="divButtonNewAdmin">
+        <Button
+          onClick={AddNewAdminButton}
+          type="submit"
+          variant="contained"
+          color="success"
+          className="admin-registration__button"
+          disabled={isLoading} // Deshabilitar el botón mientras se está procesando
+        >
+          {isLoading ? 'Registrando...' : 'Registrar Administrador'}
+        </Button>
+      </div>
+    </div>
   );
 }
 

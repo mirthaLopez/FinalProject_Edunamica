@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from 'react';
-
-//SERVICIOS
 import PostUser from '../../Services/Users/PostUsers';
 import GetAdmin from '../../Services/Administrators/GetAdministrators';
 import GetStudent from '../../Services/Students/GetStudents';
-
-//ESTILOS CSS
 import '../../Styles/Login/LoginForm.css';
-
-//IMPORTS DE LIBRERIA MUI
 import { TextField, Typography, Button } from '@mui/material';
-
-//IMPORT DE LIBRERIA SWEET ALERT
 import Swal from 'sweetalert2'; 
-
-//IMPORT DE USE NAVIGATE
 import { useNavigate } from 'react-router-dom'; 
-
-import { useUser } from '../Administration/AdminContext'; // Importar el nuevo contexto
+import { useAuth } from '../AuthContext'; // Usar el nuevo contexto
 
 function FormLogin() {
   const [email, setEmail] = useState(''); 
@@ -25,9 +14,8 @@ function FormLogin() {
   const navigate = useNavigate(); 
   const [administrators, setAdministrators] = useState([]); 
   const [students, setStudents] = useState([]); 
-  const { setUserData } = useUser(); // Usamos el nuevo UserContext
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
 
-  // Cargar los datos de administradores y estudiantes al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       const adminData = await GetAdmin();
@@ -43,46 +31,54 @@ function FormLogin() {
   const handleEmail = (event) => setEmail(event.target.value);
 
   const cargar = async (event) => {
-    event.preventDefault(); // Prevenir comportamiento predeterminado del formulario
+    event.preventDefault();
 
-    const data = await PostUser(email, password);
-    if (data.access) {
-      const admin = administrators.find(a => a.admin_email === email);
-      const student = students.find(s => s.student_email === email);
+    try {
+      const data = await PostUser(email, password);
+      if (data.access) {
+        const admin = administrators.find(a => a.admin_email === email);
+        const student = students.find(s => s.student_email === email);
 
-      if (admin) {
-        setUserData(admin, 'admin'); // Guarda los datos del admin en el contexto
-        Swal.fire({
-          title: 'Has iniciado sesión con éxito!',
-          text: 'Te redirigiremos a la página principal',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          timer: 1500
-        });
-        navigate('/Solicitudes'); // Redirige a la página de solicitudes
-      } else if (student) {
-        setUserData(student, 'student'); // Guarda los datos del estudiante en el contexto
-        Swal.fire({
-          title: 'Has iniciado sesión con éxito!',
-          text: 'Te redirigiremos a tu perfil',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          timer: 1500
-        });
-        navigate('/Matricular'); // Redirige al perfil del estudiante
+        if (admin) {
+          setAuthData(admin, { access: data.access, refresh: data.refresh }); // Guardamos el usuario y tokens en el contexto
+          Swal.fire({
+            title: 'Has iniciado sesión con éxito!',
+            text: 'Te redirigiremos a la página principal',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 1500
+          });
+          navigate('/Solicitudes');
+        } else if (student) {
+          setAuthData(student, { access: data.access, refresh: data.refresh });
+          Swal.fire({
+            title: 'Has iniciado sesión con éxito!',
+            text: 'Te redirigiremos a tu perfil',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 1500
+          });
+          navigate('/Matricular');
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salió mal, verifica tus credenciales.",
+            footer: '<a href="#">¿Por qué tengo este problema?</a>'
+          });
+        }
       } else {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Algo salió mal, verifica tus credenciales.",
-          footer: '<a href="#">¿Por qué tengo este problema?</a>'
+          icon: 'error',
+          title: 'Error de autenticación',
+          text: 'Credenciales incorrectas. Intenta nuevamente.',
         });
       }
-    } else {
+    } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Error de autenticación',
-        text: 'Credenciales incorrectas. Intenta nuevamente.',
+        text: 'No se pudo conectar con el servidor.',
       });
     }
   };
@@ -122,3 +118,4 @@ function FormLogin() {
 }
 
 export default FormLogin;
+

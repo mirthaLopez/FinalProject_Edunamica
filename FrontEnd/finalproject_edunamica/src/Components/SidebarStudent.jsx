@@ -158,7 +158,7 @@ function SidebarStudent() {
                         </Button>
                         <Collapse in={openSection === 'payments'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
-                                <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Historial de Pago</p></Link></li>
+                                <li><Link to="/MisPagos" className="submenu-item link-dark rounded"><p className="large-text">Historial de Pago</p></Link></li>
                             </ul>
                         </Collapse>
                     </li>

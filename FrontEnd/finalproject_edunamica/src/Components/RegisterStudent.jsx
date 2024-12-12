@@ -98,6 +98,19 @@ const [neighborhoods, setNeighborhoods] = useState([]);
 const [enrollment, setEnrollment] = useState([]);
 const [fullAddress, setFullAddress] = useState('');
 
+  // Precarga el select con el género del usuario
+  useEffect(() => {
+    if (user?.genre_fk) {
+      // Encuentra el género correspondiente en la lista de géneros
+      const studentGenre = genres.find(g => g.id === user.genre_fk);
+      if (studentGenre) {
+        // Si se encuentra el género, establece el valor de `genreFk` para precargar el select
+        setGenreFk(studentGenre.id);
+      }
+    }
+  }, [user, genres]);
+
+
 // Verificación con Email Js
 const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado
 const [userCode, setUserCode] = useState('');    // Código que el usuario ingresa para validar
@@ -207,7 +220,6 @@ useEffect(() => {
 }, [user]);
 
 if (user && user.neighborhood_fk !== undefined) {
-  console.log(user.neighborhood_fk);
 } else {
   console.log('La propiedad neighborhood_fk no existe en user');
 }
@@ -216,43 +228,39 @@ if (user && user.neighborhood_fk !== undefined) {
 useEffect(() => {
   if (user?.neighborhood_fk) {
     const neighborhood = neighborhoods.find(n => n.id === user.neighborhood_fk);
+    console.log(neighborhood);
     const district = districts.find(d => d.id === neighborhood?.district_fk);
+    console.log(district);
+    
     const canton = cantons.find(c => c.id === district?.canton_fk);
+    console.log(canton);
+    
     const province = provinces.find(p => p.id === canton?.province_fk);
+    console.log(province);
+    
   
     if (neighborhood && district && canton && province) {
-
-  
-      
-    
       
           const objetoDirecciones={
-              Barrio:neighborhood.neighborhood_name,
-              Distrito:district.district_name,
-              Canton:canton.canton_name,
-              Provincia:province.province_name
+              Barrio:neighborhood.id,
+              Distrito:district.id,
+              Canton:canton.id,
+              Provincia:province.id,
           }
-      
-
-
           
-
-          console.log(objetoDirecciones);
-          
-
-
       setFullAddress(objetoDirecciones);
     }
   }
 }, [user, provinces, cantons, districts, neighborhoods]);
 
-console.log(fullAddress);
 
 
 
 
-   
-
+console.log(fullAddress.Barrio);
+console.log(fullAddress.Distrito);
+console.log(fullAddress.Canton);
+console.log(fullAddress.Provincia);
 
   // Efecto que escucha cambios en el historial (cuando el usuario navega hacia atrás)
 useEffect(() => {
@@ -396,12 +404,10 @@ const sendEmail = async (e) => {
 
   ///////Encuentra el curso relacionado a la matricula ///////
     const chosen_course= courses.find(c => c.id == courseFk);
-    console.log(chosen_course);
     const price = chosen_course?.course_price || "No disponible"; //////Aqui esta el precio relacionado al curso escogido 
 
   // Calcular el total amount
   const total_amount = (price / valores.venta).toFixed(2);
-  console.log(total_amount); // Esto devolverá un string con 2 decimales
 
   const initialOptions = {
     clientId: import.meta.env.VITE_CLIENTE_ID, // ponerlo .env
@@ -711,99 +717,112 @@ printWindow.print();
               margin="normal"
             />
 
-<FormControl fullWidth margin="normal">
-<InputLabel>Género</InputLabel>
-  <Select
-    value={genreFk}
-    onChange={(e) => setGenreFk(e.target.value)} // Actualiza el valor de género
-    label="Género"
-    required
-  >
-                <MenuItem value="">Selecciona un género</MenuItem>
-                {genres.map((genre) => (
-                  <MenuItem key={genre.id} value={genre.id}>
-                    {genre.genre_name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+<div className="form-group">
+      <label htmlFor="genero">Género</label>
+      <select
+        id="genero"
+        value={genreFk}
+        onChange={(e) => setGenreFk(e.target.value)} // Actualiza el valor de género
+        required
+        className="form-control"
+      >
+        <option value="">Selecciona un género</option>
+        {genres.map((genre) => (
+          <option key={genre.id} value={genre.id}>
+            {genre.genre_name}
+          </option>
+        ))}
+      </select>
+    </div>
         </div>
 
         {/* Columna 4: Dirección */}
         <div className='form-column-student'>
-          <FormControl fullWidth margin="normal">
-                <InputLabel>Provincia</InputLabel>
-                <Select
-                value={7}
-                onChange={(e) => setProvinces(e.target.value)}
-                label="Provincia"
-                required
-              >
-                <MenuItem value="">Selecciona tu provincia</MenuItem>
-                {provinces.map((province) => (
-                  <MenuItem key={province.id} value={province.id}>
-                    {province.province_name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+        <div className="form-control full-width margin-normal">
+          <label htmlFor="provincia">Provincia</label>
+          <select
+            id="provincia"
+            value={fullAddress.Provincia}
+            onChange={(e) => setProvinces(e.target.value)}
+            required
+            className="select"
+          >
+            <option value="">Selecciona tu provincia</option>
+            {provinces.map((province) => (
+              <option key={province.id} value={province.id}>
+                {province.province_name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Cantón</InputLabel>
-              <Select
-                value={cantonFk}
-                onChange={(e) => setCantonFk(e.target.value)}
-                label="Cantón"
-                required
-              >
-                <MenuItem value="">Selecciona tu cantón</MenuItem>
-                {cantons
-                  .filter((canton) => canton.province_fk === parseInt(provinceFk))
-                  .map((canton) => (
-                    <MenuItem key={canton.id} value={canton.id}>
-                      {canton.canton_name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+        <div className="form-control full-width margin-normal">
+          <label htmlFor="canton">Cantón</label>
+          <select
+            id="canton"
+            value={fullAddress.Canton}
+            onChange={(e) => setCantons(e.target.value)}
+            required
+            className="select"
+          >
+            <option value="">Selecciona tu cantón</option>
+            {cantons
+              .filter((canton) => canton.province_fk === parseInt(fullAddress.Provincia))
+              .map((canton) => (
+                <option key={canton.id} value={canton.id}>
+                  {canton.canton_name}
+                </option>
+              ))}
+          </select>
+        </div>
 
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Distrito</InputLabel>
-              <Select
-                value={districtFk}
-                onChange={(e) => setDistrictFk(e.target.value)}
-                label="Distrito"
-                required
-              >
-                <MenuItem value="">Selecciona tu distrito</MenuItem>
-                {districts
-                  .filter((district) => district.canton_fk === parseInt(cantonFk))
-                  .map((district) => (
-                    <MenuItem key={district.id} value={district.id}>
-                      {district.district_name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+        <div className="form-control" style={{ width: '100%', margin: 'normal' }}>
+          <label htmlFor="distrito" className="input-label">
+            Distrito
+          </label>
+          <select
+            id="distrito"
+            className="select"
+            value={fullAddress.Distrito}
+            onChange={(e) => setDistricts(e.target.value)}
+            required
+          >
+            <option value="" className="menu-item">
+              Selecciona tu distrito
+            </option>
+            {districts
+              .filter((district) => district.canton_fk === parseInt(fullAddress.Canton))
+              .map((district) => (
+                <option key={district.id} value={district.id} className="menu-item">
+                  {district.district_name}
+                </option>
+              ))}
+          </select>
+        </div>
 
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Barrio</InputLabel>
-              <Select
-                value={neighborhoodFk}
-                onChange={(e) => setNeighborhoodFk(e.target.value)}
-                label="Neighborhood"
-                required
-              >
-                <MenuItem value="">Selecciona tu barrio</MenuItem>
-                {neighborhoods
-                  .filter((neighborhood) => neighborhood.district_fk === parseInt(districtFk))
-                  .map((neighborhood) => (
-                    <MenuItem key={neighborhood.id} value={neighborhood.id}>
-                      {neighborhood.neighborhood_name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+        <div className="form-control" style={{ width: '100%', margin: 'normal' }}>
+          <label htmlFor="barrio" className="input-label">
+            Barrio
+          </label>
+          <select
+            id="barrio"
+            className="select"
+            value={fullAddress.Barrio}
+            onChange={(e) => setNeighborhoodFk(e.target.value)}
+            required
+          >
+            <option value="" className="menu-item">
+              Selecciona tu barrio
+            </option>
+            {neighborhoods
+              .filter((neighborhood) => neighborhood.district_fk === parseInt(fullAddress.Distrito))
+              .map((neighborhood) => (
+                <option key={neighborhood.id} value={neighborhood.id} className="menu-item">
+                  {neighborhood.neighborhood_name}
+                </option>
+              ))}
+          </select>
+        </div>
 
             <TextField
               label="Dirección Exacta"

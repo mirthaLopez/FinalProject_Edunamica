@@ -1,27 +1,36 @@
+
 async function PostAuthAdminUser(username, email, password) {
+    console.log('estoy en el post a authadmin');
     
-    const userData={
+
+
+    const userData = {
         username,
         email,
         password
-    }
+    };
+
+    console.log(userData);
+    
 
     try {
-
+        // Hacer el POST para crear el usuario de autenticación
         const response = await fetch('http://localhost:8000/api/users_admin/', {
-            method: 'POST', 
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json',
+
             },
-            body: JSON.stringify(userData) 
+            body: JSON.stringify(userData),
         });
 
         const data = await response.json();
-            return data; 
+        return data; // Devuelve la respuesta
 
     } catch (error) {
-
-        console.error(error);
+        console.error("Error al hacer la solicitud POST:", error);
     }
 }
+
 export default PostAuthAdminUser;
+

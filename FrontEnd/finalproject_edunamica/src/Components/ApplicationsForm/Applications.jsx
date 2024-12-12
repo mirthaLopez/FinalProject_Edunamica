@@ -8,6 +8,7 @@ import PostStudent from '../../Services/Students/PostStudents';
 import patchStatusApplication from '../../Services/RegisterForm/PatchStudentStatus';
 import GetCourses from '../../Services/Courses/GetCourses';
 import PostStudentCourses from '../../Services/RegisterForm/PostStudentCourses';
+import PostStudentPayment from '../../Services/Students/PostStudentPayment';
 
 //ESTILOS CSS
 import '../../Styles/ApplicationsForm/Applications.css';
@@ -79,6 +80,9 @@ const filteredApplications = applications.filter((data) => {
     setSelectedImage('');
   };
 
+
+  
+
   const handleAccept = async (applicationId) => {
     try {
       const student_status_fk = 2;
@@ -89,7 +93,6 @@ const filteredApplications = applications.filter((data) => {
 
       console.log(application);
       
-
       const generateRandomPassword = () => Math.floor(10000000 + Math.random() * 90000000).toString();
       const username = application.email;
       const email = application.email;
@@ -100,8 +103,6 @@ const filteredApplications = applications.filter((data) => {
       
       console.log('soy el password:', password);
       
-      
-
       const auth_user = await PostAuthStudentUser(username, email, password);
 
       if (auth_user) {
@@ -116,8 +117,11 @@ const filteredApplications = applications.filter((data) => {
           application.phone_number,
           application.email,
           application.identification_image_url,
+          application.identification_number,
           application.address,
           student_auth_user_fk,
+          application.identification_fk,
+          application.genre_fk,
           application.neighborhood_fk,
         );        
 
@@ -126,12 +130,15 @@ const filteredApplications = applications.filter((data) => {
         if (NewStudent) {
           console.log(application.course_fk);
           console.log(NewStudent.id);
-          
-          
-          const studentCourse = await PostStudentCourses(application.course_fk, NewStudent.id);
-          console.log(studentCourse);
-          
+          console.log(application.payment_fk);
 
+          const studentCourse = await PostStudentCourses(application.course_fk, NewStudent.id);
+          const studentPayment = await PostStudentPayment(NewStudent.id, application.payment_fk);
+
+          console.log(studentCourse);
+          console.log(studentPayment);
+          
+          
           const templateParams = {
             user_name: application.name,
             to_email: application.email,
