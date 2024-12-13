@@ -6,12 +6,14 @@ import PutAdministrator from '../../Services/Administrators/PutAdministrators';
 import PatchAdminPass from '../../Services/Users/PatchAdminPass';
 import PatchAdminEmail from '../../Services/Users/PatchAdminEmail';
 import error from '../../Img/computer.png'
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 import '../../Styles/Administration/AdministratorProfile.css'
 
 function AdministratorProfile() {
   const { user, setUserData } = useUser();  // Cambia admin a user
-
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   const [open, setOpen] = useState(false);
   const formData = {
     ...user,  // Los datos del usuario (admin o estudiante)
@@ -53,7 +55,7 @@ function AdministratorProfile() {
     try {
       // Si el correo electrónico ha cambiado, primero se hace el cambio de correo
       if (emailChanged) {
-        console.log("email cmabió");
+        console.log("email cambió");
         console.log(user.admin_auth_user_fk);
         
         console.log(formData.admin_email);

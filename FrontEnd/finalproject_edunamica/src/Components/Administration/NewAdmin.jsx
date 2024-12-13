@@ -26,19 +26,16 @@ function NewAdmin() {
   const [admin_second_last_name, setSecondLastName] = useState('');
   const [admin_phone_number, setPhoneNumber] = useState('');
   const [admin_email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Estado para manejar el proceso de carga
   const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
   const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
-  const [admin, setAdmin] = useState([]);
   
-  console.log(admin);
 
-  // Obtener los usuarios autenticados (auth_user)
+  // Función para obtener los usuarios autenticados (auth_user)
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
         const data = await GetUsers();
-        setAdmin(data); // Guardamos los usuarios autenticados
+        // Si necesitas hacer algo con los datos, puedes hacerlo aquí
       } catch (error) {
         console.error('Error al obtener los usuarios autenticados:', error);
       }
@@ -55,8 +52,6 @@ function NewAdmin() {
       notyf.error('Por favor, completa todos los campos');
       return;
     }
-
-    setIsLoading(true); // Empieza el proceso de carga
 
     try {
       // Función para generar una contraseña aleatoria
@@ -124,9 +119,7 @@ function NewAdmin() {
     } catch (error) {
       console.error('Error al agregar a un nuevo administrador', error);
       notyf.error(`Error al agregar a un nuevo administrador`);
-    } finally {
-      setIsLoading(false); // Termina el proceso de carga
-    }
+    } 
   };
 
   return (
@@ -186,9 +179,8 @@ function NewAdmin() {
           variant="contained"
           color="success"
           className="admin-registration__button"
-          disabled={isLoading} // Deshabilitar el botón mientras se está procesando
         >
-          {isLoading ? 'Registrando...' : 'Registrar Administrador'}
+          ENVIAR
         </Button>
       </div>
     </div>

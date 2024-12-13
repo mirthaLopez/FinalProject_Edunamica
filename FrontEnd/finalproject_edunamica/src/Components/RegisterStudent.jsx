@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';

@@ -59,17 +59,7 @@ console.log("Nombre del archivo renombrado:", renamedImage);
         }
       }
 
-
-    /////////////////////////////Obtiene el token de acceso desde local storage///////////////
-    const token = localStorage.getItem('access_token');    
-    if (!token) {
-        console.error("No token found");
-        return; 
-    }
-    const validation_token = "Bearer " + token;
-      
     course_image_url = imagenUrl /// Asigna el valor de la url de la imagen 
-
 
     const courseData = {
         course_image_url,
@@ -96,7 +86,7 @@ console.log("Nombre del archivo renombrado:", renamedImage);
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization': validation_token,
+               
             },
             body: JSON.stringify(courseData),
         });

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
@@ -38,7 +39,8 @@ function Applications() {
   const [paymentsData, setPayments] = useState([]);
   const [courses, setCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
-
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   const [notyf] = useState(new Notyf({ duration: 2000, position: { x: 'center', y: 'center' } }));
 
   useEffect(() => {
@@ -86,86 +88,112 @@ const filteredApplications = applications.filter((data) => {
   const handleAccept = async (applicationId) => {
     try {
       const student_status_fk = 2;
-      await patchStatusApplication(applicationId, student_status_fk);
-
-      const application = applications.find(value => value.id === applicationId);
-      if (!application) return;
-
-      console.log(application);
       
+      // Step 1: Update the status of the application
+      const updateStatus = await patchStatusApplication(applicationId, student_status_fk);
+      if (!updateStatus) {
+        console.error('Failed to update the application status');
+        notyf.error('No se pudo actualizar el estado de la solicitud');
+        return;
+      }
+  
+      // Step 2: Find the application
+      const application = applications.find(value => value.id === applicationId);
+      if (!application) {
+        console.error('Application not found');
+        return;
+      }
+  
+      console.log('Application found:', application);
+  
+      // Step 3: Generate random password
       const generateRandomPassword = () => Math.floor(10000000 + Math.random() * 90000000).toString();
+      const password = generateRandomPassword();
       const username = application.email;
       const email = application.email;
-      const password = generateRandomPassword();
-
-      console.log('soy el username:', username);
-      console.log('soy el email:', email);
-      
-      console.log('soy el password:', password);
-      
+  
+      console.log('Username:', username);
+      console.log('Email:', email);
+      console.log('Generated password:', password);
+  
+      // Step 4: Create the auth user
       const auth_user = await PostAuthStudentUser(username, email, password);
-
-      if (auth_user) {
-        const authUserId = auth_user.id;
-        const student_auth_user_fk = authUserId;
-
-        const NewStudent = await PostStudent(
-          application.name,
-          application.first_last_name,
-          application.second_last_name,
-          application.birth_date,
-          application.phone_number,
-          application.email,
-          application.identification_image_url,
-          application.identification_number,
-          application.address,
-          student_auth_user_fk,
-          application.identification_fk,
-          application.genre_fk,
-          application.neighborhood_fk,
-        );        
-
-        notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
-
-        if (NewStudent) {
-          console.log(application.course_fk);
-          console.log(NewStudent.id);
-          console.log(application.payment_fk);
-
-          const studentCourse = await PostStudentCourses(application.course_fk, NewStudent.id);
-          const studentPayment = await PostStudentPayment(NewStudent.id, application.payment_fk);
-
-          console.log(studentCourse);
-          console.log(studentPayment);
-          
-          
-          const templateParams = {
-            user_name: application.name,
-            to_email: application.email,
-            verification_code: password,
-          };
-
-          emailjs
-            .send('service_lgmm5so', 'template_wv3sdno', templateParams, 'xKYQea8wmj0LgY5FG')
-            .then(
-              (response) => {
-                alert(`El código de verificación se ha enviado a ${email}`);
-              },
-              (error) => {
-                console.error('Error al enviar el correo:', error.text);
-              }
-            );
-        } else {
-          console.error('No se pudo crear el estudiante');
-        }
-      } else {
-        console.error('No se pudo crear el auth_user');
+      if (!auth_user) {
+        console.error('Failed to create auth user');
+        notyf.error('No se pudo crear el usuario de autenticación');
+        return;
       }
+  
+      const authUserId = auth_user.id;
+      const student_auth_user_fk = authUserId;
+  
+      // Step 5: Create the student
+      const newStudent = await PostStudent(
+        application.name,
+        application.first_last_name,
+        application.second_last_name,
+        application.birth_date,
+        application.phone_number,
+        application.email,
+        application.identification_image_url,
+        application.identification_number,
+        application.address,
+        student_auth_user_fk,
+        application.identification_fk,
+        application.genre_fk,
+        application.neighborhood_fk
+      );
+      
+      if (!newStudent) {
+        console.error('Failed to create student');
+        notyf.error('No se pudo crear el estudiante');
+        return;
+      }
+  
+      // Success message for student creation
+      notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
+  
+      // Step 6: Link student to course and payment
+      const studentCourse = await PostStudentCourses(application.course_fk, newStudent.id);
+      if (!studentCourse) {
+        console.error('Failed to assign student to course');
+        notyf.error('No se pudo asignar el estudiante al curso');
+        return;
+      }
+  
+      const studentPayment = await PostStudentPayment(newStudent.id, application.payment_fk);
+      if (!studentPayment) {
+        console.error('Failed to assign student to payment');
+        notyf.error('No se pudo asignar el estudiante al pago');
+        return;
+      }
+  
+      console.log('Student Course:', studentCourse);
+      console.log('Student Payment:', studentPayment);
+  
+      // Step 7: Send verification email
+      const templateParams = {
+        user_name: application.name,
+        to_email: application.email,
+        verification_code: password
+      };
+  
+      await emailjs.send('service_lgmm5so', 'template_wv3sdno', templateParams, 'xKYQea8wmj0LgY5FG')
+        .then(
+          (response) => {
+            alert(`El código de verificación se ha enviado a ${email}`);
+          },
+          (error) => {
+            console.error('Error al enviar el correo:', error.text);
+            notyf.error('Error al enviar el correo de verificación');
+          }
+        );
     } catch (error) {
       console.error('Error al aceptar la solicitud pendiente', error);
-      notyf.error(`Error al aceptar la solicitud pendiente`);
+      notyf.error('Error al aceptar la solicitud pendiente');
     }
   };
+  
 
   const handleReject = async (applicationId) => {
 
@@ -195,13 +223,7 @@ const filteredApplications = applications.filter((data) => {
 
   return (
     <div className='main-div-applications'>
-      <div className='header-admin'>
-        <div className='div-logo-header'><img src={logo_edunamica} className='logo-header-admin' /></div>
-        <div className='div-icon-mui'>
-        <AccountCircleIcon sx={{ fontSize: 30 }}/>
-        <LogoutIcon sx={{ fontSize: 30 }}/>
-        </div>
-      </div>
+
       <div className='divApplication'>
         <div className='container-title-applications'>
           <div className='applications-header'>

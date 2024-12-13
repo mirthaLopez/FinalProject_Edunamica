@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetStudent from '../../Services/Students/GetStudents'; // obtenemos a los estudiantes 
@@ -19,7 +20,9 @@ function ViewStudents() {
   const [searchTerm, setSearchTerm] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-
+ 
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   useEffect(() => {
     const fetchData = async () => {
       const studentData = await GetStudent();

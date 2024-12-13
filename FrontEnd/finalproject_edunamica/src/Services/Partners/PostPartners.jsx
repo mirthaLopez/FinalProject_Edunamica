@@ -34,15 +34,6 @@ async function PostPartners(partner_logo_url, partner_name) {
         }
       }
 
-
-    /////////////////////////////Obtiene el token de acceso desde local storage///////////////
-    const token = localStorage.getItem('access_token');    
-    if (!token) {
-        console.error("No token found");
-        return; 
-    }
-    const validation_token = "Bearer " + token;
-      
     partner_logo_url = imagenUrl /// Asigna el valor de la url de la imagen 
 
     const data = {
@@ -55,7 +46,7 @@ async function PostPartners(partner_logo_url, partner_name) {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization': validation_token,
+                
             },
             body: JSON.stringify(data),
         });

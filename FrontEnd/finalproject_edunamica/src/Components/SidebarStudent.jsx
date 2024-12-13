@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
 
 //ESTILOS CSS
 import '../Styles/SidebarStudent.css';
@@ -17,18 +18,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo_edunamica from "../Img/edunamica_logo.svg"
 
 //IMPORT DE LINK TO
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function SidebarStudent() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar la visibilidad del sidebar
     const [openSection, setOpenSection] = useState(null);
- 
+    const { logout } = useAuth();
+    
     const handleToggle = (section) => {
         setOpenSection(openSection === section ? null : section);
     };
 
-    const navigate = useNavigate();
+
+    // Función para manejar el cierre de sesión
+    const handleLoginout = () => {
+        logout(); // Llama al método logout del contexto
+        window.location.href = '/Login'; // Redirigimos a la página de login
+    };
 
   return (
     <div style={{position: 'relative', zIndex: 2 }}>
@@ -196,7 +203,9 @@ function SidebarStudent() {
                         <Collapse in={openSection === 'account'}>
                             <ul className="submenu list-unstyled fw-normal pb-1 small">
                                 <li><Link to="/PerfilEstudiante" className="submenu-item link-dark rounded"><p className="large-text">Mi Perfil</p></Link></li>
-                                <li><Link to="#" className="submenu-item link-dark rounded"><p className="large-text">Cerrar Sesión</p></Link></li>
+                                <li><Link to="#" className="submenu-item link-dark rounded" onClick={handleLoginout}>
+                                    <p className="large-text">Cerrar Sesión</p>
+                                </Link></li>
                             </ul>
                         </Collapse>
                     </li>

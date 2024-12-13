@@ -1,4 +1,4 @@
-// UserContext.js
+// UserContext.jsx
 import React, { createContext, useContext, useState } from 'react';
 
 // Crea el contexto para los datos del usuario (admin o estudiante)

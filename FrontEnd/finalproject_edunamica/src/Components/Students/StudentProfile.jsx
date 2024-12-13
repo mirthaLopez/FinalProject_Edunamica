@@ -7,6 +7,8 @@ import PatchStudentEmail from '../../Services/Users/PatchStudentEmail';
 import PutStudent from '../../Services/Students/PutStudents';
 import error from '../../Img/computer.png';
 import '../../Styles/Students/StudentProfile.css';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
+
 
 /** Dirección */
 import GetProvinces from '../../Services/Addresses/GetProvinces';
@@ -39,7 +41,9 @@ function StudentProfile() {
   const [districts, setDistricts] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [fullAddress, setFullAddress] = useState('');
-
+  
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   useEffect(() => {
     const fetchData = async () => {
       const provincesData = await GetProvinces();

@@ -48,6 +48,7 @@ async function PostPayment( payment_date, payment_amount, payment_receipt_url,
         payment_method_fk
     };
 
+    
     console.log(paymentData);
     
     

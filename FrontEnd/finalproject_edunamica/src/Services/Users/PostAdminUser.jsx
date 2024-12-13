@@ -1,9 +1,5 @@
-
 async function PostAuthAdminUser(username, email, password) {
-    console.log('estoy en el post a authadmin');
     
-
-
     const userData = {
         username,
         email,
@@ -19,7 +15,6 @@ async function PostAuthAdminUser(username, email, password) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-
             },
             body: JSON.stringify(userData),
         });

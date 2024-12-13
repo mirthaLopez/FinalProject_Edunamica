@@ -8,6 +8,11 @@ import GetPaymentMethods from '../Services/Payments/GetPaymentMethods';
 import GetPaymentModalities from '../Services/Payments/GetPaymentModalities';
 import GetPayments from '../Services/Payments/GetPayments';
 import { useUser } from '../Components/Administration/AdminContext';
+import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
+
+
+// ESTILOS CSS
+import '../Styles/StudentPayment.css';
 
 function StudentPayment() {
   const { user } = useUser();  // Obtener el usuario logueado
@@ -20,6 +25,9 @@ function StudentPayment() {
   const [payments, setPayments] = useState([]);
   const [studentPaymentsDetails, setStudentPaymentsDetails] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);  // Cursos en los que está matriculado el estudiante
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
+
 
 
   useEffect(() => {
@@ -97,34 +105,29 @@ function StudentPayment() {
   }, [payments, studentPayment, user.id, student, studentCourses, courses]); // Dependencias actualizadas
   
   return (
-    <div style={{ marginLeft: '310px' }}>
-      <h1>Pagos del Estudiante</h1>
+    <div className="student-payment-container">
+      <h1 className="student-payment-title">Pagos del Estudiante</h1>
       {studentPaymentsDetails.length > 0 ? (
-        <table>
+        <table className="student-payment-table">
           <thead>
             <tr>
-              <th>Fecha de Pago</th>
-              <th>Curso</th>
-              <th>Monto</th>
-              <th>Número de comprobante</th>
+              <th className="student-payment-table-header">Fecha de Pago</th>
+              <th className="student-payment-table-header">Monto</th>
+              <th className="student-payment-table-header">Número de comprobante</th>
             </tr>
           </thead>
           <tbody>
             {studentPaymentsDetails.map((payment) => (
-              <tr key={payment.id}>
-                <td>{payment.payment_date}</td>
-                {enrolledCourses.map(course => (
-                  <td>{course.course_name}</td>
-                ))}
-
-                <td>₡{payment.payment_amount}</td>
-                <td>{payment.payment_receipt_number}</td>
+              <tr key={payment.id} className="student-payment-row">
+                <td className="student-payment-date">{payment.payment_date}</td>
+                <td className="student-payment-amount">₡{payment.payment_amount}</td>
+                <td className="student-payment-receipt-number">{payment.payment_receipt_number}</td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p>No se han encontrado pagos registrados</p>
+        <p className="student-payment-no-records">No se han encontrado pagos registrados</p>
       )}
     </div>
   );

@@ -46,8 +46,7 @@ import Matricular from "../Pages/Matricular"
 import Inicio from "../Pages/Inicio";
 import Principal from "../Pages/Principal"
 
-
-//import ProtectedRoutes from "./ProtectedRoutes";
+import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
 
 const Routing = () => {
@@ -60,24 +59,24 @@ const Routing = () => {
                 <Route path="/Contacto" element={<Contacto />} /> 
                 <Route path="/Curso" element={<Curso />} /> 
                 <Route path="/Registro" element={<Registro />} /> 
-                <Route path="/Solicitudes" element={<Solicitudes />} /> 
-                <Route path="/Administradores" element={<Administradores />} /> 
-                <Route path="/Matricula" element={<Matricula />} /> 
-                <Route path="/Alianzas" element={<Alianzas />} /> 
+                <Route path="/Solicitudes" element={<ProtectedRoutes><Solicitudes /> </ProtectedRoutes>} /> 
+                <Route path="/Administradores" element={<ProtectedRoutes><Administradores /> </ProtectedRoutes>} /> 
+                <Route path="/Matricula" element={<ProtectedRoutes><Matricula /> </ProtectedRoutes>} /> 
+                <Route path="/Alianzas" element={<ProtectedRoutes><Alianzas /></ProtectedRoutes>} /> 
                 <Route path="/Cursos" element={<VerCurso />} /> 
                 <Route path="/Principal" element={<Principal />} /> 
-                <Route path="/CursosAdmin" element={<CursosAdmin />} /> 
-                <Route path="/PerfilEstudiante" element={<PerfilEstudiante />} /> 
-                <Route path="/SolicitudesRechazadas" element={<SolicitudesRechazadas />} /> 
-                <Route path="/SolicitudesAceptadas" element={<SolicitudesAceptadas />} /> 
-                <Route path="/Estudiantes" element={<Estudiantes />} /> 
-                <Route path="/RegistrarEstudiante" element={<RegistrarEstudiante />} /> 
-                <Route path="/Administracion" element={<Administracion />} /> 
-                <Route path="/PerfilAdministrador" element={<PerfilAdministrador />} /> 
-                <Route path="/VerAlianzas" element={<VerAlianzas />} /> 
-                <Route path="/MisCursos" element={<MisCursos />} /> 
-                <Route path="/Matricular" element={<Matricular />} /> 
-                <Route path="/MisPagos" element={<MisPagos />} /> 
+                <Route path="/CursosAdmin" element={<ProtectedRoutes><CursosAdmin /></ProtectedRoutes>} /> 
+                <Route path="/PerfilEstudiante" element={<ProtectedRoutes><PerfilEstudiante /></ProtectedRoutes>} /> 
+                <Route path="/SolicitudesRechazadas" element={<ProtectedRoutes><SolicitudesRechazadas /></ProtectedRoutes>} /> 
+                <Route path="/SolicitudesAceptadas" element={<ProtectedRoutes><SolicitudesAceptadas /></ProtectedRoutes>} /> 
+                <Route path="/Estudiantes" element={<ProtectedRoutes><Estudiantes /></ProtectedRoutes>} /> 
+                <Route path="/RegistrarEstudiante" element={<ProtectedRoutes><RegistrarEstudiante /></ProtectedRoutes>} /> 
+                <Route path="/Administracion" element={<ProtectedRoutes><Administracion /></ProtectedRoutes>} /> 
+                <Route path="/PerfilAdministrador" element={<ProtectedRoutes><PerfilAdministrador /></ProtectedRoutes>} /> 
+                <Route path="/VerAlianzas" element={<ProtectedRoutes><VerAlianzas /></ProtectedRoutes>} /> 
+                <Route path="/MisCursos" element={<ProtectedRoutes><MisCursos /></ProtectedRoutes>} /> 
+                <Route path="/Matricular" element={<ProtectedRoutes><Matricular /></ProtectedRoutes>} /> 
+                <Route path="/MisPagos" element={<ProtectedRoutes><MisPagos /></ProtectedRoutes>} /> 
             </Routes>
         </Router>
     );

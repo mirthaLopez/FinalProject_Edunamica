@@ -22,14 +22,6 @@ async function PostStudent(student_name, student_first_last_name, student_second
         return;
     }*/
 
-    const token = localStorage.getItem('access_token');    
-    if (!token) {
-        console.error("No token found");
-        return; 
-    }
-    const validation_token = "Bearer " + token;
-
-
     console.log(studentData);
     
     try {
@@ -37,7 +29,6 @@ async function PostStudent(student_name, student_first_last_name, student_second
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': validation_token,
             },
             body: JSON.stringify(studentData)
         });

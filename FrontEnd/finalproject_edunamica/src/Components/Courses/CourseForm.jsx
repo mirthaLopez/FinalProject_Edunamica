@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import PostCourse from '../../Services/Courses/PostCourses';
@@ -32,7 +33,8 @@ const CourseForm = () => {
   const [modalities, setModalities] = useState([]); // Estado para las modalidades de pago
   const [paymentModality, setPaymentModality] = useState('');
   const [isFreeCourse, setIsFreeCourse] = useState(false); // Estado booleano para determinar si el curso es gratuito
-
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   const notyf = new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } });
 
   const handleChangeCourseName = (e) => setCourseName(e.target.value);

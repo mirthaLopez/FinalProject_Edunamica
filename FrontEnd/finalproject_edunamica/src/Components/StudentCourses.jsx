@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
 
 import GetStudentCourses from '../Services/Students/GetStudentCourses';
 import GetStudent from '../Services/Students/GetStudents';

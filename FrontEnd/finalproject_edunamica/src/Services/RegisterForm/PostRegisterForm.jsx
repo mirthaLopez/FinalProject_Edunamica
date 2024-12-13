@@ -70,6 +70,9 @@ async function PostRegisterForm(identification_number, name, first_last_name, se
       neighborhood_fk, 
       payment_fk
   };  
+
+  console.log(formData);
+  
     
     try {
         const response = await fetch('http://localhost:8000/api/form/', {
@@ -83,7 +86,7 @@ async function PostRegisterForm(identification_number, name, first_last_name, se
         if (!response.ok) {
           console.log(response);
 
-            throw new Error('Error al guardar el registro. Token inválido o expirado');
+            throw new Error('Error al guardar el registro');
         }
 
         const newForm = await response.json();

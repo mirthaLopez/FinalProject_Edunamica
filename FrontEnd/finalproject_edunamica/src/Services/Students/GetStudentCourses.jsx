@@ -1,34 +1,34 @@
-async function GetStudentCourses() { 
+async function GetStudentCourses() {
+    const token = localStorage.getItem('access_token');
+    if (!token || token.trim() === '') {
+        console.error("No token found");
+        return null;
+    }
+
+    const validationToken = `Bearer ${token}`;
+
     try {
-        // Obtener el token desde localStorage
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            console.error("No token found");
-            return;
-        }
-
-        // Agregar el token en los headers de la solicitud
-        const validationToken = `Bearer ${token}`;
-
         const response = await fetch('http://localhost:8000/api/student_courses/', {
-            method: 'GET', 
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': validationToken, // Agregar el token aquí
+                'Authorization': validationToken,
             },
         });
 
-        const data = await response.json();
-
-        if (response.status === 200) { 
-            return data;  // Si la respuesta es exitosa, devolver los datos
-        } else {
-            console.log(data.error.message);  // Si hay un error, mostrar el mensaje
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error(`Error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+            return null;
         }
-       
-    } catch (error) { 
-        console.error(`Fetch error`, error);  // Manejar errores de la solicitud
+
+        const data = await response.json();
+        return data;  // Si la respuesta es exitosa, devolver los datos
+    } catch (error) {
+        console.error('Fetch error', error);  // Manejar errores de la solicitud
+        return null;
     }
 }
 
 export default GetStudentCourses;
+

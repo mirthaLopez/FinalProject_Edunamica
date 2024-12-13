@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetAdmin from '../../Services/Administrators/GetAdministrators';
@@ -16,7 +17,9 @@ function ViewAdmin() {
 
     const [admin, setAdmin] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-
+    const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
+    
     useEffect(() => {
         const fetchData = async () => {
             const adminData = await GetAdmin();

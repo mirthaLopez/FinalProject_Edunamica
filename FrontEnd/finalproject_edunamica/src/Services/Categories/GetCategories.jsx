@@ -1,20 +1,10 @@
 async function GetCategory() { 
 
-    const token = localStorage.getItem('access_token');
-
-    if (!token) {
-        console.error("No token found");
-        return []; 
-    }
-
-    const validation_token = "Bearer " + token; 
-
     try {
 
         const response = await fetch("http://localhost:8000/api/courses_category/", {
             method: 'GET', 
             headers: {
-                'Authorization': validation_token,  
                 'Content-Type': 'application/json', 
             },
         });

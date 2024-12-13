@@ -1,0 +1,99 @@
+/* Estilos generales */
+.student-payment-container {
+    margin-left: 310px;
+    padding: 20px;
+  }
+  
+  .student-payment-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .student-payment-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .student-payment-table-header {
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .student-payment-row {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .student-payment-row td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .student-payment-amount {
+    color: #4CAF50;
+  }
+  
+  .student-payment-no-records {
+    font-size: 1.2rem;
+    color: #888;
+    text-align: center;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 1200px) {
+    .student-payment-container {
+      margin-left: 250px; /* Reduce el margen en pantallas más pequeñas */
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .student-payment-container {
+      margin-left: 0; /* Elimina el margen en pantallas medianas */
+    }
+  
+    .student-payment-table {
+      font-size: 14px; /* Ajusta el tamaño de la fuente */
+    }
+  
+    .student-payment-title {
+      font-size: 1.5rem;
+    }
+  
+    .student-payment-amount {
+      font-size: 1rem;
+    }
+  
+    .student-payment-no-records {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .student-payment-title {
+      font-size: 1.2rem;
+    }
+  
+    .student-payment-table {
+      font-size: 12px;
+    }
+  
+    .student-payment-row td {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .student-payment-table {
+      font-size: 12px; /* Ajusta el tamaño de la tabla para pantallas pequeñas */
+    }
+  
+    .student-payment-row td {
+      padding: 6px;
+    }
+  
+    .student-payment-title {
+      font-size: 1rem;
+    }
+  }
+  

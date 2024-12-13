@@ -1,3 +1,4 @@
+// services/Users/PostUser.js
 async function PostUser(email, password) {
     try {
         const userData = {
@@ -20,15 +21,12 @@ async function PostUser(email, password) {
         const data = await response.json();
         console.log('Login exitoso:', data);
         
-        // guardar token en local storage
-        localStorage.setItem('access_token', data.access);  
-        localStorage.setItem('refresh_token', data.refresh);
-
-        return data;
+        // No guardamos los tokens aquí, eso lo hará el contexto
+        return data; // Solo devolvemos los datos de acceso y refresh token
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         throw error;
     }
 }
 
-export default PostUser
+export default PostUser;

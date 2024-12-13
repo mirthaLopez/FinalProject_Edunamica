@@ -10,13 +10,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 // IMPORT DE IMÁGENES
 import logo_edunamica from "../../Img/edunamica_logo.svg";
 
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../AuthContext';  // Ajusta la ruta al archivo donde está tu contexto
+
 function NavAdministration() {
-  // Aqui tiene que ir la funcion del authcontext
+  // Usamos el contexto para obtener la función de logout
+  const { logout } = useAuth();
+  
+
+  // Handler del logout usando el contexto
   const handleLogout = () => {
-    // Elimina el token de localStorage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    window.location.href = '/Login'; // Esto redirige a la página de login
+    console.log('Logout function called');
+    logout();  // Llamamos a la función de logout definida en el contexto
+    window.location.href = '/Login'; // Redirigimos a la página de login
   };
 
   return (
@@ -35,3 +41,4 @@ function NavAdministration() {
 }
 
 export default NavAdministration;
+

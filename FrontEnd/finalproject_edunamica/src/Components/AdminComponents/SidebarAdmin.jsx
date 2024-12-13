@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
+import { useNavigate } from 'react-router-dom';
 
 //ESTILOS CSS
 import '../../Styles/AdminStyles/SidebarAdmin.css'; 
@@ -20,12 +22,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo_edunamica from "../../Img/edunamica_logo.svg"
 
 //IMPORT DE LINK TO
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function SidebarAdmin() {
     const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar la visibilidad del sidebar
     const [openSection, setOpenSection] = useState(null);
-  
+    const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+    const { logout } = useAuth();
+    
     const handleToggle = (section) => {
         // Si la sección está ya abierta, la cerramos, sino la abrimos
         setOpenSection(openSection === section ? null : section);
@@ -33,13 +37,12 @@ function SidebarAdmin() {
 
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-      // Elimina el token de localStorage
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      // Redirige al usuario a la página de login
-      window.location.href = '/Login'; // Esto redirige a la página de login
-    };
+// Handler del logout usando el contexto
+const handleLogout = () => {
+    console.log('Logout function called');
+    logout();  // Llamamos a la función de logout definida en el contexto
+    window.location.href = '/Login'; // Redirigimos a la página de login
+};
     
     return (
         <div style={{position: 'relative', zIndex: 2 }}>

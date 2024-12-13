@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetCourses from '../../Services/Courses/GetCourses';
@@ -33,6 +34,8 @@ function EnrollmentForm() {
   const [enrollment, setEnrollment] = useState([]);
 
   const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
+
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
 
   const handleChangeCourse = (e) => setCourses(e.target.value);
   const handleChangeModality = (e) => setModalities(e.target.value);

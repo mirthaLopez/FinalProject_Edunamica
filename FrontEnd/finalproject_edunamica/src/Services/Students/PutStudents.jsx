@@ -1,13 +1,4 @@
 async function PutStudent(id, formData) {
-  // Obtener el token de autenticación desde localStorage
-  const token = localStorage.getItem('access_token');
-  if (!token) {
-    console.error("No token found");
-    return;
-  }
-
-  // Preparar el token de autenticación en el formato adecuado
-  const validation_token = "Bearer " + token;
 
   // Incluir id y admin_auth_user_fk en los datos que se enviarán, en el orden correcto
   const dataPut = {
@@ -35,7 +26,7 @@ async function PutStudent(id, formData) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': validation_token, // Usar el token de autenticación
+
       },
       body: JSON.stringify(dataPut), // Enviar los datos del estudiante
     });

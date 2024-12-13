@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm'; // obtenemos datos de prematrícula 
@@ -28,6 +29,8 @@ function RejectedApplications() {
   const [selectedImage, setSelectedImage] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
 
   useEffect(() => {
     const fetchData = async () => {

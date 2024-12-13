@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import PostPartners from '../../Services/Partners/PostPartners';
@@ -23,6 +24,8 @@ function Partners() {
 
   const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
 
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   function NewImage(e) {
     const file = e.target.files[0];
 
@@ -37,6 +40,7 @@ function Partners() {
   const AddNewPartner = async (e) => {
     console.log("Botón agregar new partner");
     e.preventDefault();
+
     
     try {
         const data = await PostPartners(partner_logo_url, partner_name); // se envian los datos del curso

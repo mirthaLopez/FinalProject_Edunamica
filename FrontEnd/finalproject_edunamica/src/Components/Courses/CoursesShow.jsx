@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetCourses from '../../Services/Courses/GetCourses';
@@ -29,7 +30,8 @@ function CoursesShow() {
   const [isFreeCourse, setIsFreeCourse] = useState(false);  // Añadido para controlar si el curso es gratuito
   const [paymentModality, setPaymentModality] = useState(""); // Modalidad de pago seleccionada
   const [courseObligatoryRequirements, setCourseObligatoryRequirements] = useState(""); // Requisitos del curso
-
+  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
