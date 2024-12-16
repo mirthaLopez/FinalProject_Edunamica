@@ -86,7 +86,7 @@
   /* Estilos para el contenedor de la contraseña */
   .admin-profile-password-container {
     margin-top: 40px;
-    min-height: 250px;
+    min-height: fit-content;
     border-radius: 8px;
   }
   

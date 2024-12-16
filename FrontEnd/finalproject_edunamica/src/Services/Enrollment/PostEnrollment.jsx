@@ -7,13 +7,21 @@ async function PostEnrollment(enrollment_start_date, enrollment_end_date, availa
         course_fk,
         course_modality_fk 
        };
+
+       const token = localStorage.getItem('access_token');
+       if (!token) {
+           console.error("No token found");
+           return;
+       }
+   
+       const validationToken = `Bearer ${token}`;   
        
        try {
            const response = await fetch('http://localhost:8000/api/enrollment/create/', {
                method: 'POST',
                headers:{
                    'Content-Type': 'application/json',
-                  
+                   'Authorization': validationToken,   
                },
                body: JSON.stringify(data),
            });

@@ -87,14 +87,14 @@ function ViewStudents() {
         <Table className="view-students-table">
           <TableHead>
             <TableRow>
-              <TableCell className="view-students-table-header">Student ID</TableCell>
-              <TableCell className="view-students-table-header">Nombre</TableCell>
-              <TableCell className="view-students-table-header">Primer Apellido</TableCell>
-              <TableCell className="view-students-table-header">Segundo Apellido</TableCell>
-              <TableCell className="view-students-table-header">Número de teléfono</TableCell>
-              <TableCell className="view-students-table-header">Correo Electrónico</TableCell>
-              <TableCell className="view-students-table-header">Copia del ID</TableCell>
-              <TableCell className="view-students-table-header">Dirección</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Student ID</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Nombre</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Primer Apellido</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Segundo Apellido</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Número de teléfono</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Correo Electrónico</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Copia del ID</TableCell>
+            <TableCell className="view-students-table-header" style={{ fontWeight: 'bold', textAlign: 'center' }}>Dirección</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

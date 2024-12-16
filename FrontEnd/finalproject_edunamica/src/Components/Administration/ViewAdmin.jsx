@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
 import GetAdmin from '../../Services/Administrators/GetAdministrators';
+import DeleteAdministrator from '../../Services/Administrators/DeleteAdministrator';
 
 //ESTILOS CSS
 import '../../Styles/Administration/ViewAdmin.css';
 
 //IMPORTS DE LIBRERIA MUI
-import {TextField, InputAdornment, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton} from '@mui/material';
+import { TextField, InputAdornment, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 
 function ViewAdmin() {
 
@@ -19,7 +19,6 @@ function ViewAdmin() {
     const [searchTerm, setSearchTerm] = useState('');
     const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
   
-    
     useEffect(() => {
         const fetchData = async () => {
             const adminData = await GetAdmin();
@@ -36,9 +35,19 @@ function ViewAdmin() {
         setSearchTerm(event.target.value);
     };
 
-    const handleDelete = (id) => {
-        const deletedAdmin = admin.filter(admin => admin.id !== id);
-        setAdmin(deletedAdmin);
+    // Función para manejar la eliminación de un administrador
+    const handleDelete = async (id) => {
+        try {
+            // Llamamos al servicio para eliminar el administrador
+            await DeleteAdministrator(id);
+
+            // Actualizamos el estado de los administradores para reflejar el cambio
+            setAdmin(admin.filter(admin => admin.id !== id));
+
+            console.log("Administrador eliminado con éxito");
+        } catch (error) {
+            console.error("Error al eliminar el administrador:", error);
+        }
     };
 
     return (
@@ -94,8 +103,8 @@ function ViewAdmin() {
                                 <TableCell sx={{ padding: '10px', fontSize: '14px', color: '#555' }}>{admin.admin_email}</TableCell>
                                 <TableCell sx={{ padding: '10px', textAlign: 'center' }}>
                                     {/* Botón de eliminar */}
-                                    <IconButton 
-                                        color="error" 
+                                    <IconButton
+                                        color="error"
                                         onClick={() => handleDelete(admin.id)}
                                         aria-label="eliminar"
                                         sx={{
@@ -103,7 +112,7 @@ function ViewAdmin() {
                                             padding: '8px',
                                         }}
                                     >
-                                    <DeleteIcon />
+                                        <DeleteIcon />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

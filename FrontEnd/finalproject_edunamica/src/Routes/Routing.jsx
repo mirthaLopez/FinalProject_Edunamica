@@ -42,7 +42,6 @@ import MisCursos from "../Pages/MisCursos";
 import MisPagos from "../Pages/MisPagos";
 import Matricular from "../Pages/Matricular"
 
-
 import Inicio from "../Pages/Inicio";
 import Principal from "../Pages/Principal"
 
@@ -57,7 +56,7 @@ const Routing = () => {
                 <Route path="/" element={<Inicio />} /> 
                 <Route path="/Login" element={<Login />} /> 
                 <Route path="/Contacto" element={<Contacto />} /> 
-                <Route path="/Curso" element={<Curso />} /> 
+                <Route path="/Curso" element={<ProtectedRoutes><Curso /></ProtectedRoutes>} /> 
                 <Route path="/Registro" element={<Registro />} /> 
                 <Route path="/Solicitudes" element={<ProtectedRoutes><Solicitudes /> </ProtectedRoutes>} /> 
                 <Route path="/Administradores" element={<ProtectedRoutes><Administradores /> </ProtectedRoutes>} /> 

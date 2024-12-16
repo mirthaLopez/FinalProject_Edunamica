@@ -11,11 +11,11 @@ import GetPaymentMethod from '../Services/Payments/GetPaymentMethods';
 import PostPayment from '../Services/Payments/PostPayments';
 import { useUser } from '../Components/Administration/AdminContext';
 
-    // Get a las tablas relacionadas a direcciones
-    import GetProvinces from '../Services/Addresses/GetProvinces';
-    import GetCantons from '../Services/Addresses/GetCantons';
-    import GetDistricts from '../Services/Addresses/GetDistricts';
-    import GetNeighborhoods from '../Services/Addresses/GetNeighborhoods';
+// Get a las tablas relacionadas a direcciones
+import GetProvinces from '../Services/Addresses/GetProvinces';
+import GetCantons from '../Services/Addresses/GetCantons';
+import GetDistricts from '../Services/Addresses/GetDistricts';
+import GetNeighborhoods from '../Services/Addresses/GetNeighborhoods';
 
 //ESTILOS CSS
 import '../Styles/RegisterStudent.css'
@@ -59,7 +59,6 @@ setIsFormSent(false);
 const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
 const handleReset = () => setActiveStep(0);
 const [fileContent, setFileContent] = useState(""); // Para almacenar el contenido del archivo
-
 const { user } = useUser();  // Obtener el usuario logueado
 console.log(user);
 
@@ -73,14 +72,22 @@ const [email, setEmail] = useState('');
 const [identificationFk, setIdentificationFk] = useState('');
 const [genreFk, setGenreFk] = useState('');
 const [courseFk, setCourseFk] = useState('');
+
 const [provinceFk, setProvinceFk] = useState('');
+console.log(provinceFk.province_name);
+
+
 const [cantonFk, setCantonFk] = useState('');
+console.log(cantonFk.canton_name);
+
 const [districtFk, setDistrictFk] = useState('');
+console.log(districtFk.district_name);
+
+
 const [neighborhoodFk, setNeighborhoodFk] = useState('');
 const [address, setAddress] = useState('');
 const [idImageUrl, setIdImageUrl] = useState(null);
 
-  
   const cargaImagen = (e) => {
     const file = e.target.files[0];
     setIdImageUrl(file);
@@ -98,20 +105,6 @@ const [districts, setDistricts] = useState([]);
 const [neighborhoods, setNeighborhoods] = useState([]);
 const [enrollment, setEnrollment] = useState([]);
 const [fullAddress, setFullAddress] = useState('');
-
-  // Precarga el select con el género del usuario
-  useEffect(() => {
-    if (user?.genre_fk) {
-      // Encuentra el género correspondiente en la lista de géneros
-      const studentGenre = genres.find(g => g.id === user.genre_fk);
-      if (studentGenre) {
-        // Si se encuentra el género, establece el valor de `genreFk` para precargar el select
-        setGenreFk(studentGenre.id);
-      }
-    }
-  }, [user, genres]);
-
-
 // Verificación con Email Js
 const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado
 const [userCode, setUserCode] = useState('');    // Código que el usuario ingresa para validar
@@ -229,47 +222,25 @@ if (user && user.neighborhood_fk !== undefined) {
 useEffect(() => {
   if (user?.neighborhood_fk) {
     const neighborhood = neighborhoods.find(n => n.id === user.neighborhood_fk);
-    console.log(neighborhood);
     const district = districts.find(d => d.id === neighborhood?.district_fk);
-    console.log(district);
-    
     const canton = cantons.find(c => c.id === district?.canton_fk);
-    console.log(canton);
-    
     const province = provinces.find(p => p.id === canton?.province_fk);
-    console.log(province);
-    
-  
-    if (neighborhood && district && canton && province) {
-      
-          const objetoDirecciones={
-              Barrio:neighborhood.id,
-              Distrito:district.id,
-              Canton:canton.id,
-              Provincia:province.id,
-          }
-          
-      setFullAddress(objetoDirecciones);
+
+    if (neighborhood || district || canton || province) {
+      setProvinceFk(province)
+      setCantonFk(canton)
+      setDistrictFk(district)
+      setNeighborhoodFk(neighborhood.id)
     }
   }
 }, [user, provinces, cantons, districts, neighborhoods]);
 
-
-
-
-
-console.log(fullAddress.Barrio);
-console.log(fullAddress.Distrito);
-console.log(fullAddress.Canton);
-console.log(fullAddress.Provincia);
 
   // Efecto que escucha cambios en el historial (cuando el usuario navega hacia atrás)
 useEffect(() => {
 const handlePopState = () => {
   setIsFormSent(false); // Cuando navega atrás, deshabilitamos el botón
 };
-
-
 
 // Agregar el listener al evento popstate
 window.addEventListener('popstate', handlePopState);
@@ -366,19 +337,43 @@ const sendEmail = async (e) => {
 
   const handleChange = (event) => {
     const methodId = event.target.value;
+    console.log('Método de pago seleccionado:', methodId);  // Imprime el valor
     setSelectedPaymentMethod(methodId);
-
-    // Si se selecciona PayPal, abre el modal
+  
     if (methodId === '3') {
-        setIsModalOpen(true);
-      } else {
-        setIsModalOpen(false);
-      }
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    // Verifica si el usuario tiene un género y lo establece
+    if (user?.genre_fk) {
+      const studentGenre = genres.find(g => g.id === user.genre_fk);
+      if (studentGenre) {
+        setGenreFk(studentGenre.id);
+      }
+    }
+  
+    // Verifica si el usuario tiene un tipo de identificación (identification_fk) y lo establece
+    if (user?.identification_fk) {
+      const identification = identifications.find(i => i.id === user.identification_fk);
+      if (identification) {
+        setIdentificationFk(identification.id);  // Establece el tipo de identificación
+      }
+    }
+  
+    // Verifica si el usuario tiene un número de identificación (identification_number) y lo establece
+    if (user?.identification_number) {
+      setIdentificationNumber(user.identification_number);  // Establece el número de identificación
+    }
+  
+  }, [user, genres, identifications]);
 
   ////////////Consulta a la api del banco central para obtener tipo de cambio////////
   useEffect(() => {
@@ -593,20 +588,20 @@ printWindow.print();
         {/* Columna 1: Identificación */}
         <div className='form-column-student'>
         <FormControl fullWidth margin="normal">
-              <InputLabel>Tipo de Identificación:</InputLabel>
-              <Select
-                value={identificationFk}
-                onChange={handleIdentificationChange}
-                label="Select Identification Type"
-                required
-              >
-                <MenuItem value="">Selecciona tu tipo de Identificación</MenuItem>
-                {identifications.map((id) => (
-                  <MenuItem key={id.id} value={id.id}>
-                    {id.identification_type}
-                  </MenuItem>
-                ))}
-              </Select>
+        <label className='label-direccion'>Tipo de Identificación:</label>
+<select
+  value={identificationFk}
+  onChange={handleIdentificationChange}
+  className='select-direccion'
+  required
+>
+  <option value="">Selecciona tu tipo de Identificación</option>
+  {identifications.map((id) => (
+    <option key={id.id} value={id.id}>
+      {id.identification_type}
+    </option>
+  ))}
+</select>
             </FormControl>
 
             <TextField
@@ -719,112 +714,111 @@ printWindow.print();
             />
 
 <div className="form-group">
-      <label htmlFor="genero">Género</label>
+      <label className='label-direccion' htmlFor="genero">Género</label>
       <select
         id="genero"
         value={genreFk}
-        onChange={(e) => setGenreFk(e.target.value)} // Actualiza el valor de género
+        onChange={(e) => setGenreFk(e.target.value)} // Actualiza el valor seleccionado
         required
-        className="form-control"
+        className='select-direccion'
       >
         <option value="">Selecciona un género</option>
-        {genres.map((genre) => (
-          <option key={genre.id} value={genre.id}>
-            {genre.genre_name}
+        {genres.length > 0 ? (
+          genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.genre_name}
+            </option>
+          ))
+        ) : (
+          <option value="" disabled>
+            Cargando géneros...
           </option>
-        ))}
+        )}
       </select>
     </div>
         </div>
 
-        {/* Columna 4: Dirección */}
-        <div className='form-column-student'>
-        <div className="form-control full-width margin-normal">
-          <label htmlFor="provincia">Provincia</label>
-          <select
-            id="provincia"
-            value={fullAddress.Provincia}
-            onChange={(e) => setProvinces(e.target.value)}
-            required
-            className="select"
-          >
-            <option value="">Selecciona tu provincia</option>
-            {provinces.map((province) => (
-              <option key={province.id} value={province.id}>
-                {province.province_name}
-              </option>
-            ))}
-          </select>
-        </div>
 
-        <div className="form-control full-width margin-normal">
-          <label htmlFor="canton">Cantón</label>
-          <select
-            id="canton"
-            value={fullAddress.Canton}
-            onChange={(e) => setCantons(e.target.value)}
-            required
-            className="select"
-          >
-            <option value="">Selecciona tu cantón</option>
-            {cantons
-              .filter((canton) => canton.province_fk === parseInt(fullAddress.Provincia))
-              .map((canton) => (
-                <option key={canton.id} value={canton.id}>
-                  {canton.canton_name}
-                </option>
-              ))}
-          </select>
-        </div>
+         {/* Columna 4: Dirección */}
+         <div className='form-column-student'>
 
-        <div className="form-control" style={{ width: '100%', margin: 'normal' }}>
-          <label htmlFor="distrito" className="input-label">
-            Distrito
-          </label>
-          <select
-            id="distrito"
-            className="select"
-            value={fullAddress.Distrito}
-            onChange={(e) => setDistricts(e.target.value)}
-            required
-          >
-            <option value="" className="menu-item">
-              Selecciona tu distrito
-            </option>
-            {districts
-              .filter((district) => district.canton_fk === parseInt(fullAddress.Canton))
-              .map((district) => (
-                <option key={district.id} value={district.id} className="menu-item">
-                  {district.district_name}
-                </option>
-              ))}
-          </select>
-        </div>
+{/* Provincia */}
+<div className="form-control">
+  <label className='label-direccion' htmlFor="provincia">Provincia</label>
+  <select
+    id="provincia"
+    value={provinceFk.id}
+    onChange={(e) => setProvinceFk(e.target.value)}
+    required
+    className='select-direccion'>
+    <option value="">Selecciona tu provincia</option>
+    {provinces.map((province) => (
+      <option key={province.id} value={province.id}>
+        {province.province_name}
+      </option>
+    ))}
+  </select>
+</div>
 
-        <div className="form-control" style={{ width: '100%', margin: 'normal' }}>
-          <label htmlFor="barrio" className="input-label">
-            Barrio
-          </label>
-          <select
-            id="barrio"
-            className="select"
-            value={fullAddress.Barrio}
-            onChange={(e) => setNeighborhoodFk(e.target.value)}
-            required
-          >
-            <option value="" className="menu-item">
-              Selecciona tu barrio
-            </option>
-            {neighborhoods
-              .filter((neighborhood) => neighborhood.district_fk === parseInt(fullAddress.Distrito))
-              .map((neighborhood) => (
-                <option key={neighborhood.id} value={neighborhood.id} className="menu-item">
-                  {neighborhood.neighborhood_name}
-                </option>
-              ))}
-          </select>
-        </div>
+{/* Cantón */}
+<div className="form-control">
+  <label className='label-direccion' htmlFor="canton" >Cantón</label>
+  <select
+    id="canton"
+    value={cantonFk.id}
+    onChange={(e) => setCantonFk(e.target.value)}
+    required
+    className='select-direccion'>
+    <option value="">Selecciona tu cantón</option>
+    {cantons
+      .filter((canton) => canton.province_fk === parseInt(provinceFk.id))
+      .map((canton) => (
+        <option key={canton.id} value={canton.id}>
+          {canton.canton_name}
+        </option>
+      ))}
+  </select>
+</div>
 
+{/* Distrito */}
+<div className="form-control">
+  <label className='label-direccion' htmlFor="distrito">Distrito</label>
+  <select
+    id="distrito"
+    value={districtFk.id}
+    onChange={(e) => setDistrictFk(e.target.value)}
+    required
+    className='select-direccion'>
+    <option value="">Selecciona tu distrito</option>
+    {districts
+      .filter((district) => district.canton_fk === parseInt(cantonFk.id))
+      .map((district) => (
+        <option key={district.id} value={district.id}>
+          {district.district_name}
+        </option>
+      ))}
+  </select>
+</div>
+
+{/* Barrio */}
+<div className="form-control">
+  <label className='label-direccion' htmlFor="barrio">Barrio</label>
+  <select
+    id="barrio"
+    value={neighborhoodFk}
+    onChange={(e) => setNeighborhoodFk(e.target.value)}
+    required
+   className='select-direccion'>
+    <option value="">Selecciona tu barrio</option>
+    {neighborhoods
+      .filter((neighborhood) => neighborhood.district_fk === parseInt(districtFk.id))
+      .map((neighborhood) => (
+        <option key={neighborhood.id} value={neighborhood.id}>
+          {neighborhood.neighborhood_name}
+        </option>
+      ))}
+  </select>
+</div>
             <TextField
               label="Dirección Exacta"
               value={address}
@@ -900,11 +894,6 @@ printWindow.print();
   </div>
 )}
 
-
-
-
-
-
 {activeStep === 1 && (
   <div className='container_second_step_student'>
     {/* Mostrar el mensaje si el curso es gratuito */}
@@ -971,31 +960,31 @@ printWindow.print();
 
           {/* Modal de PayPal */}
           <Modal
-            open={isModalOpen}
-            onClose={handleCloseModal}
-            aria-labelledby="paypal-payment-modal-student"
-            aria-describedby="modal-para-realizar-pago-con-paypal-student"
-          >
-            <div className="paypal-modal__content_student">
-              <h2 className="paypal-modal__title_student">Pago con PayPal</h2>
-              <p className="paypal-modal__text_student">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
+  open={isModalOpen}
+  onClose={handleCloseModal}
+  aria-labelledby="paypal-payment-modal-student"
+  aria-describedby="modal-para-realizar-pago-con-paypal-student"
+>
+  <div className="paypal-modal__content_student">
+    <h2 className="paypal-modal__title_student">Pago con PayPal</h2>
+    <p className="paypal-modal__text_student">Estás a punto de pagar con PayPal. ¿Quieres continuar?</p>
 
-              {selectedPaymentMethod === '3' && (
-                <PayPalScriptProvider options={initialOptions}>
-                  <PayPalButtons
-                    style={{
-                      layout: 'horizontal',
-                      color: 'blue',
-                      shape: 'rect',
-                      label: 'paypal',
-                    }}
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onCancel={onCancel}
-                    className="paypal_modal__paypal_btn_student" // Clase añadida aquí
-                  />
-                </PayPalScriptProvider>
-              )}
+    {selectedPaymentMethod === '3' && (
+      <PayPalScriptProvider options={initialOptions}>
+        <PayPalButtons
+          style={{
+            layout: 'horizontal',
+            color: 'blue',
+            shape: 'rect',
+            label: 'paypal',
+          }}
+          createOrder={createOrder}
+          onApprove={onApprove}
+          onCancel={onCancel}
+          className="paypal_modal__paypal_btn_student"
+        />
+      </PayPalScriptProvider>
+    )}
 
               <button onClick={handleCloseModal} className="paypal_modal__cancel_btn_student">
                 Cancelar
@@ -1021,6 +1010,20 @@ printWindow.print();
         <button 
           onClick={PaymentButton} // Siempre ejecuta PaymentButton
           className="payment-btn-student"
+          style={{
+            backgroundColor: '#4CAF50', // Color de fondo verde
+            color: 'white', // Color del texto blanco
+            padding: '15px 32px', // Relleno en los lados y arriba/abajo
+            textAlign: 'center', // Centrado del texto
+            textDecoration: 'none', // Sin subrayado
+            display: 'inline-block', // Asegura que el botón sea un bloque en línea
+            fontSize: '16px', // Tamaño de la fuente
+            margin: '4px 2px', // Márgenes alrededor del botón
+            cursor: 'pointer', // Cambia el cursor al pasar sobre el botón
+            border: 'none', // Sin borde
+            borderRadius: '8px', // Bordes redondeados
+            transition: 'background-color 0.3s', // Transición suave para el cambio de color
+          }}
         >
           {chosen_course.is_free ? 'Enviar' : 'Pagar'}
         </button>
@@ -1104,9 +1107,6 @@ printWindow.print();
                     </>
                 )}
             </Box>
-
-
-
     </div>
   )
 }

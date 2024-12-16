@@ -10,10 +10,11 @@
     box-sizing: border-box;
     width: 100%;
     max-width: 600px; /* Mejor control de la anchura máxima */
-    background-color: #e9e9e9;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Añadido para una apariencia más moderna */
     margin-top: 30px;
+    margin-left: 500px;
   }
   
   /* Título de la página */
@@ -21,7 +22,7 @@
     font-size: 2.8rem; /* Aumento de tamaño en pantallas grandes */
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
+    color: #043368;
     font-family: "Bebas Neue", sans-serif;
   }
   
@@ -67,10 +68,10 @@
   
   /* Estilo para el botón de registrar alianza */
   .register-partner-button {
-    width: 50%;
-    padding: 14px 24px;
+    width: 30%;
+    padding: 10px 24px;
     font-size: 1.2rem;
-    background-color: #4caf50;
+    background-color: #f39c12;
     color: white;
     border-radius: 5px;
     border: none;
@@ -80,7 +81,7 @@
   }
   
   .register-partner-button:hover {
-    background-color: #45a049;
+    background-color:#ff7b00;
     transform: scale(1.05); /* Efecto de escala para interactividad */
   }
   
@@ -89,13 +90,17 @@
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Mejorar accesibilidad al enfoque */
   }
 
-  .image-preview-container{
-    background-color: #45a049;
-  }
   
   .image-preview{
-    width: 100px;
-    height: 120px;
+    width: 200px;
+    height: 150px;
+  }
+
+  .image-preview-container{
+    width: 50px;
+    height: 170px;
+    display: flex;
+    justify-content: center;
   }
 
   /* Medios de consulta (Media Queries) */

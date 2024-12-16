@@ -39,56 +39,30 @@
     color: white;
 }
 
-/* Media Queries para hacer el diseño más responsivo */
-
-@media (max-width: 1200px) {
-    .view-admin-container {
-        margin-left: 100px; /* Reducir el margen izquierdo en pantallas más pequeñas */
-        width: 85%; /* Aumentar el ancho para pantallas más pequeñas */
-    }
-
-    .view-admin-search-input {
-        width: 80%; /* Ajustar el tamaño de la barra de búsqueda */
-    }
-}
-
-@media (max-width: 768px) {
-    .view-admin-container {
-        margin-left: 20px; /* Eliminar el margen izquierdo en pantallas móviles */
-        width: 95%; /* Hacer el contenedor más ancho en pantallas pequeñas */
-    }
-
-    .view-admin-search-input {
-        width: 100%; /* Hacer la barra de búsqueda de ancho completo */
-    }
-
-    .MuiTableCell-root {
-        font-size: 12px; /* Reducir el tamaño de la fuente en pantallas pequeñas */
-        padding: 10px; /* Reducir el padding en pantallas más pequeñas */
-    }
-
-    .MuiIconButton-root {
-        padding: 6px; /* Reducir el padding de los botones */
-    }
-}
-
 @media (max-width: 480px) {
     .view-admin-container {
-        padding: 20px; /* Reducir el padding en pantallas móviles */
-        width: 95%;
+        margin-left: 5px; /* Elimina el margen izquierdo */
+        width: 95%; /* El contenedor ocupa todo el ancho de la pantalla */
+        padding: 10px; /* Reduce el padding para pantallas pequeñas */
+        margin-top: 20px;
     }
 
     .view-admin-search-input {
-        width: 100%; /* La barra de búsqueda ocupa todo el ancho */
+        width: 100%; /* El input de búsqueda ocupa todo el ancho */
+        padding: 10px; /* Ajuste del padding */
     }
 
     .MuiTableCell-root {
-        font-size: 10px; /* Reducir aún más el tamaño de la fuente */
-        padding: 8px; /* Menos padding en pantallas muy pequeñas */
+        font-size: 12px; /* Reduce el tamaño de fuente en pantallas pequeñas */
+        padding: 8px; /* Ajuste del padding en celdas de la tabla */
     }
 
     .MuiIconButton-root {
-        padding: 4px; /* Minimizar el padding de los iconos en pantallas pequeñas */
+        padding: 6px; /* Reduce el padding de los iconos */
+    }
+
+    .MuiIconButton-root:hover {
+        background-color: #f44336;
+        color: white;
     }
 }
-

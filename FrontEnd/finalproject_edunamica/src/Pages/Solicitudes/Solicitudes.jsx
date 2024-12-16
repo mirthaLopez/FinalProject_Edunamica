@@ -4,7 +4,7 @@ import Applications from '../../Components/ApplicationsForm/Applications';
 import NavAdministration from '../../Components/AdminComponents/NavAdministration';
 function Solicitudes() {
   return (
-        <div>
+        <div style={{backgroundColor:" #e9e9e9", minHeight:"100vh"}}>
           <SidebarAdmin />
           <NavAdministration />
           <Applications />

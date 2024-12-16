@@ -76,17 +76,23 @@ console.log("Nombre del archivo renombrado:", renamedImage);
         payment_modality_fk,
     };
 
-    
-
     console.log(courseData);
     
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    const validationToken = `Bearer ${token}`;
+
     
     try {
-        const response = await fetch('http://localhost:8000/api/courses/', {
+        const response = await fetch('http://localhost:8000/api/courses/create/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-               
+                'Authorization': validationToken,
             },
             body: JSON.stringify(courseData),
         });

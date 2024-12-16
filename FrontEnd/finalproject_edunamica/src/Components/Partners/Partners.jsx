@@ -59,8 +59,9 @@ function Partners() {
   };
 
   return (
+    <div >
     <div className="partners-container">
-      <h1 className="partners-title">Partners / Alianzas</h1>
+      <h1 className="partners-title">Añadir una Nueva Alianza</h1>
       <TextField
         value={partner_name}
         onChange={(e) => setPartnerName(e.target.value)}
@@ -87,7 +88,7 @@ function Partners() {
         </div>
       )}
 
-      <Button
+      <button
         onClick={AddNewPartner}
         type="submit"
         variant="contained"
@@ -95,7 +96,8 @@ function Partners() {
         className="register-partner-button"
       >
         Registrar Alianza
-      </Button>
+      </button>
+    </div>
     </div>
   );
 }

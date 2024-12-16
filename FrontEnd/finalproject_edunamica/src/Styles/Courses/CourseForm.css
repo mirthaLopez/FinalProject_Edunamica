@@ -17,12 +17,13 @@
 .course-form__button {
   background-color: var(--primary-color);
   color: white;
-  width: 150px;
+  width: 200px;
   font-size: 25px;
   font-family: var(--font-family);
   border: none;
   border-radius: var(--border-radius);
   margin-top: 20px; /* Consolidado aquí */
+  padding: 10px;
 }
 
 .course-form__group {

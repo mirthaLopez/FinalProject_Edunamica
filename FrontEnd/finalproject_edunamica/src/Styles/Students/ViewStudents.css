@@ -25,13 +25,12 @@
 .view-students-table,
 .view-students-table th,
 .view-students-table td {
-    border: 1px solid #ddd; /* Bordes ligeros */
+    border: 1px white; /* Bordes ligeros */
     padding: 8px 15px; /* Espaciado dentro de las celdas */
 }
 
 /* Cabecera de la tabla */
 .view-students-table-header {
-    font-weight: bold;
     background-color: #f0f0f0;
     text-align: center;
     padding: 10px;
@@ -100,46 +99,64 @@ button.MuiButton-root:hover {
     background-color: #357ABD; /* Azul más oscuro al pasar el ratón */
 }
 
-/* Estilos Responsivos para pantallas de hasta 480px */
+/* Media query para pantallas pequeñas */
 @media (max-width: 480px) {
-    /* Ajuste de la caja de búsqueda */
-    .view-students-search-input {
-        width: 100%; /* Aumenta el tamaño del input en pantallas pequeñas */
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-
-    /* Estilo de la tabla en pantallas pequeñas */
-    .view-students-table-container {
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    /* Ajuste de los encabezados de la tabla */
-    .view-students-table-header {
-        font-size: 12px;  /* Reducir tamaño en pantallas pequeñas */
-        padding: 8px;
-    }
-
-    /* Estilo de las filas de la tabla */
-    .view-students-table-row {
-        font-size: 12px;  /* Reducir el tamaño del texto en las filas */
-    }
-
-    /* Ajuste en el tamaño del botón de exportación */
-    button.MuiButton-root {
-        font-size: 14px;
-        padding: 8px 16px;
-        margin-top: 15px;
-    }
-
-    /* Contenedor principal ajustado */
     .view-students-container {
-        margin-left: 10px; /* Ajusta el margen para pantallas pequeñas */
-        margin-right: 10px;
-        padding: 15px;
-        width: 95%;
+        margin-left: 0; /* Eliminar margen izquierdo en pantallas pequeñas */
+        padding: 10px; /* Ajustar padding */
+        width: 100%; /* Asegurar que ocupe todo el ancho */
+    }
+
+    .view-students-search-input {
+        width: 100%; /* Hacer el input de búsqueda más ancho */
+        padding: 8px 10px; /* Reducir padding */
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+    }
+
+    .view-students-table th,
+    .view-students-table td {
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+        padding: 6px 10px; /* Ajustar padding en las celdas */
+    }
+
+    .view-students-table-header {
+        font-size: 14px; /* Reducir tamaño de fuente en la cabecera */
+        padding: 8px; /* Reducir padding */
+    }
+
+    button.MuiButton-root {
+        width: 100%; /* Hacer que el botón ocupe todo el ancho */
+        padding: 12px; /* Ajustar el padding del botón */
     }
 }
 
+/* Media query para tablets (481px a 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .view-students-container {
+        margin-left: 20px; /* Añadir margen izquierdo pequeño para que no esté pegado a los bordes */
+        padding: 15px; /* Un poco más de padding */
+        width: 90%; /* Reducir el ancho a 90% en lugar de 100% */
+    }
 
+    .view-students-search-input {
+        width: 100%; /* Mantener el input de búsqueda de 100% de ancho */
+        padding: 10px 15px; /* Ajustar padding para hacerlos más cómodos */
+        font-size: 15px; /* Tamaño de fuente ligeramente más pequeño */
+    }
+
+    .view-students-table th,
+    .view-students-table td {
+        font-size: 15px; /* Ajustar el tamaño de la fuente */
+        padding: 8px 12px; /* Ajustar el padding de las celdas */
+    }
+
+    .view-students-table-header {
+        font-size: 15px; /* Ajustar tamaño de fuente en la cabecera */
+        padding: 10px; /* Ajustar el padding */
+    }
+
+    button.MuiButton-root {
+        width: auto; /* Botón con tamaño automático en lugar de 100% */
+        padding: 12px 24px; /* Ajustar padding para un tamaño intermedio */
+    }
+}

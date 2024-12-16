@@ -5,7 +5,7 @@ import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
 
 function Curso() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"150vh"}}>
      <SidebarAdmin />
       <NavAdministration />
       <CourseForm />

@@ -69,8 +69,8 @@ function StudentCourses() {
               <th className="detail-name">Curso</th>
               <th className="detail-name">Descripción</th>
               <th className="detail-name">Duración</th>
-              <th className="detail-name">Fecha de inicio</th>
-              <th className="detail-name">Fecha de fin</th>
+              <th className="detail-name">Inicia</th>
+              <th className="detail-name">Finaliza</th>
               <th className="detail-name">Precio</th>
               <th className="detail-name">Horario</th>
               <th className="detail-name">Requisitos</th>
@@ -80,14 +80,14 @@ function StudentCourses() {
           <tbody>
             {enrolledCourses.map(course => (
               <tr key={course.id}>
-                <td className="detail-value">{course.course_name}</td>
-                <td className="detail-value">{course.course_description}</td>
-                <td className="detail-value">{course.course_duration}</td>
-                <td className="detail-value">{course.begins}</td>
-                <td className="detail-value">{course.ends}</td>
-                <td className="detail-value">{course.course_price}</td>
-                <td className="detail-value">{course.course_schedule}</td>
-                <td className="detail-value">{course.obligatory_requirements}</td>
+                <td data-label="Curso" className="detail-value">{course.course_name}</td>
+                <td data-label="Descripción" className="detail-value">{course.course_description}</td>
+                <td data-label="Duración" className="detail-value">{course.course_duration}</td>
+                <td data-label="Fecha de inicio" className="detail-value">{course.begins}</td>
+                <td data-label="Fecha de fin" className="detail-value">{course.ends}</td>
+                <td data-label="Precio" className="detail-value">{course.course_price}</td>
+                <td data-label="Horario" className="detail-value">{course.course_schedule}</td>
+                <td data-label="Requisitos" className="detail-value">{course.obligatory_requirements}</td>
                 
               </tr>
             ))}

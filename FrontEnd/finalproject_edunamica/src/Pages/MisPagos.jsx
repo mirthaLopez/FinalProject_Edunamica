@@ -5,7 +5,7 @@ import StudentPayment from '../Components/StudentPayment'
 
 function MisPagos() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"100vh"}}>
         <SidebarStudent />
         <NavAdministration />
         <StudentPayment />

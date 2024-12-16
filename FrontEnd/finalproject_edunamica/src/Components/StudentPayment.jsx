@@ -10,7 +10,6 @@ import GetPayments from '../Services/Payments/GetPayments';
 import { useUser } from '../Components/Administration/AdminContext';
 import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
 
-
 // ESTILOS CSS
 import '../Styles/StudentPayment.css';
 
@@ -78,10 +77,6 @@ function StudentPayment() {
       .filter(payment => payment.student_fk === user.id) // Filtrar los pagos del estudiante logueado
       .map(payment => payment.payment_fk); // Extraer los IDs de los pagos
   
-
-
-
-
     const enrolledCourseIds = studentCourses
     .filter(studentCourse => studentCourse.student_fk === user.id) // Filtrar los cursos que corresponden al estudiante logueado
     .map(studentCourse => studentCourse.course_fk); // Obtener los course_fk relacionados
@@ -93,9 +88,6 @@ function StudentPayment() {
   
       // Establecer los cursos en los que el estudiante está matriculado
       setEnrolledCourses(enrolledCourseDetails);
-
-
-
 
     // Ahora, buscar esos pagos en la tabla de "payments"
     const studentPaymentsDetails = payments

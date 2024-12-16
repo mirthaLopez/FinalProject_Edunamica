@@ -9,6 +9,14 @@ async function PostAdmin(admin_name, admin_first_last_name, admin_second_last_na
         admin_auth_user_fk,
     };
 
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    const validationToken = `Bearer ${token}`;
+
     // Validación de campos requeridos
     if (!admin_name || !admin_first_last_name || !admin_email || !admin_phone_number) {
         console.error("Faltan campos requeridos: ", adminData);
@@ -20,6 +28,7 @@ async function PostAdmin(admin_name, admin_first_last_name, admin_second_last_na
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': validationToken,
             },
             body: JSON.stringify(adminData),
         });

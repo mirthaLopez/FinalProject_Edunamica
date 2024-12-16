@@ -10,6 +10,7 @@ import patchStatusApplication from '../../Services/RegisterForm/PatchStudentStat
 import GetCourses from '../../Services/Courses/GetCourses';
 import PostStudentCourses from '../../Services/RegisterForm/PostStudentCourses';
 import PostStudentPayment from '../../Services/Students/PostStudentPayment';
+import GetStudents from '../../Services/Students/GetStudents'
 
 //ESTILOS CSS
 import '../../Styles/ApplicationsForm/Applications.css';
@@ -38,6 +39,7 @@ function Applications() {
   const [selectedImage, setSelectedImage] = useState('');
   const [paymentsData, setPayments] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
   
@@ -51,6 +53,8 @@ function Applications() {
       setPayments(paymentsData);
       const coursesData = await GetCourses();
       setCourses(coursesData);
+      const studentData = await GetStudents();
+      setStudents(studentData);
     };
     fetchData();
   }, []);
@@ -106,7 +110,36 @@ const filteredApplications = applications.filter((data) => {
   
       console.log('Application found:', application);
   
-      // Step 3: Generate random password
+    // Step 3: Check if the email already exists in students
+    const existingStudent = students.find(student => student.email === application.email);
+    if (existingStudent) {
+      // If student exists, just show the "Accepted" message
+      console.log('Student already registered with email:', application.email);
+      
+      // Step 4: Link existing student to course and payment
+      const studentCourse = await PostStudentCourses(application.course_fk, existingStudent.id);
+      if (!studentCourse) {
+        console.error('Failed to assign student to course');
+        notyf.error('No se pudo asignar el estudiante al curso');
+        return;
+      }
+
+      const studentPayment = await PostStudentPayment(existingStudent.id, application.payment_fk);
+      if (!studentPayment) {
+        console.error('Failed to assign student to payment');
+        notyf.error('No se pudo asignar el estudiante al pago');
+        return;
+      }
+
+      console.log('Student Course:', studentCourse);
+      console.log('Student Payment:', studentPayment);
+
+      notyf.success('Solicitud aceptada - El estudiante ya está registrado');
+      return;
+    }
+
+  
+      // Step 4: Generate random password
       const generateRandomPassword = () => Math.floor(10000000 + Math.random() * 90000000).toString();
       const password = generateRandomPassword();
       const username = application.email;
@@ -116,7 +149,7 @@ const filteredApplications = applications.filter((data) => {
       console.log('Email:', email);
       console.log('Generated password:', password);
   
-      // Step 4: Create the auth user
+      // Step 5: Create the auth user
       const auth_user = await PostAuthStudentUser(username, email, password);
       if (!auth_user) {
         console.error('Failed to create auth user');
@@ -127,7 +160,7 @@ const filteredApplications = applications.filter((data) => {
       const authUserId = auth_user.id;
       const student_auth_user_fk = authUserId;
   
-      // Step 5: Create the student
+      // Step 6: Create the student
       const newStudent = await PostStudent(
         application.name,
         application.first_last_name,
@@ -153,7 +186,7 @@ const filteredApplications = applications.filter((data) => {
       // Success message for student creation
       notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
   
-      // Step 6: Link student to course and payment
+      // Step 7: Link student to course and payment
       const studentCourse = await PostStudentCourses(application.course_fk, newStudent.id);
       if (!studentCourse) {
         console.error('Failed to assign student to course');
@@ -171,7 +204,7 @@ const filteredApplications = applications.filter((data) => {
       console.log('Student Course:', studentCourse);
       console.log('Student Payment:', studentPayment);
   
-      // Step 7: Send verification email
+      // Step 8: Send verification email
       const templateParams = {
         user_name: application.name,
         to_email: application.email,
@@ -193,6 +226,7 @@ const filteredApplications = applications.filter((data) => {
       notyf.error('Error al aceptar la solicitud pendiente');
     }
   };
+  
   
 
   const handleReject = async (applicationId) => {

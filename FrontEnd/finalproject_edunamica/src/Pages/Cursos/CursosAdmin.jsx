@@ -5,7 +5,7 @@ import CoursesShow from '../../Components/Courses/CoursesShow'
 
 function CursosAdmin() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"100vh"}}>
         <SidebarAdmin />
         <NavAdministration />
         <CoursesShow />

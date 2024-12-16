@@ -5,7 +5,7 @@ import StudentProfile from '../Components/Students/StudentProfile'
 
 function PerfilEstudiante() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"740px"}}>
         <SidebarStudent />
         <NavAdministration />
         <StudentProfile />

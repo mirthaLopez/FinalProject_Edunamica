@@ -6,12 +6,21 @@ async function PostAuthStudentUser(username, email, password) {
         password
     }
 
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    const validationToken = `Bearer ${token}`;
+
     try {
 
         const response = await fetch('http://localhost:8000/api/users_student/', {
             method: 'POST', 
             headers: {
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json',
+                'Authorization': validationToken,
             },
             body: JSON.stringify(userData) 
         });

@@ -7,6 +7,14 @@ async function PostAuthAdminUser(username, email, password) {
     };
 
     console.log(userData);
+
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    const validationToken = `Bearer ${token}`;
     
 
     try {
@@ -15,6 +23,7 @@ async function PostAuthAdminUser(username, email, password) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': validationToken,
             },
             body: JSON.stringify(userData),
         });

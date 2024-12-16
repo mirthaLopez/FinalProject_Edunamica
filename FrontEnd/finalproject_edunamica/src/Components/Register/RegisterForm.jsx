@@ -886,7 +886,7 @@ function RegisterForm() {
                        <h2 className="completion-title">Haz completado el proceso de Prematrícula</h2>
                        <p className="completion-message">Una vez tu solicitud sea aceptada recibirás un correo con las credenciales de acceso al sistema.</p>
                      </div>
-                     <Link to="/" className="completion-link">
+                     <Link to="/Solicitudes" className="completion-link">
                        <Button variant="contained" sx={{ mt: 2 }}>Ir a Inicio</Button>
                      </Link>
                    </Box>

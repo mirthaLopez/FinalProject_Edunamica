@@ -5,7 +5,7 @@ import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
 
 function SolicitudesAceptadas() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"100vh"}}>
         <SidebarAdmin /> 
         <NavAdministration />
         <AcceptedApplications />

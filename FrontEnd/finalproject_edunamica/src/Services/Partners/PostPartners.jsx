@@ -40,20 +40,28 @@ async function PostPartners(partner_logo_url, partner_name) {
         partner_name,
         partner_logo_url,
     };
+
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    const validationToken = `Bearer ${token}`;
     
     try {
         const response = await fetch('http://localhost:8000/api/partners/create/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                
+                'Authorization': validationToken,
             },
             body: JSON.stringify(data),
         });
 
         if (!response.ok) {
           
-            throw new Error('Error al guardar la alianza. Token inválido o expirado');
+            throw new Error('Error al guardar la alianza');
         }
 
         const newPartner = await response.json();

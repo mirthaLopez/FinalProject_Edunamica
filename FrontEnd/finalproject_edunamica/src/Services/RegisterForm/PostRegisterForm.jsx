@@ -20,7 +20,23 @@ export const uploadImageToS3 = async (file) => {
     return s3.upload(params).promise();
   };
 
-async function PostRegisterForm(identification_number, name, first_last_name, second_last_name, birth_date, phone_number, email, identification_image_url, address, identification_fk, genre_fk, course_fk, student_status_fk, neighborhood_fk, payment_fk){
+async function PostRegisterForm(
+  identification_number, 
+  name, 
+  first_last_name, 
+  second_last_name, 
+  birth_date, 
+  phone_number, 
+  email, 
+  identification_image_url, 
+  address, 
+  identification_fk, 
+  genre_fk, 
+  course_fk, 
+  student_status_fk, 
+  neighborhood_fk, 
+  payment_fk){
+    
     /////Aleatorio para evitar conflictos en Amazon Web Service/////
     const generateRandomPassword = (length) => {
       let password = '';

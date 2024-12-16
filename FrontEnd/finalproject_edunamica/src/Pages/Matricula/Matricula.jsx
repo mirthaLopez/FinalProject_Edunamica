@@ -5,7 +5,7 @@ import SidebarAdmin from '../../Components/AdminComponents/SidebarAdmin';
 
 function Matricula() {
   return (
-    <div>
+    <div >
       <SidebarAdmin /> 
       <NavAdministration />
       <EnrollmentForm  />

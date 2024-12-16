@@ -3,16 +3,16 @@
 /* Estilos generales */
 .student-courses-container {
     padding: 20px;
-    background-color: #f4f4f4;
     border-radius: 8px;
     margin-left: 295px;
     margin-top: 20px; /* Agregado margin-top */
     margin-right: 20px;
+    overflow-x: auto;
 }
   
   .student-courses-title {
     font-size: 40px;
-    color:  #f39c12;
+    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
     margin-bottom: 20px;
     text-align: center;
     font-family: "Bebas Neue", sans-serif;
@@ -22,25 +22,32 @@
   .courses-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
   }
   
   .courses-table th,
   .courses-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
+    padding: 1rem; /* Similar al padding original */
+  text-align: left;
+  border-bottom: 1px solid #ccc; /* Borde similar al original */
   }
   
   .courses-table th {
-    background-color: #f39c12;
-    color: white;
+    background-color: rgb(206, 203, 203);
     font-size: 1rem;
   }
   
   .courses-table td {
     background-color: #ffffff;
     font-size: 0.9rem;
+  }
+
+  .courses-table tr:hover {
+    background-color: #f1f1f1; /* Fondo al pasar el mouse similar */
   }
   
   .detail-name {
@@ -67,67 +74,67 @@
     color:  #eb392c;
   }
   
-  @media (max-width: 1200px) {
+  @media screen and (max-width: 600px) {
+    /* Estilos generales */
     .student-courses-container {
-        margin-left: 20px; /* Reducir el margen izquierdo en pantallas más pequeñas */
+      margin-left: 10px;
     }
-
-    .student-courses-title {
-        font-size: 36px; /* Reducir el tamaño de fuente */
+  
+    .courses-table, .courses-table thead, .courses-table tbody, .courses-table th, .courses-table td, .courses-table tr {
+      display: block;
+      width: 100%;
     }
-
-    .courses-table th, 
+  
+    /* Ocultar el encabezado de la tabla en pantallas pequeñas */
+    .courses-table thead {
+      display: none;
+    }
+  
+    .courses-table tbody tr {
+      margin-bottom: 15px;
+    }
+  
+    .courses-table tbody td {
+      text-align: left; /* Cambiado para mayor legibilidad */
+      padding-left: 0; /* Elimina el relleno izquierdo */
+      padding-bottom: 10px; /* Espacio en la parte inferior */
+      position: relative;
+      padding-top: 40px; /* Da espacio para el pseudo-elemento */
+    }
+  
+    /* Estilo del pseudo-elemento data-label */
+    .courses-table tbody td::before {
+      position: absolute;
+      top: 0; /* Coloca el pseudo-elemento en la parte superior */
+      left: 0;
+      width: 100%;
+      padding: 5px 0;
+      font-weight: bold;
+      text-align: left;
+      content: attr(data-label); /* Usa el valor del atributo data-label */
+      background-color: #f4f4f4; /* Fondo claro para el label */
+      border-bottom: 1px solid #ddd; /* Línea sutil debajo del label */
+    }
+  
+    /* Ajustar la visualización del contenido real debajo del data-label */
+    .courses-table tbody td span {
+      display: block;
+      margin-top: 20px; /* Separación entre el label y el contenido */
+    }
+  
+    /* Estilos adicionales para las celdas */
     .courses-table td {
-        padding: 10px; /* Reducir el padding en pantallas más pequeñas */
+      font-size: 14px;
+      line-height: 1.4;
     }
-}
-
-@media (max-width: 768px) {
-    .student-courses-container {
-        margin-left: 0; /* Eliminar el margen izquierdo */
-        margin-right: 0; /* Eliminar el margen derecho */
-        padding: 15px; /* Reducir el padding */
+    
+    .detail-name {
+      display: none; /* Oculta los nombres de las cabeceras de las columnas */
     }
-
-    .student-courses-title {
-        font-size: 30px; /* Reducir el tamaño de la fuente */
-    }
-
-    .courses-table th,
-    .courses-table td {
-        font-size: 0.8rem; /* Reducir el tamaño de fuente de la tabla */
-    }
-
-    .detail-name,
-    .detail-value {
-        font-size: 0.8rem; /* Reducir el tamaño de fuente de los detalles */
-    }
-
+  
     .no-courses-message {
-        font-size: 1rem; /* Reducir el tamaño de la fuente de los mensajes */
+      text-align: center;
+      font-size: 18px;
+      color: #888;
     }
-}
-
-@media (max-width: 480px) {
-    .student-courses-title {
-        font-size: 24px; /* Reducir aún más el tamaño de la fuente */
-    }
-
-    .courses-table th,
-    .courses-table td {
-        padding: 8px; /* Reducir más el padding */
-    }
-
-    .detail-name,
-    .detail-value {
-        font-size: 0.75rem; /* Reducir aún más el tamaño de la fuente de los detalles */
-    }
-
-    .no-courses-message {
-        font-size: 0.9rem; /* Reducir aún más el tamaño de los mensajes */
-    }
-
-    .courses-table {
-        font-size: 0.75rem; /* Ajustar el tamaño de la fuente de la tabla */
-    }
-}
+  }

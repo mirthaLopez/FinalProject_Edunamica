@@ -6,7 +6,7 @@ import NavAdministration from '../../Components/AdminComponents/NavAdministratio
 
 function Alianzas() {
   return (
-    <div>
+    <div style={{backgroundColor:" #e9e9e9", minHeight:"650px"}}>
         <SidebarAdmin /> 
         <NavAdministration />
         <Partners />

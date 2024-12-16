@@ -3,15 +3,20 @@ async function PatchStudentEmail(id, email) {
       username: email,
       email: email
     };
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
 
-    console.log("Estoy en el servicio");
+    const validationToken = `Bearer ${token}`;
     
-
     try {
       const response = await fetch(`http://localhost:8000/api/users_student/${id}/`, {
         method: 'PATCH', // Usamos PATCH para actualizar solo un campo
         headers: {
           'Content-Type': 'application/json', // Especificamos que los datos son JSON
+          'Authorization': validationToken,
         },
         body: JSON.stringify(data) // Solo enviamos el campo a actualizar
       });

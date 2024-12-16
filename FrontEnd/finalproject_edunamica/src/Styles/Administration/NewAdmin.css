@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); 
 /* Estilo principal para todo el formulario */
 .admin-registration {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-left: 500px;
-    margin-top: 40px;
+    margin-top: 10px;
   }
 
   .divButtonNewAdmin{
     display: flex;
     justify-content: center;
+  }
+
+  .admin-registration-title{
+    font-family: "Bebas Neue", sans-serif;
+    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
+    text-align: center;
   }
   
   /* Estilo para el título */
@@ -63,7 +70,7 @@
   .admin-registration__button {
     width: 50%;
     padding: 12px;
-    background-color: #4caf50;
+    background-color:#f39c12;
     color: white;
     font-size: 18px;
     border: none;
@@ -74,7 +81,7 @@
   
   /* Cambio de color del botón al pasar el cursor sobre él */
   .admin-registration__button:hover {
-    background-color: #45a049;
+    background-color:#ff7b00;
   }
 
 /* Estilos generales para pantallas pequeñas (móviles con max-width 480px) */

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
 //SERVICIOS
-import GetUsers from '../../Services/Users/GetUsers';
 import PostAuthAdminUser from '../../Services/Users/PostAdminUser';
 import PostAdmin from '../../Services/Administrators/postAdmin';
 
@@ -29,19 +28,6 @@ function NewAdmin() {
   const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
   const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
   
-
-  // Función para obtener los usuarios autenticados (auth_user)
-  useEffect(() => {
-    const fetchUsuarios = async () => {
-      try {
-        const data = await GetUsers();
-        // Si necesitas hacer algo con los datos, puedes hacerlo aquí
-      } catch (error) {
-        console.error('Error al obtener los usuarios autenticados:', error);
-      }
-    };
-    fetchUsuarios();
-  }, []);
 
   // Función para agregar administrador
   const AddNewAdminButton = async () => {
@@ -124,7 +110,7 @@ function NewAdmin() {
 
   return (
     <div className="admin-registration">
-      <h1 className="admin-registration__title">Registrar Nuevo Administrador</h1>
+      <h1 className="admin-registration-title">Registrar Nuevo Administrador</h1>
 
       <TextField
         value={admin_name}
@@ -173,7 +159,7 @@ function NewAdmin() {
       <br />
       <br />
       <div className="divButtonNewAdmin">
-        <Button
+        <button
           onClick={AddNewAdminButton}
           type="submit"
           variant="contained"
@@ -181,7 +167,7 @@ function NewAdmin() {
           className="admin-registration__button"
         >
           ENVIAR
-        </Button>
+        </button>
       </div>
     </div>
   );

@@ -7,11 +7,27 @@
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: #f4f4f9;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 310px;
-    margin-top: 20px;
+    margin-left: 290px;
+    margin-right: 60px;
+}
+
+.label-direccion{
+    color: #616161;
+}
+
+.select-direccion{
+    background-color:#e9e9e9;
+    padding: 8px 12px;                /* Espaciado interno */
+    border: 1px solid #ccc;           /* Borde gris */
+    border-radius: 4px;               /* Bordes redondeados */
+    font-size: 16px;                 
+}
+
+.form-control{
+    background-color:#e9e9e9;
+    box-shadow: none;
+    border: none;
 }
 
 /* Título */
@@ -21,23 +37,9 @@
 }
 
 .text-form-register-student {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Estilos para el Stepper */
-.MuiStepLabel-root {
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.MuiStep-root.MuiStep-completed .MuiStepLabel-root {
-    color: #4caf50;
-}
-
-.MuiStep-root.MuiStep-active .MuiStepLabel-root {
-    color: #2196f3;
+    font-size: 2.5rem;
+    font-family: "Bebas Neue", sans-serif;
+    color: #f8940c;
 }
 
 .steps-container-student .MuiStepLabel-iconContainer {
@@ -82,7 +84,6 @@
 
 .MuiSelect-root {
     font-size: 1rem;
-    background-color: #fff;
     width: 100%; /* Asegura que los selects ocupen todo el ancho disponible */
 }
 
@@ -99,10 +100,6 @@
     margin-left: 500px;
 }
 
-.botonEnviarStudent{
-  margin-left: 350px;
-  width: 90%;
-}
 
 .btn-send-student:hover {
     background-color: #1976d2;

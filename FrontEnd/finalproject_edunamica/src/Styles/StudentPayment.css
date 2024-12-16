@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* Estilos generales */
 .student-payment-container {
     margin-left: 310px;
@@ -5,39 +6,46 @@
   }
   
   .student-payment-title {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem; 
+    margin-bottom: 20px; 
+    font-family: "Bebas Neue", sans-serif; 
+    color: #043368; /* Color de texto oscuro para mayor contraste y legibilidad */
+    text-align: center; 
   }
   
   .student-payment-table {
-    width: 100%;
-    border-collapse: collapse;
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  
+  .student-payment-row{
+    background-color: white; 
   }
   
   .student-payment-table-header {
-    padding: 10px;
-    background-color: #f4f4f4;
-    text-align: left;
-    font-weight: bold;
+    padding: 10px; 
+    background-color: #c5c1c1; 
+    text-align: left; 
+    font-weight: bold; 
   }
   
   .student-payment-row {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd; 
   }
   
   .student-payment-row td {
-    padding: 12px;
-    text-align: left;
+    padding: 12px; 
+    text-align: left; 
   }
   
   .student-payment-amount {
-    color: #4CAF50;
+    color: #4CAF50; 
   }
   
   .student-payment-no-records {
-    font-size: 1.2rem;
-    color: #888;
-    text-align: center;
+    font-size: 1.2rem; 
+    color: #888; 
+    text-align: center; 
   }
   
   /* Estilos responsivos */
@@ -57,29 +65,29 @@
     }
   
     .student-payment-title {
-      font-size: 1.5rem;
+      font-size: 1.5rem; 
     }
   
     .student-payment-amount {
-      font-size: 1rem;
+      font-size: 1rem; 
     }
   
     .student-payment-no-records {
-      font-size: 1rem;
+      font-size: 1rem; 
     }
   }
   
   @media (max-width: 768px) {
     .student-payment-title {
-      font-size: 1.2rem;
+      font-size: 1.2rem; 
     }
   
     .student-payment-table {
-      font-size: 12px;
+      font-size: 12px; 
     }
   
     .student-payment-row td {
-      padding: 8px;
+      padding: 8px; 
     }
   }
   
