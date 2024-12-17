@@ -1,37 +1,48 @@
 import React, { useState } from 'react';
-import { useUser } from '../Administration/AdminContext';
-import { TextField, Button, Modal, Box, Typography } from '@mui/material';
-import Swal from 'sweetalert2';
-import PutAdministrator from '../../Services/Administrators/PutAdministrators'; 
-import PatchAdminPass from '../../Services/Users/PatchAdminPass';
-import PatchAdminEmail from '../../Services/Users/PatchAdminEmail';
-import error from '../../Img/computer.png'
-import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
-import '../../Styles/Administration/AdministratorProfile.css'
+// IMPORTAMOS EL CONTEXTO
+import { useUser } from '../Administration/AdminContext'; // Contexto para el usuario administrador
+import { useAuth } from '../../Components/AuthContext'; // Contexto para la autenticación
+
+// SERVICIOS
+import PutAdministrator from '../../Services/Administrators/PutAdministrators'; // Servicio para actualizar datos del administrador
+import PatchAdminPass from '../../Services/Users/PatchAdminPass'; // Servicio para actualizar la contraseña
+import PatchAdminEmail from '../../Services/Users/PatchAdminEmail'; // Servicio para actualizar el correo electrónico
+
+// ESTILOS CSS
+import '../../Styles/Administration/AdministratorProfile.css' 
+
+// IMPORTS DE LIBRERIA MUI
+import { TextField, Button, Modal, Box, Typography } from '@mui/material'; 
+
+// IMPORT DE SWEET ALERT
+import Swal from 'sweetalert2';
+// IMPORT DE IMÁGENES
+import error from '../../Img/computer.png' 
 
 function AdministratorProfile() {
-  const { user, setUserData } = useUser();  // Cambia admin a user
-  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+
+  const { user, setUserData } = useUser();  // Extraemos los datos del usuario desde el contexto
+  const { setAuthData } = useAuth(); // Extraemos la función de autenticación desde el contexto
   
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // Estado que controla si el modal está abierto o cerrado
   const formData = {
     ...user,  // Los datos del usuario (admin o estudiante)
-    admin_name: user?.admin_name || '',  // Dependiendo del tipo de usuario, las propiedades cambiarán
-    admin_first_last_name: user?.admin_first_last_name || '',
-    admin_second_last_name: user?.admin_second_last_name || '',
-    admin_email: user?.admin_email || '',
-    admin_phone_number: user?.admin_phone_number || '',
+    admin_name: user?.admin_name || '',  // Nombre del administrador
+    admin_first_last_name: user?.admin_first_last_name || '', // Primer apellido
+    admin_second_last_name: user?.admin_second_last_name || '', // Segundo apellido
+    admin_email: user?.admin_email || '',  // Correo electrónico
+    admin_phone_number: user?.admin_phone_number || '',  // Número de teléfono
   };
   
-  const [newPassword, setNewPassword] = useState('');
-  const [passwordEnabled, setPasswordEnabled] = useState(false); // Controla si el campo de contraseña está habilitado
-  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const [newPassword, setNewPassword] = useState(''); // Estado para almacenar la nueva contraseña
+  const [passwordEnabled, setPasswordEnabled] = useState(false); // Controla si el campo de nueva contraseña está habilitado
+  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false); // Estado que indica si la contraseña fue actualizada
 
-  // Función para abrir el modal
+  // Función para abrir el modal de edición
   const handleOpen = () => setOpen(true);
 
-  // Función para cerrar el modal
+  // Función para cerrar el modal de edición
   const handleClose = () => setOpen(false);
 
   // Actualiza los datos del formulario al modificar los campos
@@ -43,6 +54,7 @@ function AdministratorProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Preparamos los datos actualizados del formulario
     const updatedFormData = {
       ...formData,
       id: user.id, 
@@ -60,16 +72,17 @@ function AdministratorProfile() {
         
         console.log(formData.admin_email);
         
-        await PatchAdminEmail(user.admin_auth_user_fk, formData.admin_email); // Ejecuta PatchAdminEmail
+        // Llamamos al servicio de cambio de correo
+        await PatchAdminEmail(user.admin_auth_user_fk, formData.admin_email); 
       }
 
-      // Después de actualizar el correo (si es necesario), actualiza los demás datos
-      await PutAdministrator(user.id, updatedFormData); // Ejecuta PutAdministrator
-      setAdminData(updatedFormData); 
-      Swal.fire('Éxito', 'Datos actualizados correctamente', 'success');
-      handleClose();
+      // Después de actualizar el correo (si es necesario), actualizamos los demás datos
+      await PutAdministrator(user.id, updatedFormData); // Ejecuta el servicio para actualizar los datos del administrador
+      setAdminData(updatedFormData); // Actualiza los datos en el contexto de usuario
+      Swal.fire('Éxito', 'Datos actualizados correctamente', 'success'); // Muestra alerta de éxito
+      handleClose(); // Cierra el modal
     } catch (error) {
-      Swal.fire('Error', 'No se pudo actualizar los datos', 'error');
+      Swal.fire('Error', 'No se pudo actualizar los datos', 'error'); // Muestra alerta de error
     }
   };
 
@@ -77,17 +90,19 @@ function AdministratorProfile() {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
 
+    // Verificar si se ingresó una nueva contraseña
     if (!newPassword) {
       Swal.fire('Error', 'Por favor ingrese una nueva contraseña', 'error');
       return;
     }
 
     try {
-      await PatchAdminPass(user.admin_auth_user_fk, newPassword); // Llama al servicio PATCH para actualizar la contraseña
-      setIsPasswordUpdated(true);
-      Swal.fire('Éxito', 'Contraseña actualizada correctamente', 'success');
+      // Llamamos al servicio para cambiar la contraseña
+      await PatchAdminPass(user.admin_auth_user_fk, newPassword); 
+      setIsPasswordUpdated(true); // Marca que la contraseña fue actualizada
+      Swal.fire('Éxito', 'Contraseña actualizada correctamente', 'success'); // Alerta de éxito
     } catch (error) {
-      Swal.fire('Error', 'No se pudo actualizar la contraseña', 'error');
+      Swal.fire('Error', 'No se pudo actualizar la contraseña', 'error'); // Alerta de error
     }
   };
 
@@ -101,7 +116,7 @@ function AdministratorProfile() {
       <div>
       <h1 className="admin-profile-title">Perfil de Administrador</h1>
       <div className='admin-profile-data-container'>
-      {user ? (
+      {user ? ( // Verifica si hay datos del usuario
         <div>
           <p className="admin-profile-item"><strong>Nombre:</strong> {user.admin_name} {user.admin_first_last_name} {user.admin_second_last_name}</p>
           <p className="admin-profile-item"><strong>Email:</strong> {user.admin_email}</p>
@@ -110,7 +125,7 @@ function AdministratorProfile() {
             Editar datos
           </button>
         </div>
-      ) : (
+      ) : ( // Si no hay datos del usuario, muestra mensaje de error
         <div >
           <div >
           <p className="admin-profile-item-2">Inicia sesión nuevamente para poder ver y editar los datos de tu perfil.</p> </div>
@@ -248,8 +263,3 @@ function AdministratorProfile() {
 }
 
 export default AdministratorProfile;
-
-
-
-
-

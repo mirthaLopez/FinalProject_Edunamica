@@ -32,21 +32,29 @@ import Contacto from "../Pages/Contacto/Contacto";
 //IMPORT DE MATRÍCULA
 import Matricula from "../Pages/Matricula/Matricula";
 
+// IMPORT DE EVENTOS
+import Eventos from "../Pages/Events/Eventos";
 //IMPORT DE LOGIN
 import Login from "../Pages/Login/Login";
 
 //IMPORT DE ESTUDIANTE
-import PerfilEstudiante from "../Pages/PerfilEstudiante";
+import PerfilEstudiante from "../Pages/Estudiantes/PerfilEstudiante";
 import Estudiantes from "../../src/Pages/Estudiantes/Estudiantes";
-import MisCursos from "../Pages/MisCursos";
-import MisPagos from "../Pages/MisPagos";
-import Matricular from "../Pages/Matricular"
+import MisCursos from "../Pages/Estudiantes/MisCursos";
+import MisPagos from "../Pages/Estudiantes/MisPagos";
+import Matricular from "../Pages/Estudiantes/Matricular"
+
+//IMPORT DEL BLOG
+import Blog from "../Pages/BlogEdunamica/Blog";
+import AgregarBlog from "../Pages/BlogEdunamica/AgregarBlog";
+import VerBlog from "../Pages/BlogEdunamica/VerBlog";
 
 import Inicio from "../Pages/Inicio";
-import Principal from "../Pages/Principal"
+import Principal from "../Pages/Principal";
 
 import ProtectedRoutes from "./ProtectedRoutes";
 import ScrollToTop from "../Components/ScrollToTop";
+
 
 const Routing = () => {
     return (
@@ -62,6 +70,7 @@ const Routing = () => {
                 <Route path="/Administradores" element={<ProtectedRoutes><Administradores /> </ProtectedRoutes>} /> 
                 <Route path="/Matricula" element={<ProtectedRoutes><Matricula /> </ProtectedRoutes>} /> 
                 <Route path="/Alianzas" element={<ProtectedRoutes><Alianzas /></ProtectedRoutes>} /> 
+                <Route path="/Eventos" element={<ProtectedRoutes><Eventos /></ProtectedRoutes>} /> 
                 <Route path="/Cursos" element={<VerCurso />} /> 
                 <Route path="/Principal" element={<Principal />} /> 
                 <Route path="/CursosAdmin" element={<ProtectedRoutes><CursosAdmin /></ProtectedRoutes>} /> 
@@ -76,6 +85,9 @@ const Routing = () => {
                 <Route path="/MisCursos" element={<ProtectedRoutes><MisCursos /></ProtectedRoutes>} /> 
                 <Route path="/Matricular" element={<ProtectedRoutes><Matricular /></ProtectedRoutes>} /> 
                 <Route path="/MisPagos" element={<ProtectedRoutes><MisPagos /></ProtectedRoutes>} /> 
+                <Route path="/Blog" element={<Blog />} /> 
+                <Route path="/AgregarBlog" element={<AgregarBlog />} /> 
+                <Route path="/VerBlog/:id" element={<VerBlog />} /> 
             </Routes>
         </Router>
     );

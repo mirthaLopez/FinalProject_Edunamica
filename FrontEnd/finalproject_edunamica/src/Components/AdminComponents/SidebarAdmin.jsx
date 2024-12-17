@@ -1,57 +1,63 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
-import { useNavigate } from 'react-router-dom';
 
-//ESTILOS CSS
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../../Components/AuthContext'; 
+
+// ESTILOS CSS
 import '../../Styles/AdminStyles/SidebarAdmin.css'; 
 
-//IMPORTS DE LIBRERIA MUI
-import ClassIcon from '@mui/icons-material/Class'; //cursos
-import ChecklistIcon from '@mui/icons-material/Checklist'; //prematrícula
-import PersonAddIcon from '@mui/icons-material/PersonAdd'; //estudiantes
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; //admin
-import SchoolIcon from '@mui/icons-material/School'; // matrícula
-import HandshakeIcon from '@mui/icons-material/Handshake'; // alianzas
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // perfil
+// IMPORTS DE LIBRERIA MUI
+import ClassIcon from '@mui/icons-material/Class'; // Icono de cursos
+import ChecklistIcon from '@mui/icons-material/Checklist'; // Icono de prematrícula
+import PersonAddIcon from '@mui/icons-material/PersonAdd'; // Icono de estudiantes
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; // Icono de administración
+import SchoolIcon from '@mui/icons-material/School'; // Icono de matrícula
+import HandshakeIcon from '@mui/icons-material/Handshake'; // Icono de alianzas
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Icono de perfil
+import Diversity1Icon from '@mui/icons-material/Diversity1';
 
-//IMPORTS DE BOOTSTRAP
+// IMPORTS DE BOOTSTRAP
 import {Collapse, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//IMPORT DE IMÁGENES
+// IMPORT DE IMÁGENES
 import logo_edunamica from "../../Img/edunamica_logo.svg"
 
-//IMPORT DE LINK TO
+// IMPORT DE LINK TO
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 
 function SidebarAdmin() {
-    const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar la visibilidad del sidebar
-    const [openSection, setOpenSection] = useState(null);
-    const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
-    const { logout } = useAuth();
     
+    const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar si el sidebar está abierto o cerrado
+    const [openSection, setOpenSection] = useState(null); // Estado para controlar qué sección del sidebar está abierta
+    const {setAuthData} = useAuth(); // Extrae setAuthData desde el contexto de autenticación
+    const { logout } = useAuth(); // Extrae la función logout desde el contexto de autenticación
+    
+    // Función para manejar la apertura/cierre de las secciones del sidebar
     const handleToggle = (section) => {
-        // Si la sección está ya abierta, la cerramos, sino la abrimos
+        // Si la sección está abierta, la cerramos, de lo contrario la abrimos
         setOpenSection(openSection === section ? null : section);
     };
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Instancia el hook useNavigate para la navegación programática
 
-// Handler del logout usando el contexto
-const handleLogout = () => {
-    console.log('Logout function called');
-    logout();  // Llamamos a la función de logout definida en el contexto
-    window.location.href = '/Login'; // Redirigimos a la página de login
-};
+    // Función para manejar el logout
+    const handleLogout = () => {
+        console.log('Logout function called'); // Muestra un mensaje en consola cuando se llama la función de logout
+        logout();  // Llama a la función logout del contexto de autenticación
+        window.location.href = '/Login'; // Redirige al usuario a la página de login
+    };
     
     return (
-        <div style={{position: 'relative', zIndex: 2 }}>
-        {/* Botón de hamburguesa para pantallas pequeñas */}
+        
+        <div style={{position: 'relative', zIndex: 2 }}> 
         <button 
             className="sidebar-toggle-btn" 
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => setSidebarOpen(!sidebarOpen)} 
         >
-            ☰
+            ☰ 
         </button>
 
         {/* Sidebar */}
@@ -284,6 +290,52 @@ const handleLogout = () => {
                     </Collapse>
                 </li>
 
+                
+
+                
+                <li className="menu-item mb-1">
+                    <Button
+                        className="btn btn-toggle align-items-center rounded styles-btn"
+                        onClick={() => handleToggle('community')}
+                        aria-expanded={openSection === 'community'}
+                        style={{
+                            backgroundColor: 'white',  // Fondo blanco por defecto
+                            color: 'black',            // Color del texto
+                            width: '100%',             // Ancho completo
+                            textAlign: 'left',         // Alineación del texto a la izquierda
+                            padding: '0.75rem 1.25rem', // Espaciado interno
+                            fontSize: '20px',          // Tamaño de la fuente
+                            fontWeight: '300',         // Peso de la fuente
+                            borderRadius: '0.5rem',    // Bordes redondeados
+                            border: '1px solid transparent', // Borde definido
+                            display: 'grid',           // Usar grid
+                            gridTemplateColumns: 'auto 1fr', // Dos columnas, una para el icono y otra para el texto
+                            gap: '10px',               // Espacio entre icono y texto
+                            alignItems: 'center',      // Alineación centrada verticalmente
+                            cursor: 'pointer',        // Cambiar el cursor al pasar el ratón
+                            transition: 'all 0.3s ease',  // Transición suave para hover, focus, active
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Sombra suave
+                            fontFamily: '"Bebas Neue", sans-serif',  // Fuente personalizada
+                        }}
+                    >
+                        <Diversity1Icon />
+                        Comunidad Edunámica
+                    </Button>
+                    <Collapse in={openSection === 'community'}>
+                        <ul className="submenu list-unstyled fw-normal pb-1 small">
+                            <li><Link to="/Eventos" className="submenu-item link-dark rounded"><p className="large-text">Eventos</p></Link></li>
+                            <li> 
+                                <Link to="/Blog" className="submenu-item link-dark rounded" >
+                                    <p className="large-text">Visualizar Blog</p>
+                                 </Link>
+                            </li>
+                            <li><Link to="/AgregarBlog" className="submenu-item link-dark rounded"><p className="large-text">Agregar Blog</p></Link></li>
+                        </ul>
+                    </Collapse>
+                </li>
+
+
+
                 <li className="separator border-top my-3"></li>
                 <li className="menu-item mb-1">
                     <Button
@@ -316,8 +368,9 @@ const handleLogout = () => {
                     <Collapse in={openSection === 'account'}>
                         <ul className="submenu list-unstyled fw-normal pb-1 small">
                             <li><Link to="/PerfilAdministrador" className="submenu-item link-dark rounded"><p className="large-text">Mi Perfil</p></Link></li>
-                            <li> <Link to="#" className="submenu-item link-dark rounded" onClick={handleLogout}>
-                             <p className="large-text">Cerrar Sesión</p>
+                            <li> 
+                                <Link to="#" className="submenu-item link-dark rounded" onClick={handleLogout}>
+                                    <p className="large-text">Cerrar Sesión</p>
                                  </Link>
                             </li>
                         </ul>
@@ -326,7 +379,6 @@ const handleLogout = () => {
             </ul>
         </div>
     </div>
-    
     );
 };
 

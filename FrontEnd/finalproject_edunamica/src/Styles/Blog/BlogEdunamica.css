@@ -1,0 +1,89 @@
+/* Estilos generales para el contenedor de blogs */
+.blog-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Estilos para cada tarjeta de blog */
+  .blog-card {
+    max-width: 345px;
+    border-radius: 8px;
+  }
+  
+  /* Estilo para el título del blog */
+  .blog-title {
+    font-weight: bold;
+    color: #2C3E50;
+  }
+  
+  /* Estilo para la sección del creador */
+  .blog-creator {
+    padding-top: 0;
+  }
+  
+  /* Estilo para las acciones de la tarjeta del blog */
+  .blog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Estilos para el modal */
+  .share-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    outline: none;
+  }
+  
+  /* Estilo para el botón de cerrar en el modal */
+  .close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #000;
+  }
+  
+  /* Estilos para el botón de WhatsApp */
+  .whatsapp-button {
+    background-color: #25D366; /* WhatsApp verde */
+    &:hover {
+      background-color: #25D366;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    width: 90%;
+    padding: 10px;
+    margin-left: 13px;
+    gap: 1rem;
+  }
+  
+  /* Estilos para el botón de Facebook */
+  .facebook-button {
+    background-color: #1877F2; /* Facebook azul */
+    &:hover {
+      background-color: #0F63F1;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    width: 90%;
+    padding: 10px;
+    margin-left: 13px;
+    gap: 1rem;
+    margin-top: 20px;
+  }

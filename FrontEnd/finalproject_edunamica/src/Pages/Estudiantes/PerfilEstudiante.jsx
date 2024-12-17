@@ -1,7 +1,7 @@
 import React from 'react'
-import SidebarStudent from '../Components/SidebarStudent'
-import NavAdministration from '../Components/AdminComponents/NavAdministration';
-import StudentProfile from '../Components/Students/StudentProfile'
+import SidebarStudent from '../../Components/Students/SidebarStudent'
+import NavAdministration from '../../Components/AdminComponents/NavAdministration';
+import StudentProfile from '../../Components/Students/StudentProfile'
 
 function PerfilEstudiante() {
   return (

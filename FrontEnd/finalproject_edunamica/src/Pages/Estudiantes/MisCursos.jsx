@@ -1,7 +1,7 @@
 import React from 'react'
-import SidebarStudent from '../Components/SidebarStudent'
-import NavAdministration from '../Components/AdminComponents/NavAdministration';
-import StudentCourses from '../Components/StudentCourses'
+import SidebarStudent from '../../Components/Students/SidebarStudent'
+import NavAdministration from '../../Components/AdminComponents/NavAdministration';
+import StudentCourses from '../../Components/Students/StudentCourses'
 
 function MisCursos() {
   return (

@@ -1,67 +1,51 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
-
+import React, { useState, useEffect, useRef } from 'react'; // React y Hooks básicos
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 //SERVICIOS
-import PostRegisterForm from '../Services/RegisterForm/PostRegisterForm';
-import GetIdTypes from '../Services/RegisterForm/GetIdTypes';
-import GetGenres from '../Services/RegisterForm/GetGenres';
-import GetEnrollment from '../Services/Enrollment/GetEnrollment';
-import GetCourses from '../Services/Courses/GetCourses';
-import GetPaymentMethod from '../Services/Payments/GetPaymentMethods';
-import PostPayment from '../Services/Payments/PostPayments';
-import { useUser } from '../Components/Administration/AdminContext';
-
+import PostRegisterForm from '../../Services/RegisterForm/PostRegisterForm'; // Servicio para registrar formulario
+import GetIdTypes from '../../Services/RegisterForm/GetIdTypes'; // Obtener tipos de identificación
+import GetGenres from '../../Services/RegisterForm/GetGenres'; // Obtener géneros
+import GetEnrollment from '../../Services/Enrollment/GetEnrollment'; // Obtener inscripciones
+import GetCourses from '../../Services/Courses/GetCourses'; // Obtener cursos
+import GetPaymentMethod from '../../Services/Payments/GetPaymentMethods'; // Obtener métodos de pago
+import PostPayment from '../../Services/Payments/PostPayments'; // Servicio para realizar pagos
+import { useUser } from '../../Components/Administration/AdminContext'; // Contexto para usuario admin
 // Get a las tablas relacionadas a direcciones
-import GetProvinces from '../Services/Addresses/GetProvinces';
-import GetCantons from '../Services/Addresses/GetCantons';
-import GetDistricts from '../Services/Addresses/GetDistricts';
-import GetNeighborhoods from '../Services/Addresses/GetNeighborhoods';
-
+import GetProvinces from '../../Services/Addresses/GetProvinces'; // Obtener provincias
+import GetCantons from '../../Services/Addresses/GetCantons'; // Obtener cantones
+import GetDistricts from '../../Services/Addresses/GetDistricts'; // Obtener distritos
+import GetNeighborhoods from '../../Services/Addresses/GetNeighborhoods'; // Obtener barrios
 //ESTILOS CSS
-import '../Styles/RegisterStudent.css'
-
-//IMPORTS DE LIBRERIA MUI
-import {Stepper, Step, StepLabel, Button, Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from '@mui/material';
-import {TextField, MenuItem, Select, InputLabel} from '@mui/material';
-import Modal from '@mui/material/Modal'; // o cualquier otro componente modal que estés usando
-
-//IMPORT DE LIBRERIA EMAIL JS
-import emailjs from '@emailjs/browser';
-
+import '../../Styles/Students/RegisterStudent.css'; // Estilos específicos para el registro de estudiantes
+//IMPORTS DE LIBRERÍA MUI (Material UI)
+import { Stepper, Step, StepLabel, Button, Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'; // Componentes básicos de MUI
+import { TextField, MenuItem, Select, InputLabel } from '@mui/material'; // Componentes MUI para formularios
+import Modal from '@mui/material/Modal'; // Componente Modal de MUI
+//IMPORT DE LIBRERÍA EMAIL JS
+import emailjs from '@emailjs/browser'; // Librería para enviar correos electrónicos
 //IMPORT DE IMÁGENES
-import logo from '../Img/OIP.jpg'
-
-//IMPORT DE LIBRERIA NOTYF
-import {Notyf} from 'notyf';
-import 'notyf/notyf.min.css';
-
+import logo from '../../Img/OIP.jpg'; // Imagen del logo
+//IMPORT DE LIBRERÍA NOTYF
+import { Notyf } from 'notyf'; // Librería de notificaciones
+import 'notyf/notyf.min.css'; // Estilos para las notificaciones de notyf
 //IMPORT DE LINK TO
-import {Link} from 'react-router-dom'; 
-
+import { Link } from 'react-router-dom'; // Librería para navegación en React
 //IMPORTS DE PAYPAL
-import {PayPalScriptProvider, PayPalButtons} from "@paypal/react-paypal-js";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // Integración de PayPal
 
-
+/**                REGISTRO DE ESTUDIANTES                                  */
 function RegisterStudent() {
-
-///////Stepper 
+  const { user } = useUser();  // Obtener el usuario logueado
+//////////////////Stepper///////////////////////////////////// 
 const steps = ['Paso 1', 'Paso 2', 'Paso 3'];
 const [activeStep, setActiveStep] = useState(0);
 
-// Función que se ejecuta al hacer clic en el botón de "Siguiente"
 const handleNext = () => {
-// Primero, se avanza al siguiente paso
 setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-// Luego, se establece isFormSent a false para deshabilitar el botón de "Siguiente"
 setIsFormSent(false);
 };
 const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
-const handleReset = () => setActiveStep(0);
+//////////////////////////////////////////////////////////////////////////////////////////////7
 const [fileContent, setFileContent] = useState(""); // Para almacenar el contenido del archivo
-const { user } = useUser();  // Obtener el usuario logueado
-console.log(user);
-
 const [identificationNumber, setIdentificationNumber] = useState('');
 const [firstName, setFirstName] = useState('');
 const [lastName, setLastName] = useState('');
@@ -72,30 +56,14 @@ const [email, setEmail] = useState('');
 const [identificationFk, setIdentificationFk] = useState('');
 const [genreFk, setGenreFk] = useState('');
 const [courseFk, setCourseFk] = useState('');
-
 const [provinceFk, setProvinceFk] = useState('');
-console.log(provinceFk.province_name);
-
-
 const [cantonFk, setCantonFk] = useState('');
-console.log(cantonFk.canton_name);
-
 const [districtFk, setDistrictFk] = useState('');
-console.log(districtFk.district_name);
-
-
 const [neighborhoodFk, setNeighborhoodFk] = useState('');
 const [address, setAddress] = useState('');
 const [idImageUrl, setIdImageUrl] = useState(null);
-
-  const cargaImagen = (e) => {
-    const file = e.target.files[0];
-    setIdImageUrl(file);
-  };
-
-  // Generar la URL de vista previa para la imagen seleccionada
-  const imagePreviewUrl = idImageUrl ? URL.createObjectURL(idImageUrl) : null;
-
+// Generar la URL de vista previa para la imagen seleccionada
+const imagePreviewUrl = idImageUrl ? URL.createObjectURL(idImageUrl) : null;
 // Seteo de los datos obtenidos de la base de datos
 const [identifications, setIdentifications] = useState([]);
 const [genres, setGenres] = useState([]);
@@ -104,7 +72,6 @@ const [cantons, setCantons] = useState([]);
 const [districts, setDistricts] = useState([]);
 const [neighborhoods, setNeighborhoods] = useState([]);
 const [enrollment, setEnrollment] = useState([]);
-const [fullAddress, setFullAddress] = useState('');
 // Verificación con Email Js
 const [verificationCode, setVerificationCode] = useState(''); // Código de validación generado
 const [userCode, setUserCode] = useState('');    // Código que el usuario ingresa para validar
@@ -112,20 +79,20 @@ const [isCodeSent, setIsCodeSent] = useState(false); // Estado para saber si el 
 const [isFormSent, setIsFormSent] = useState(false); 
 const form = useRef();
 const [open, setOpen] = useState(false); // Estado para controlar la visibilidad del modal
-
+const cargaImagen = (e) => {
+  const file = e.target.files[0];
+  setIdImageUrl(file);
+};
 const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y: 'center' } }));
-
-        // Función para abrir el modal
+// Función para abrir el modal
         const handleOpen = () => {
-          setOpen(true); // Abre el modal cambiando el estado 'open' a true
+          setOpen(true); 
         };
-      
-        // Función para cerrar el modal
+// Función para cerrar el modal
         const handleClose = () => {
-          setOpen(false); // Cierra el modal cambiando el estado 'open' a false
+          setOpen(false); 
         };
-
-    //PayPal
+//PayPal
     const [valores, setValores] = useState({ compra: null, venta: null });
     const [courses, setCourses] = useState([]);
     const [paymentMethods, setPaymentMethods] = useState([]);
@@ -141,9 +108,12 @@ const [notyf] = useState(new Notyf({ duration: 3000, position: { x: 'center', y:
           setPaymentImg(file);
         }
       };  
-      
     // Generar la URL de vista previa para la imagen del comprobante de pago
     const paymentImgPreviewUrl = paymentImg ? URL.createObjectURL(paymentImg) : null;
+
+
+
+
 
   ///Cada vez que haya un curso que tenga diferentes horarios se deberá crear como un curso diferente para evitar errores
   const currentDate = new Date();
@@ -203,20 +173,9 @@ useEffect(() => {
     setCantons(user.cantons || []);
     setDistricts(user.districts || []);
     setNeighborhoods(user.neighborhoods || []);
-    
-    
-    // Establecer valores seleccionados si el usuario tiene dirección
-    if (user.province_fk) setProvinceFk(user.province_fk);
-    if (user.canton_fk) setCantonFk(user.canton_fk);
-    if (user.district_fk) setDistrictFk(user.district_fk);
     if (user.neighborhood_fk) setNeighborhoodFk(user.neighborhood_fk);
   }
 }, [user]);
-
-if (user && user.neighborhood_fk !== undefined) {
-} else {
-  console.log('La propiedad neighborhood_fk no existe en user');
-}
 
 // Establecer la dirección completa
 useEffect(() => {
@@ -234,9 +193,30 @@ useEffect(() => {
     }
   }
 }, [user, provinces, cantons, districts, neighborhoods]);
+useEffect(() => {
+  // Verifica si el usuario tiene un género y lo establece
+  if (user?.genre_fk) {
+    const studentGenre = genres.find(g => g.id === user.genre_fk);
+    if (studentGenre) {
+      setGenreFk(studentGenre.id);
+    }
+  }
+  // Verifica si el usuario tiene un tipo de identificación (identification_fk) y lo establece
+  if (user?.identification_fk) {
+    const identification = identifications.find(i => i.id === user.identification_fk);
+    if (identification) {
+      setIdentificationFk(identification.id);  // Establece el tipo de identificación
+    }
+  }
+  // Verifica si el usuario tiene un número de identificación (identification_number) y lo establece
+  if (user?.identification_number) {
+    setIdentificationNumber(user.identification_number);  // Establece el número de identificación
+  }
+
+}, [user, genres, identifications]);
 
 
-  // Efecto que escucha cambios en el historial (cuando el usuario navega hacia atrás)
+// Efecto que escucha cambios en el historial (cuando el usuario navega hacia atrás)
 useEffect(() => {
 const handlePopState = () => {
   setIsFormSent(false); // Cuando navega atrás, deshabilitamos el botón
@@ -254,12 +234,11 @@ window.addEventListener('popstate', handlePopState);
 //////////////////////Api Hacienda/////////////////////
 const handleIdentificationChange = (e) => {
     setIdentificationFk(e.target.value);
-
     // Limpiamos los datos anteriores cuando se cambia el tipo de identificación
     setFirstName('');
     setLastName('');
     setSecondLastName('');
-  };
+};
 
   // Función para realizar la consulta a la API cuando el usuario hace clic en el botón
   const handleFetchCedulaData = async () => {
@@ -350,30 +329,6 @@ const sendEmail = async (e) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  useEffect(() => {
-    // Verifica si el usuario tiene un género y lo establece
-    if (user?.genre_fk) {
-      const studentGenre = genres.find(g => g.id === user.genre_fk);
-      if (studentGenre) {
-        setGenreFk(studentGenre.id);
-      }
-    }
-  
-    // Verifica si el usuario tiene un tipo de identificación (identification_fk) y lo establece
-    if (user?.identification_fk) {
-      const identification = identifications.find(i => i.id === user.identification_fk);
-      if (identification) {
-        setIdentificationFk(identification.id);  // Establece el tipo de identificación
-      }
-    }
-  
-    // Verifica si el usuario tiene un número de identificación (identification_number) y lo establece
-    if (user?.identification_number) {
-      setIdentificationNumber(user.identification_number);  // Establece el número de identificación
-    }
-  
-  }, [user, genres, identifications]);
 
   ////////////Consulta a la api del banco central para obtener tipo de cambio////////
   useEffect(() => {
@@ -478,9 +433,7 @@ const sendEmail = async (e) => {
 
   const PaymentButton = async () => {
     console.log("Botón presionado");
-  
-    // Si el curso es gratuito, solo enviamos el formulario de registro
-    if (chosen_course.is_free) {
+      if (chosen_course.is_free) {
       try {
         // Enviar solo el formulario de registro sin información de pago
         const studentStatusFk = "1"; // Esto hay que arreglarlo (estudiante activo)
@@ -489,7 +442,6 @@ const sendEmail = async (e) => {
           birthDate, phoneNumber, email, idImageUrl, address, identificationFk, genreFk, courseFk,
           studentStatusFk, neighborhoodFk, null // Enviar null en lugar de payment_fk
         );
-        console.log(data);
         notyf.success('Formulario de registro enviado de manera exitosa!');
         setIsFormSent(true);
       } catch (error) {
@@ -545,7 +497,7 @@ const sendEmail = async (e) => {
   };
 
 
-   // Función para manejar la carga del archivo
+  // Función para manejar la carga del archivo
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -567,7 +519,6 @@ printWindow.document.write('</body></html>');
 printWindow.document.close();
 printWindow.print();
 };
-
 
   return (
     <div className='steps-container-student'>

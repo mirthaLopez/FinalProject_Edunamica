@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from '../../Components/Administration/AdminContext';
+import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
-import GetStudentCourses from '../Services/Students/GetStudentCourses';
-import GetStudentPayment from '../Services/Students/GetStudentPayment';
-import GetStudent from '../Services/Students/GetStudents';
-import GetCourses from '../Services/Courses/GetCourses';
-import GetPaymentMethods from '../Services/Payments/GetPaymentMethods';
-import GetPaymentModalities from '../Services/Payments/GetPaymentModalities';
-import GetPayments from '../Services/Payments/GetPayments';
-import { useUser } from '../Components/Administration/AdminContext';
-import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
+//SERVICIOS
+import GetStudentCourses from '../../Services/Students/GetStudentCourses';
+import GetStudentPayment from '../../Services/Students/GetStudentPayment';
+import GetStudent from '../../Services/Students/GetStudents';
+import GetCourses from '../../Services/Courses/GetCourses';
+import GetPaymentMethods from '../../Services/Payments/GetPaymentMethods';
+import GetPaymentModalities from '../../Services/Payments/GetPaymentModalities';
+import GetPayments from '../../Services/Payments/GetPayments';
 
 // ESTILOS CSS
-import '../Styles/StudentPayment.css';
+import '../../Styles/Students/StudentPayment.css';
 
 function StudentPayment() {
   const { user } = useUser();  // Obtener el usuario logueado

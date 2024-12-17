@@ -1,52 +1,55 @@
-import React, {useState, useEffect} from 'react';
-import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
+import React, { useState, useEffect } from 'react';
 
-//SERVICIOS
-import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm';
-import GetPayments from '../../Services/Payments/GetPayments';
-import PostAuthStudentUser from '../../Services/Users/PostStudentUser';
-import PostStudent from '../../Services/Students/PostStudents';
-import patchStatusApplication from '../../Services/RegisterForm/PatchStudentStatus';
-import GetCourses from '../../Services/Courses/GetCourses';
-import PostStudentCourses from '../../Services/RegisterForm/PostStudentCourses';
-import PostStudentPayment from '../../Services/Students/PostStudentPayment';
-import GetStudents from '../../Services/Students/GetStudents'
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../../Components/AuthContext'; 
 
-//ESTILOS CSS
+// SERVICIOS
+import GetRegisterForm from '../../Services/ApplicationForm/GetRegisterForm'; // Obtener datos de las solicitudes
+import GetPayments from '../../Services/Payments/GetPayments'; // Obtener los datos de los pagos
+import PostAuthStudentUser from '../../Services/Users/PostStudentUser'; // Crear usuario de autenticación para el estudiante
+import PostStudent from '../../Services/Students/PostStudents'; // Crear un nuevo estudiante en la base de datos
+import patchStatusApplication from '../../Services/RegisterForm/PatchStudentStatus'; // Actualizar el estado de la solicitud
+import GetCourses from '../../Services/Courses/GetCourses'; // Obtener los cursos disponibles
+import PostStudentCourses from '../../Services/RegisterForm/PostStudentCourses'; // Asociar estudiante a un curso
+import PostStudentPayment from '../../Services/Students/PostStudentPayment'; // Asociar estudiante a un pago
+import GetStudents from '../../Services/Students/GetStudents'; // Obtener la lista de estudiantes
+
+// ESTILOS CSS
 import '../../Styles/ApplicationsForm/Applications.css';
 
-//IMPORTS DE LIBRERIA MUI
-import {Accordion, AccordionSummary, AccordionDetails, AccordionActions, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
+// IMPORTS DE LIBRERIA MUI (Material UI)
+import { Accordion, AccordionSummary, AccordionDetails, AccordionActions, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'; // Componentes de Material UI
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // Icono para expandir en los acordeones
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Icono de cuenta de usuario
+import LogoutIcon from '@mui/icons-material/Logout'; // Icono de cerrar sesión
 
-//IMPORT DE LIBRERIA EMAIL JS
-import emailjs from '@emailjs/browser';
+// IMPORT DE LIBRERIA EMAIL JS
+import emailjs from '@emailjs/browser'; // Librería para enviar correos electrónicos
 
-//IMPORT DE IMÁGENES
-import logo_edunamica from "../../Img/edunamica_logo.svg"
+// IMPORT DE IMÁGENES
+import logo_edunamica from "../../Img/edunamica_logo.svg"; // Logo de la empresa
 
-//IMPORT DE LIBRERIA NOTYF
-import {Notyf} from 'notyf';
-import 'notyf/notyf.min.css';
-
+// IMPORT DE LIBRERIA NOTYF (Notificaciones)
+import { Notyf } from 'notyf'; // Librería para notificaciones de éxito y error
+import 'notyf/notyf.min.css'; // Estilo para las notificaciones
 
 function Applications() {
-  const [applications, setApplications] = useState([]);
-  const [expanded, setExpanded] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
-  const [paymentsData, setPayments] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [students, setStudents] = useState([]);
+  // Definición de los estados locales
+  const [applications, setApplications] = useState([]); // Estado para las solicitudes
+  const [expanded, setExpanded] = useState(false); // Estado para manejar el acordeón expandido
+  const [openModal, setOpenModal] = useState(false); // Estado para controlar el modal de visualización de imágenes
+  const [selectedImage, setSelectedImage] = useState(''); // Estado para almacenar la URL de la imagen seleccionada
+  const [paymentsData, setPayments] = useState([]); // Estado para almacenar los pagos
+  const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
+  const [students, setStudents] = useState([]); // Estado para almacenar los estudiantes
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
-  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
+  const { setAuthData } = useAuth(); // Usamos el contexto de autenticación
   
-  const [notyf] = useState(new Notyf({ duration: 2000, position: { x: 'center', y: 'center' } }));
+  const [notyf] = useState(new Notyf({ duration: 2000, position: { x: 'center', y: 'center' } })); // Instancia de la librería Notyf para notificaciones
 
   useEffect(() => {
     const fetchData = async () => {
+      // Fetch de las solicitudes, pagos, cursos y estudiantes al montar el componente
       const applicationsData = await GetRegisterForm();
       setApplications(applicationsData);
       const paymentsData = await GetPayments();
@@ -57,110 +60,99 @@ function Applications() {
       setStudents(studentData);
     };
     fetchData();
-  }, []);
+  }, []); // Este useEffect se ejecuta solo una vez cuando el componente se monta
 
-  
+  // Función para manejar el cambio de expansión en los acordeones
   const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpanded(isExpanded ? panel : false); // Expande o contrae el acordeón
   };
 
-// Filtrar las solicitudes según el término de búsqueda y el estado (student_status_fk === 1)
-const filteredApplications = applications.filter((data) => {
-  const course1 = courses.find(course => course.id == data.course_fk);
-  const courseName = course1 ? course1.course_name : '';
-  
-  return (
-    data.student_status_fk === 1 &&  // Solo mostrar solicitudes con student_status_fk igual a 1
-    (data.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    courseName.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-});
+  // Filtrar las solicitudes según el término de búsqueda y el estado (student_status_fk === 1)
+  const filteredApplications = applications.filter((data) => {
+    // Buscar el nombre del curso correspondiente a la solicitud
+    const course1 = courses.find(course => course.id == data.course_fk);
+    const courseName = course1 ? course1.course_name : ''; // Si el curso existe, se obtiene su nombre
 
+    // Filtra por estado de la solicitud y por el término de búsqueda (ya sea en el nombre o en el curso)
+    return (
+      data.student_status_fk === 1 &&  // Solo mostrar solicitudes con student_status_fk igual a 1
+      (data.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      courseName.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+  });
+
+  // Función para manejar el click en las imágenes de identificación o recibos
   const handleImageClick = (imageUrl) => {
-    setSelectedImage(imageUrl);
-    setOpenModal(true);
+    setSelectedImage(imageUrl); // Almacena la URL de la imagen seleccionada
+    setOpenModal(true); // Abre el modal
   };
 
+  // Función para cerrar el modal
   const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedImage('');
+    setOpenModal(false); // Cierra el modal
+    setSelectedImage(''); // Limpia la URL de la imagen
   };
 
-
-  
-
+  // Función para aceptar una solicitud
   const handleAccept = async (applicationId) => {
     try {
-      const student_status_fk = 2;
-      
-      // Step 1: Update the status of the application
+      const student_status_fk = 2; // Estado de la solicitud aceptada
+
+      // Actualizar el estado de la solicitud
       const updateStatus = await patchStatusApplication(applicationId, student_status_fk);
       if (!updateStatus) {
         console.error('Failed to update the application status');
         notyf.error('No se pudo actualizar el estado de la solicitud');
         return;
       }
-  
-      // Step 2: Find the application
+
+      // Buscar la solicitud correspondiente
       const application = applications.find(value => value.id === applicationId);
       if (!application) {
         console.error('Application not found');
         return;
       }
-  
-      console.log('Application found:', application);
-  
-    // Step 3: Check if the email already exists in students
-    const existingStudent = students.find(student => student.email === application.email);
-    if (existingStudent) {
-      // If student exists, just show the "Accepted" message
-      console.log('Student already registered with email:', application.email);
-      
-      // Step 4: Link existing student to course and payment
-      const studentCourse = await PostStudentCourses(application.course_fk, existingStudent.id);
-      if (!studentCourse) {
-        console.error('Failed to assign student to course');
-        notyf.error('No se pudo asignar el estudiante al curso');
+
+      // Verificar si el estudiante ya existe en la base de datos
+      const existingStudent = students.find(student => student.email === application.email);
+      if (existingStudent) {
+        // Si el estudiante ya está registrado, asociarlo al curso y al pago
+        const studentCourse = await PostStudentCourses(application.course_fk, existingStudent.id);
+        if (!studentCourse) {
+          console.error('Failed to assign student to course');
+          notyf.error('No se pudo asignar el estudiante al curso');
+          return;
+        }
+
+        const studentPayment = await PostStudentPayment(existingStudent.id, application.payment_fk);
+        if (!studentPayment) {
+          console.error('Failed to assign student to payment');
+          notyf.error('No se pudo asignar el estudiante al pago');
+          return;
+        }
+
+        notyf.success('Solicitud aceptada - El estudiante ya está registrado');
         return;
       }
 
-      const studentPayment = await PostStudentPayment(existingStudent.id, application.payment_fk);
-      if (!studentPayment) {
-        console.error('Failed to assign student to payment');
-        notyf.error('No se pudo asignar el estudiante al pago');
-        return;
-      }
-
-      console.log('Student Course:', studentCourse);
-      console.log('Student Payment:', studentPayment);
-
-      notyf.success('Solicitud aceptada - El estudiante ya está registrado');
-      return;
-    }
-
-  
-      // Step 4: Generate random password
+      // Si el estudiante no está registrado, crearlo
       const generateRandomPassword = () => Math.floor(10000000 + Math.random() * 90000000).toString();
       const password = generateRandomPassword();
       const username = application.email;
       const email = application.email;
-  
-      console.log('Username:', username);
-      console.log('Email:', email);
-      console.log('Generated password:', password);
-  
-      // Step 5: Create the auth user
+
+      // Crear el usuario de autenticación
       const auth_user = await PostAuthStudentUser(username, email, password);
       if (!auth_user) {
         console.error('Failed to create auth user');
         notyf.error('No se pudo crear el usuario de autenticación');
         return;
       }
-  
+
       const authUserId = auth_user.id;
       const student_auth_user_fk = authUserId;
-  
-      // Step 6: Create the student
+
+      // Crear el estudiante
       const newStudent = await PostStudent(
         application.name,
         application.first_last_name,
@@ -176,41 +168,37 @@ const filteredApplications = applications.filter((data) => {
         application.genre_fk,
         application.neighborhood_fk
       );
-      
+
       if (!newStudent) {
         console.error('Failed to create student');
         notyf.error('No se pudo crear el estudiante');
         return;
       }
-  
-      // Success message for student creation
+
       notyf.success('Solicitud aceptada - Estudiante creado de manera exitosa!');
-  
-      // Step 7: Link student to course and payment
+
+      // Asociar el estudiante al curso y al pago
       const studentCourse = await PostStudentCourses(application.course_fk, newStudent.id);
       if (!studentCourse) {
         console.error('Failed to assign student to course');
         notyf.error('No se pudo asignar el estudiante al curso');
         return;
       }
-  
+
       const studentPayment = await PostStudentPayment(newStudent.id, application.payment_fk);
       if (!studentPayment) {
         console.error('Failed to assign student to payment');
         notyf.error('No se pudo asignar el estudiante al pago');
         return;
       }
-  
-      console.log('Student Course:', studentCourse);
-      console.log('Student Payment:', studentPayment);
-  
-      // Step 8: Send verification email
+
+      // Enviar correo de verificación
       const templateParams = {
         user_name: application.name,
         to_email: application.email,
         verification_code: password
       };
-  
+
       await emailjs.send('service_lgmm5so', 'template_wv3sdno', templateParams, 'xKYQea8wmj0LgY5FG')
         .then(
           (response) => {
@@ -226,50 +214,46 @@ const filteredApplications = applications.filter((data) => {
       notyf.error('Error al aceptar la solicitud pendiente');
     }
   };
-  
-  
 
+  // Función para rechazar una solicitud
   const handleReject = async (applicationId) => {
-
     try {
-      await patchStatusApplication(applicationId, 3);
-
-      console.log('Solicitud denegada exitosamente!');
+      await patchStatusApplication(applicationId, 3); // Cambia el estado de la solicitud a "rechazada"
       notyf.success('Solicitud denegada exitosamente!');
-
     } catch (error) {
       console.error('Error al denegar la solicitud pendiente');
-          notyf.error(`Error al denegar la solicitud pendiente`);
+      notyf.error(`Error al denegar la solicitud pendiente`);
     }
-
   };
 
+  // Función para calcular la edad a partir de la fecha de nacimiento
   const calculateAge = (birthDate) => {
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
+    const birth = new Date(birthDate); // Creamos un objeto Date con la fecha de nacimiento proporcionada
+    const today = new Date(); // Creamos un objeto Date con la fecha actual
+    let age = today.getFullYear() - birth.getFullYear();  // Inicializamos la variable 'age' calculando la diferencia de años entre la fecha actual y la fecha de nacimiento
+    const monthDiff = today.getMonth() - birth.getMonth();  // Calculamos la diferencia en meses entre la fecha actual y la fecha de nacimiento
+    
+     // Comprobamos si la fecha de nacimiento no ha llegado aún este año (es decir, si aún no se ha cumplido el cumpleaños)
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
+      age--;  // Si el cumpleaños no ha pasado, restamos 1 al valor de la edad
     }
     return age;
   };
 
   return (
     <div className='main-div-applications'>
-
       <div className='divApplication'>
         <div className='container-title-applications'>
           <div className='applications-header'>
-            <div style={{textAlign:'left'}}><h2 className='applications-title'>Solicitudes Pendientes de Aprobación</h2></div>
+            <div style={{ textAlign: 'left' }}><h2 className='applications-title'>Solicitudes Pendientes de Aprobación</h2></div>
             {/* Campo de búsqueda */}
-            <div style={{textAlign:'right'}} className='applications-search-container'>
-               <input className='input-search-applications'
-                  type="search" 
-                  placeholder="Buscar..." 
-                  value={searchTerm} 
-                  onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado de búsqueda
-                />
+            <div style={{ textAlign: 'right' }} className='applications-search-container'>
+              <input className='input-search-applications'
+                type="search"
+                placeholder="Buscar..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado de búsqueda
+              />
             </div>
           </div>
         </div>
@@ -314,20 +298,26 @@ const filteredApplications = applications.filter((data) => {
                     <p className='attributes-p-tag'><strong>Monto:</strong> {payment.payment_amount}</p>
                     <p className='attributes-p-tag'><strong>Fecha de Pago:</strong> {payment.payment_date}</p>
                     <p className='attributes-p-tag'><strong>Recibo Número:</strong> {payment.payment_receipt_number}</p>
-                    <p className='attributes-p-tag' style={{ marginTop: 2 }}><strong>Recibo de Pago:</strong></p>
-                    <img
-                      src={payment.payment_receipt_url}
-                      alt="Recibo de Pago"
-                      style={{ width: 100, height: 'auto', marginTop: 8, cursor: 'pointer' }}
-                      onClick={() => handleImageClick(payment.payment_receipt_url)}
-                    />
+
+                    {/* Condición para mostrar la imagen solo si el método de pago es 1 o 2 */}
+                    {payment.payment_method_fk === 1 || payment.payment_method_fk === 2 ? (
+                      <>
+                        <p className='attributes-p-tag' style={{ marginTop: 2 }}><strong>Recibo de Pago:</strong></p>
+                        <img
+                          src={payment.payment_receipt_url}
+                          alt="Recibo de Pago"
+                          style={{ width: 100, height: 'auto', marginTop: 8, cursor: 'pointer' }}
+                          onClick={() => handleImageClick(payment.payment_receipt_url)}
+                        />
+                      </>
+                    ) : null}
                   </div>
                 )}
               </AccordionDetails>
 
               <AccordionActions>
-              <button className="accept-button" onClick={() => handleAccept(data.id)}>Aceptar</button>
-              <button className="reject-button" onClick={() => handleReject(data.id)}>Rechazar</button>
+                <button className="accept-button" onClick={() => handleAccept(data.id)}>Aceptar</button>
+                <button className="reject-button" onClick={() => handleReject(data.id)}>Rechazar</button>
               </AccordionActions>
             </Accordion>
           );

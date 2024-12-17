@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
+import { useAuth } from '../../Components/AuthContext'; 
 
 //ESTILOS CSS
-import '../Styles/SidebarStudent.css';
+import '../../Styles/Students/SidebarStudent.css';
 
 //IMPORTS DE LIBRERIA MUI
 import Diversity1Icon from '@mui/icons-material/Diversity1';
@@ -15,7 +15,7 @@ import {Collapse, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //IMPORT DE IMÁGENES
-import logo_edunamica from "../Img/edunamica_logo.svg"
+import logo_edunamica from "../../Img/edunamica_logo.svg"
 
 //IMPORT DE LINK TO
 import {Link} from "react-router-dom";

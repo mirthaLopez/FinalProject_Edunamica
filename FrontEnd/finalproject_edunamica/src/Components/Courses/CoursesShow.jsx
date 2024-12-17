@@ -1,37 +1,39 @@
 import React, {useState, useEffect} from 'react';
-import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
 
-//SERVICIOS
-import GetCourses from '../../Services/Courses/GetCourses';
-import GetCategory from '../../Services/Categories/GetCategories';
-import GetPaymentModality from '../../Services/Payments/GetPaymentModalities';
-import DeleteCourse from '../../Services/Courses/DeleteCourses';
-import UpdateCourse from '../../Services/Courses/UpdateCourses';
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../../Components/AuthContext'; 
 
-//ESTILOS CSS
-import '../../Styles/Courses/CoursesShow.css';
+// SERVICIOS
+import GetCourses from '../../Services/Courses/GetCourses'; // Importa el servicio para obtener cursos
+import GetCategory from '../../Services/Categories/GetCategories'; // Importa el servicio para obtener categorías
+import GetPaymentModality from '../../Services/Payments/GetPaymentModalities'; // Importa el servicio para obtener modalidades de pago
+import DeleteCourse from '../../Services/Courses/DeleteCourses'; // Importa el servicio para eliminar un curso
+import UpdateCourse from '../../Services/Courses/UpdateCourses'; // Importa el servicio para actualizar un curso
 
-//IMPORTS DE LIBRERIA MUI
-import SearchIcon from '@mui/icons-material/Search';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControlLabel, RadioGroup, Radio } from '@mui/material';
+// ESTILOS CSS
+import '../../Styles/Courses/CoursesShow.css'; 
 
-//IMPORT DE LIBRERIA SWEET ALERT
-import Swal from 'sweetalert2';
+// IMPORTS DE LIBRERIA MUI
+import SearchIcon from '@mui/icons-material/Search'; // Importa el ícono de búsqueda
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControlLabel, RadioGroup, Radio } from '@mui/material'; // Importa componentes de Material-UI para formularios y modales
 
+// IMPORT DE LIBRERIA SWEET ALERT
+import Swal from 'sweetalert2'; 
 
 function CoursesShow() {
-  const [courses, setCourses] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [openModal, setOpenModal] = useState(false);
-  const [currentCourse, setCurrentCourse] = useState(null);
-  const [newImage, setNewImage] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [modalities, setModalities] = useState([]);
-  const [isFreeCourse, setIsFreeCourse] = useState(false);  // Añadido para controlar si el curso es gratuito
+  // Estados para manejar los datos y las interacciones en el componente
+  const [courses, setCourses] = useState([]); // Lista de cursos
+  const [searchQuery, setSearchQuery] = useState(''); // Filtro de búsqueda
+  const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura del modal de edición
+  const [currentCourse, setCurrentCourse] = useState(null); // Curso actualmente seleccionado para edición
+  const [newImage, setNewImage] = useState(null); // Imagen nueva para el curso (si se cambia)
+  const [categories, setCategories] = useState([]); // Lista de categorías de cursos
+  const [modalities, setModalities] = useState([]); // Modalidades de pago disponibles
+  const [isFreeCourse, setIsFreeCourse] = useState(false);  // Determina si el curso es gratuito
   const [paymentModality, setPaymentModality] = useState(""); // Modalidad de pago seleccionada
-  const [courseObligatoryRequirements, setCourseObligatoryRequirements] = useState(""); // Requisitos del curso
-  const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
-  
+  const [courseObligatoryRequirements, setCourseObligatoryRequirements] = useState(""); // Requisitos obligatorios del curso
+  const { setAuthData } = useAuth(); // Contexto de autenticación
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,17 +45,20 @@ function CoursesShow() {
 
         const dataModality = await GetPaymentModality();
         setModalities(dataModality);
+
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching courses:', error); 
       }
     };
-    fetchData();
-  }, []);
+    fetchData(); 
+  }, []); 
 
+  // Filtra los cursos basados en la búsqueda
   const filteredCourses = courses.filter(course =>
     course.course_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Función para formatear el precio en formato de moneda
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CR', {
       style: 'currency',
@@ -61,94 +66,101 @@ function CoursesShow() {
     }).format(price);
   };
 
+  // Función para eliminar un curso, con confirmación por parte del usuario
   const deleteCourse = async (courseId) => {
     try {
       Swal.fire({
-        title: "Estás seguro?",
-        text: "No podrás revertir esto!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        title: "Estás seguro?", 
+        text: "No podrás revertir esto!", 
+        icon: "warning", 
+        showCancelButton: true, 
+        confirmButtonColor: "#3085d6", 
         cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, eliminalo!",
+        confirmButtonText: "Sí, eliminalo!", 
       }).then(async (result) => {
-        if (result.isConfirmed) {
-          await DeleteCourse(courseId);
+        if (result.isConfirmed) { 
+          await DeleteCourse(courseId); 
           Swal.fire({
-            title: "Eliminado!",
+            title: "Eliminado!", 
             text: "El curso ha sido eliminado con éxito!",
             icon: "success",
           });
-          setCourses(courses.filter(course => course.id !== courseId));
+          setCourses(courses.filter(course => course.id !== courseId)); // Actualiza la lista de cursos
         }
       });
+
     } catch (error) {
-      console.error("No se pudo eliminar el curso:", error);
+      console.error("No se pudo eliminar el curso:", error); 
       Swal.fire({
         title: "Error!",
         text: "Hubo un error al eliminar el curso",
-        icon: "error",
+        icon: "error", 
       });
     }
   };
 
+  // Función que se ejecuta cuando se hace clic en el botón de editar para un curso
   const handleEditClick = (course) => {
-    setCurrentCourse(course);
-    setNewImage(null);
-    setIsFreeCourse(course.is_free); // Establece el estado de si es gratis
-    setPaymentModality(course.payment_modality_fk || ""); // Establece la modalidad de pago seleccionada
+    setCurrentCourse(course); // Establece el curso actual que se va a editar
+    setNewImage(null); // Resetea la imagen nueva
+    setIsFreeCourse(course.is_free); // Establece si el curso es gratuito o no
+    setPaymentModality(course.payment_modality_fk || ""); // Establece la modalidad de pago
     setCourseObligatoryRequirements(course.obligatory_requirements || ""); // Establece los requisitos obligatorios
-    setOpenModal(true);
+    setOpenModal(true); // Abre el modal de edición
   };
 
+  // Función para cerrar el modal de edición
   const handleCloseModal = () => {
-    setOpenModal(false);
-    setCurrentCourse(null);
-    setNewImage(null);
+    setOpenModal(false); // Cierra el modal
+    setCurrentCourse(null); // Resetea el curso seleccionado
+    setNewImage(null); // Resetea la imagen seleccionada
   };
 
+  // Función para manejar cambios en los campos de entrada
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (currentCourse) {
       setCurrentCourse({
         ...currentCourse,
-        [name]: value
+        [name]: value // Actualiza el estado del curso con los cambios del formulario
       });
     }
   };
 
+  // Función para manejar el cambio de imagen
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setNewImage(file);
+    const file = e.target.files[0]; // Obtiene el archivo seleccionado
+    setNewImage(file); // Establece la nueva imagen
   };
 
+  // Función para guardar los cambios en un curso
   const handleSaveChanges = async () => {
     try {
-      // Validación de que currentCourse y newImage están presentes
+      // Verifica si se tiene un curso seleccionado
       if (!currentCourse) {
         console.log("faltan datos");
         Swal.fire({
           title: "Error!",
           text: "Faltan datos para actualizar el curso.",
-          icon: "error"
+          icon: "error" // Muestra alerta de error si faltan datos
         });
         return;
       }
 
-      // Opcional: Actualiza la URL de la imagen si es necesario
+      // Si hay una nueva imagen, se usa en la actualización
       let updatedImageUrl = newImage ? newImage : currentCourse.course_image_url;
 
-      // Llamada a la función de actualización
+      // Llama a la función de actualización de curso
       const updatedCourse = await UpdateCourse(currentCourse.id, currentCourse, updatedImageUrl);
 
-      if (updatedCourse) {
+      if (updatedCourse) { // Si la actualización fue exitosa
         Swal.fire({
-          title: "Curso actualizado!",
+          title: "Curso actualizado!", 
           text: "Los cambios se han guardado con éxito.",
-          icon: "success"
+          icon: "success",
         });
 
-        // Actualiza la lista de cursos
+        // Actualiza la lista de cursos con los nuevos datos
         setCourses(courses.map(course => 
           course.id === updatedCourse.id ? updatedCourse : course
         ));
@@ -157,7 +169,7 @@ function CoursesShow() {
         Swal.fire({
           title: "Error!",
           text: "Hubo un problema al actualizar el curso.",
-          icon: "error"
+          icon: "error" 
         });
       }
     } catch (error) {
@@ -165,56 +177,61 @@ function CoursesShow() {
       Swal.fire({
         title: "Error!",
         text: "Hubo un problema al guardar los cambios.",
-        icon: "error"
+        icon: "error" 
       });
     }
 
-    // Cierra el modal
-    handleCloseModal();
+    handleCloseModal(); // Cierra el modal después de guardar los cambios
   };
 
+  // Función para manejar el cambio en si el curso es gratuito o no
   const handleFreeCourseChange = (e) => {
-    setIsFreeCourse(e.target.value === 'true');
+    setIsFreeCourse(e.target.value === 'true'); // Actualiza si el curso es gratuito según el valor del radio
   };
 
+  // Función para manejar el cambio de categoría
   const handleCategoryChange = (e) => {
     const { value } = e.target;
     setCurrentCourse({
       ...currentCourse,
-      course_category_fk: value,
+      course_category_fk: value, // Actualiza la categoría del curso
     });
   };
 
+  // Función para manejar el cambio de modalidad de pago
   const handlePaymentModalityChange = (e) => {
     const { value } = e.target;
-    setPaymentModality(value);
+    setPaymentModality(value); // Actualiza la modalidad de pago seleccionada
     setCurrentCourse({
       ...currentCourse,
-      payment_modality_fk: value,  // Actualiza el estado para el curso
+      payment_modality_fk: value,  // Actualiza la modalidad de pago del curso
     });
   };
 
+  // Función para manejar el cambio en los requisitos obligatorios
   const handleRequirementsChange = (e) => {
     const { value } = e.target;
-    setCourseObligatoryRequirements(value);
+    setCourseObligatoryRequirements(value); // Actualiza los requisitos obligatorios
     setCurrentCourse({
       ...currentCourse,
-      obligatory_requirements: value,  // Actualiza los requisitos
+      obligatory_requirements: value,  // Actualiza los requisitos obligatorios del curso
     });
   };
 
   return (
     <div>
+      {/* Barra de búsqueda de cursos */}
       <div className="show-course-search">
         <input
           type="search"
           placeholder="Buscar..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)} 
         />
         <SearchIcon className="show-course-search-icon" />
       </div>
 
+      {/* Lista de cursos filtrada */}
       <div className="show-course-list">
         {filteredCourses.map(course => (
           <div className="show-course-card" key={course.id}>
@@ -224,15 +241,15 @@ function CoursesShow() {
               <p className="show-course-description">{course.course_description}</p>
               <div className="show-course-meta">
                 <span className="show-course-price">
-                  Precio: {formatPrice(course.course_price)}
+                  Precio: {formatPrice(course.course_price)} 
                 </span>
                 <span className="show-course-schedule">Horario: {course.course_schedule}</span>
                 <span className="show-course-duration">Duración: {course.course_duration}</span>
                 <span className="show-course-dates">Inicio: {course.begins} - Fin: {course.ends}</span>
 
                 <div className='divEditButtons'>
-                  <button className="btn-edit" onClick={() => handleEditClick(course)}>EDITAR</button>
-                  <button className="btn-delete" onClick={() => deleteCourse(course.id)}>ELIMINAR</button>
+                  <button className="btn-edit" onClick={() => handleEditClick(course)}>EDITAR</button> {/* Botón para editar */}
+                  <button className="btn-delete" onClick={() => deleteCourse(course.id)}>ELIMINAR</button> {/* Botón para eliminar */}
                 </div>
               </div>
             </div>
@@ -240,6 +257,7 @@ function CoursesShow() {
         ))}
       </div>
 
+      {/* Modal de edición de curso */}
       {currentCourse && (
         <Dialog open={openModal} onClose={handleCloseModal}>
           <DialogTitle>Editar Curso</DialogTitle>
@@ -253,7 +271,7 @@ function CoursesShow() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                onChange={handleImageChange} // Maneja el cambio de imagen
               />
               {newImage && (
                 <div style={{ marginTop: '10px' }}>
@@ -264,7 +282,7 @@ function CoursesShow() {
                 label="Nombre del curso"
                 name="course_name"
                 value={currentCourse.course_name || ''}
-                onChange={handleInputChange}
+                onChange={handleInputChange} // Maneja el cambio de texto
                 fullWidth
                 margin="normal"
               />
@@ -331,6 +349,7 @@ function CoursesShow() {
                 <FormControlLabel value="false" control={<Radio />} label="Curso de Pago" />
               </RadioGroup>
 
+              {/* Si el curso no es gratuito, muestra la modalidad de pago */}
               {!isFreeCourse && (
                 <div className="course-form__group1">
                   <InputLabel>Modalidad de pago</InputLabel>

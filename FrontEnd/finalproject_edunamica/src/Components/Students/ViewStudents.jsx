@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../Components/AuthContext'; // Usar el nuevo contexto
+
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../../Components/AuthContext'; 
 
 //SERVICIOS
 import GetStudent from '../../Services/Students/GetStudents'; // obtenemos a los estudiantes 
@@ -12,52 +14,53 @@ import * as XLSX from 'xlsx';
 
 //IMPORTS DE LIBRERIA MUI 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search'; // Representa la lupa, utilizada comúnmente para la acción de búsqueda 🔍
+import CloseIcon from '@mui/icons-material/Close'; // Representa una cruz (X), usada para cerrar o descartar algo ❌
 
 function ViewStudents() {
-  const [students, setStudents] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
- 
+  const [students, setStudents] = useState([]); // Estado para almacenar la lista de estudiantes
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para manejar el término de búsqueda
+  const [openModal, setOpenModal] = useState(false); // Estado para controlar si el modal está abierto o cerrado
+  const [selectedImage, setSelectedImage] = useState(null); // Estado para almacenar la imagen seleccionada
+  
   const { setAuthData } = useAuth(); // Usamos el nuevo contexto de autenticación
   
   useEffect(() => {
     const fetchData = async () => {
-      const studentData = await GetStudent();
-      setStudents(studentData);
+      const studentData = await GetStudent(); 
+      setStudents(studentData); 
     };
-    fetchData();
-  }, []);
+    fetchData(); 
+  }, []); 
 
   // Filtra los estudiantes por nombre o identificación
   const filteredStudents = students.filter((student) =>
-    student.student_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.id.toString().includes(searchTerm)
+    student.student_name.toLowerCase().includes(searchTerm.toLowerCase()) || // Filtra por nombre
+    student.id.toString().includes(searchTerm) // Filtra por identificación
   );
 
+  // Función para manejar el cambio en el campo de búsqueda
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event.target.value); // Actualiza el término de búsqueda en el estado
   };
 
-  // Función para abrir el modal
+  // Función para abrir el modal con la imagen del ID del estudiante
   const handleOpenModal = (imageUrl) => {
-    setSelectedImage(imageUrl);
-    setOpenModal(true); // Abrir el modal
+    setSelectedImage(imageUrl); // Establece la URL de la imagen seleccionada
+    setOpenModal(true); // Abre el modal
   };
 
-  // Función para cerrar el modal
+  // Función para cerrar el modal y limpiar la imagen seleccionada
   const handleCloseModal = () => {
-    setOpenModal(false); // Cerrar el modal
-    setSelectedImage(null); // Limpiar la imagen seleccionada
+    setOpenModal(false); // Cierra el modal
+    setSelectedImage(null); // Limpia la imagen seleccionada
   };
 
-  // Función para exportar la tabla a Excel
+  // Función para exportar la tabla de estudiantes a un archivo Excel
   const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(students);   // Convierte los datos a una hoja de Excel
+    const ws = XLSX.utils.json_to_sheet(students);   // Convierte los datos de los estudiantes en una hoja de Excel
     const wb = XLSX.utils.book_new();               // Crea un nuevo libro de trabajo
-    XLSX.utils.book_append_sheet(wb, ws, 'Datos');  // Agrega la hoja de datos al libro de trabajo
+    XLSX.utils.book_append_sheet(wb, ws, 'Datos');  // Agrega la hoja al libro de trabajo
 
     // Exporta el libro de trabajo a un archivo Excel
     XLSX.writeFile(wb, 'tabla_de_datos.xlsx');

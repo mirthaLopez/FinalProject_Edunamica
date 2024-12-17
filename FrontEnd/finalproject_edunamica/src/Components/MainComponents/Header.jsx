@@ -40,7 +40,7 @@ function HeaderNav() {
             <Nav.Link as={Link} to='/' className={`custom-navlink ${location.pathname === '/' ? 'active' : ''}`} style={{ fontSize: '21px' }}>INICIO</Nav.Link>
             <Nav.Link as={Link} to='/Cursos' className={`custom-navlink ${location.pathname === '/Cursos' ? 'active' : ''}`} style={{ fontSize: '21px' }}>CURSOS</Nav.Link>
             <Nav.Link as={Link} to='/Contacto' className={`custom-navlink ${location.pathname === '/Contacto' ? 'active' : ''}`} style={{ fontSize: '21px' }}>CONTACTO</Nav.Link>
-            <Nav.Link as={Link} to='/Contacto' className={`custom-navlink ${location.pathname === '/Contacto' ? 'active' : ''}`} style={{ fontSize: '21px' }}>BLOG</Nav.Link>
+            <Nav.Link as={Link} to='/Contacto' className={`custom-navlink ${location.pathname === '/Blog' ? 'active' : ''}`} style={{ fontSize: '21px' }}>BLOG</Nav.Link>
           </Nav>
           <div className="navbar-buttons">
       <button className="navbar-btn login-btn">
@@ -61,5 +61,3 @@ function HeaderNav() {
 }
 
 export default HeaderNav;
-
-

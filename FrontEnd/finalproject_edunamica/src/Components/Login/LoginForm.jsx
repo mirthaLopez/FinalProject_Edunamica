@@ -1,88 +1,103 @@
 import React, { useState, useEffect } from 'react';
-import PostUser from '../../Services/Users/PostUsers';
-import GetAdmin from '../../Services/Administrators/GetAdministrators';
-import GetStudent from '../../Services/Students/GetStudents';
-import '../../Styles/Login/LoginForm.css';
-import { TextField, Typography, Button } from '@mui/material';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext'; // Usar el nuevo contexto
-import { useUser } from '../Administration/AdminContext'; // Importar el UserContext
+
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../AuthContext'; // Contexto de autenticación
+import { useUser } from '../Administration/AdminContext'; // Contexto para los datos del usuario
+
+// SERVICIOS
+import PostUser from '../../Services/Users/PostUsers'; // Servicio para realizar el login de usuario
+import GetAdmin from '../../Services/Administrators/GetAdministrators'; // Servicio para obtener los administradores
+import GetStudent from '../../Services/Students/GetStudents'; // Servicio para obtener los estudiantes
+
+// ESTILOS CSS
+import '../../Styles/Login/LoginForm.css'; // Estilos específicos para el formulario de login
+
+// IMPORTS DE LIBRERIA MUI
+import { TextField, Typography, Button } from '@mui/material'; // Componentes de Material UI
+
+// IMPORT DE LINK TO
+import { useNavigate } from 'react-router-dom'; // Hook de React Router para la navegación
+
+// IMPORT DE SWEET ALERT
+import Swal from 'sweetalert2'; // Librería para mostrar alertas
 
 function FormLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-  const [administrators, setAdministrators] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true); // Nuevo estado para cargar datos
-  const [isLoading, setIsLoading] = useState(false); // Nuevo estado para mostrar loading en el botón
-  const { login } = useAuth(); // Usamos login del contexto
-  const { setUserData } = useUser(); // Obtener la función setUserData del contexto
+  // Definir estados locales para el formulario
+  const [email, setEmail] = useState(''); // Estado para el correo electrónico
+  const [password, setPassword] = useState(''); // Estado para la contraseña
+  const navigate = useNavigate(); // Hook para navegar entre rutas
+  const [administrators, setAdministrators] = useState([]); // Estado para almacenar los administradores
+  const [students, setStudents] = useState([]); // Estado para almacenar los estudiantes
+  const [loading, setLoading] = useState(true); // Estado para manejar la carga de datos (administradores y estudiantes)
+  const [isLoading, setIsLoading] = useState(false); // Estado para mostrar "cargando..." en el botón durante el login
+  const { login } = useAuth(); // Función para realizar login desde el contexto de autenticación
+  const { setUserData } = useUser(); // Función para guardar los datos del usuario en el contexto
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const adminData = await GetAdmin();
-        setAdministrators(adminData);
+        const adminData = await GetAdmin(); 
+        setAdministrators(adminData); 
         const studentData = await GetStudent();
-        setStudents(studentData);
+        setStudents(studentData); 
       } catch (error) {
-        console.error("Error al cargar los datos:", error);
+        console.error("Error al cargar los datos:", error); 
       } finally {
-        setLoading(false); // Cuando los datos están cargados o si ocurre un error
+        setLoading(false); 
       }
     };
-    fetchData();
-  }, []);
+    fetchData(); 
+  }, []); 
 
-  // Funciones para manejar los inputs
-  const handlePassword = (event) => setPassword(event.target.value);
-  const handleEmail = (event) => setEmail(event.target.value);
+  // Funciones para manejar los cambios en los campos de entrada
+  const handlePassword = (event) => setPassword(event.target.value); // Actualiza el estado de la contraseña
+  const handleEmail = (event) => setEmail(event.target.value); // Actualiza el estado del correo electrónico
 
   // Función que se ejecuta al enviar el formulario
   const cargar = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Evita el comportamiento por defecto del formulario (recarga de página)
 
+    // Validación de campos vacíos
     if (!email || !password) {
       Swal.fire({
         icon: 'warning',
         title: 'Campos incompletos',
         text: 'Por favor, completa todos los campos.',
       });
-      return;
+      return; // Salir de la función si faltan campos
     }
 
-    setIsLoading(true); // Mostrar loading en el botón
+    setIsLoading(true); // Activar el estado de carga en el botón
 
     try {
-      // Realizamos la solicitud de login
+      // Llamada al servicio de autenticación con el correo y contraseña
       const data = await PostUser(email, password); // Se obtiene el objeto con los tokens (data)
 
       if (data.access) {
-        // Buscar el administrador o estudiante basado en el correo
-        const admin = administrators.find((a) => a.admin_email === email);
-        const student = students.find((s) => s.student_email === email);
+        // Si el token de acceso está presente, intentar encontrar al usuario correspondiente
+        const admin = administrators.find((a) => a.admin_email === email); // Buscar el administrador con el correo
+        const student = students.find((s) => s.student_email === email); // Buscar el estudiante con el correo
 
         if (admin || student) {
-          // Usamos el login del contexto para guardar el usuario y los tokens
-          login(admin || student, { access: data.access, refresh: data.refresh });
-          
-          // Establecer los datos en el contexto del usuario
+          // Si el usuario (administrador o estudiante) es encontrado, realizar login
+          login(admin || student, { access: data.access, refresh: data.refresh }); // Llamar a la función de login del contexto
+
+          // Establecer los datos del usuario en el contexto
           setUserData(admin || student, admin ? 'admin' : 'student');
           
-          // Mostrar mensaje de éxito y redirigir
+          // Mostrar un mensaje de éxito con Swal
           Swal.fire({
             title: 'Has iniciado sesión con éxito!',
             text: admin ? 'Te redirigiremos a la página de administradores' : 'Te redirigiremos a tu perfil',
             icon: 'success',
             confirmButtonText: 'Ok',
-            timer: 1500,
+            timer: 1500, 
           }).then(() => {
-            navigate(admin ? '/Solicitudes' : '/Matricular'); // Redirigir según el tipo de usuario
+            // Redirigir según el tipo de usuario
+            navigate(admin ? '/Solicitudes' : '/Matricular');
           });
         } else {
-          // Si no se encuentra el usuario, mostrar error
+          // Si el usuario no es encontrado, mostrar un error
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -106,13 +121,13 @@ function FormLogin() {
         text: 'No se pudo conectar con el servidor.',
       });
     } finally {
-      setIsLoading(false); // Detener el loading en el botón
+      setIsLoading(false); 
     }
   };
 
-  // Si los datos están siendo cargados, mostrar un mensaje de carga
+ 
   if (loading) {
-    return <div>Cargando...</div>; // O puedes usar un spinner aquí
+    return <div>Cargando...</div>; 
   }
 
   return (
@@ -123,26 +138,29 @@ function FormLogin() {
           <form className='login-edu-form' onSubmit={cargar}>
             <h1>Bienvenido a Edunámica</h1>
             <Typography>Inicia sesión con tu cuenta.</Typography>
+            {/* Campo de correo electrónico */}
             <TextField
               type="email"
               id='correo'
               name='correo'
               label="Correo electrónico"
               value={email}
-              onChange={handleEmail}
+              onChange={handleEmail} 
               required
             /><br /><br />
+            {/* Campo de contraseña */}
             <TextField
               type="password"
               id='password'
               name='password'
               label="Contraseña"
               value={password}
-              onChange={handlePassword}
+              onChange={handlePassword} 
               required
             />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Cargando...' : 'Inicia sesión'}
+            {/* Botón de inicio de sesión */}
+            <Button type="submit" disabled={isLoading}> 
+              {isLoading ? 'Cargando...' : 'Inicia sesión'} {/* Muestra "Cargando..." si está en estado de carga */}
             </Button>
           </form>
         </div>

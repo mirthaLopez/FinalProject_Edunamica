@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../Components/AuthContext'; // Usar el nuevo contexto
 
-import GetStudentCourses from '../Services/Students/GetStudentCourses';
-import GetStudent from '../Services/Students/GetStudents';
-import GetCourses from '../Services/Courses/GetCourses';
-import GetModalities from '../Services/Modality/GetModalities';
-import { useUser } from '../Components/Administration/AdminContext';
+// IMPORTAMOS EL CONTEXTO
+import { useAuth } from '../../Components/AuthContext'; 
+import { useUser } from '../../Components/Administration/AdminContext';
 
-//ESTILOS CSS
-import '../Styles/StudentCourses.css';
+// SERVICIOS
+import GetStudentCourses from '../../Services/Students/GetStudentCourses';
+import GetStudent from '../../Services/Students/GetStudents';
+import GetCourses from '../../Services/Courses/GetCourses';
+import GetModalities from '../../Services/Modality/GetModalities';
+
+// ESTILOS CSS
+import '../../Styles/Students/StudentCourses.css';
 
 function StudentCourses() {
-  const { user } = useUser();  // Obtener el usuario logueado
+  // Obtiene el usuario logueado desde el contexto
+  const { user } = useUser();  
+  // Estados para almacenar la información
   const [studentCourses, setStudentCourses] = useState([]); 
   const [student, setStudent] = useState([]); 
   const [courses, setCourses] = useState([]); 
   const [modalities, setModalities] = useState([]);  // Aquí almacenamos las modalidades de pago
   const [enrolledCourses, setEnrolledCourses] = useState([]);  // Cursos en los que está matriculado el estudiante
 
+  // useEffect para obtener los datos necesarios al cargar el componente
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,10 +44,11 @@ function StudentCourses() {
       }
     };
     fetchData();
-  }, []); 
+  }, []);  
 
-  // Filtrar y mapear los cursos matriculados por el estudiante
+  // useEffect para filtrar los cursos en los que el estudiante está matriculado
   useEffect(() => {
+    // Solo ejecutamos este código si tenemos los datos completos
     if (student && courses.length > 0 && studentCourses.length > 0) {
       // Filtrar los cursos en los que el estudiante está matriculado
       const enrolledCourseIds = studentCourses
@@ -56,8 +63,7 @@ function StudentCourses() {
       // Establecer los cursos en los que el estudiante está matriculado
       setEnrolledCourses(enrolledCourseDetails);
     }
-  }, [student, courses, studentCourses, user.id]);  // Esta dependencia se ejecuta cuando los datos cambian
-
+  }, [student, courses, studentCourses, user.id]);  // Dependencias: se ejecuta cuando los datos cambian
 
   return (
     <div className="student-courses-container">
@@ -66,6 +72,7 @@ function StudentCourses() {
         <table className="courses-table">
           <thead>
             <tr>
+              {/* Encabezados de la tabla con los detalles del curso */}
               <th className="detail-name">Curso</th>
               <th className="detail-name">Descripción</th>
               <th className="detail-name">Duración</th>
@@ -74,10 +81,10 @@ function StudentCourses() {
               <th className="detail-name">Precio</th>
               <th className="detail-name">Horario</th>
               <th className="detail-name">Requisitos</th>
-             
             </tr>
           </thead>
           <tbody>
+            {/* Mapear y mostrar cada curso matriculado */}
             {enrolledCourses.map(course => (
               <tr key={course.id}>
                 <td data-label="Curso" className="detail-value">{course.course_name}</td>
@@ -88,12 +95,12 @@ function StudentCourses() {
                 <td data-label="Precio" className="detail-value">{course.course_price}</td>
                 <td data-label="Horario" className="detail-value">{course.course_schedule}</td>
                 <td data-label="Requisitos" className="detail-value">{course.obligatory_requirements}</td>
-                
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
+        // Mensaje si no hay cursos matriculados
         <p className="no-courses-message">No estás matriculado en ningún curso</p>
       )}
     </div>

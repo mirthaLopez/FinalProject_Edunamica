@@ -1,7 +1,7 @@
 import React from 'react';
-import SidebarStudent from '../Components/SidebarStudent';
-import NavAdministration from '../Components/AdminComponents/NavAdministration';
-import StudentPayment from '../Components/StudentPayment'
+import SidebarStudent from '../../Components/Students/SidebarStudent';
+import NavAdministration from '../../Components/AdminComponents/NavAdministration';
+import StudentPayment from '../../Components/Students/StudentPayment'
 
 function MisPagos() {
   return (
